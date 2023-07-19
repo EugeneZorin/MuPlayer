@@ -14,5 +14,5 @@ dependencyResolutionManagement {
 }
 rootProject.name = "MuPlayer"
 include ':app'
-include ':domain'
 include ':data'
+include ':domain'
