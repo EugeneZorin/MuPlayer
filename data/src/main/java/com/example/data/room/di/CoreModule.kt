@@ -1,22 +1,16 @@
 package com.example.data.room.di
 
 import android.app.Application
-import android.content.Context
-import androidx.room.Room
 import com.example.data.room.core.CoreDao
 import com.example.data.room.core.CoreDatabase
 import com.example.data.room.core.CoreEntity
 import com.example.data.room.repository.CoreRepositoryImpl
-import com.example.data.room.repository.CoreRepositoryMapperImpl
-import com.example.domain.repository.CoreContract
+import com.example.data.room.repository.mappers.CoreRepositoryMapperImpl
 import com.example.domain.repository.mappers.CoreEntityMapper
-import dagger.Binds
-import dagger.Component
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
-import javax.inject.Singleton
 
 @Module
 @InstallIn(SingletonComponent::class)

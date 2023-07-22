@@ -11,10 +11,10 @@ interface CoreDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertSong(coreEntity: CoreEntity)
 
-    /*@Delete
-    suspend fun deleteSong(id: Long)*/
+    @Query("DELETE FROM core_entity WHERE id = :id")
+    suspend fun delete(id: Long)
 
-    @Query("SELECT * FROM CoreEntity WHERE nameMusic = :name")
+    @Query("SELECT * FROM core_entity WHERE name_music = :name")
     suspend fun searchSong(name: String): List<CoreEntity>
 
 }

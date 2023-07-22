@@ -31,7 +31,8 @@ class CoreRepositoryImpl @Inject constructor(
     }
 
     override suspend fun delete(id: Long) {
-        TODO("Not yet implemented")
+        coreDao.delete(id)
     }
+
 
 }

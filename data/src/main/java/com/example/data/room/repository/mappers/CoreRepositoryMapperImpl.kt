@@ -1,4 +1,4 @@
-package com.example.data.room.repository
+package com.example.data.room.repository.mappers
 
 import com.example.data.room.core.CoreEntity
 import com.example.domain.entity.CoreEntityModel
