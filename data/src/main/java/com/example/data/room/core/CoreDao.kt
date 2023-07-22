@@ -12,9 +12,9 @@ interface CoreDao {
     suspend fun insertSong(coreEntity: CoreEntity)
 
     @Delete
-    suspend fun deleteSong(id: Long)
+    suspend fun deleteSong(coreEntity: CoreEntity)
 
-    @Query("SELECT * FROM core_entity WHERE name_music = :name")
+    @Query("SELECT * FROM CoreEntity WHERE nameMusic = :name")
     suspend fun searchSong(name: String): List<CoreEntity>
 
 }
