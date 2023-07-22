@@ -1,5 +1,6 @@
 package com.example.data.room.di
 
+import android.app.Application
 import android.content.Context
 import androidx.room.Room
 import com.example.data.room.core.CoreDao
@@ -21,7 +22,6 @@ import javax.inject.Singleton
 @InstallIn(SingletonComponent::class)
 object CoreModule {
 
-
     @Provides
     fun provideCoreRepository(
         coreDao: CoreDao,
@@ -30,23 +30,20 @@ object CoreModule {
         return CoreRepositoryImpl(coreDao, coreEntityMapper)
     }
 
+    @Provides
+    fun provideCoreDatabase(application: Application): CoreDatabase {
+        return CoreDatabase.database(application)
+    }
 
-    /*@Provides
+
+    @Provides
     fun provideCoreDao(coreDatabase: CoreDatabase): CoreDao {
         return coreDatabase.coreDao
     }
-
 
     @Provides
     fun provideCoreEntityMapper(): CoreEntityMapper<CoreEntity> {
         return CoreRepositoryMapperImpl()
     }
 
-    @Provides
-    fun provideCoreRepository(
-        coreDao: CoreDao,
-        coreEntityMapper: CoreEntityMapper<CoreEntity>
-    ): CoreRepositoryImpl {
-        return CoreRepositoryImpl(coreDao, coreEntityMapper)
-    }*/
 }
