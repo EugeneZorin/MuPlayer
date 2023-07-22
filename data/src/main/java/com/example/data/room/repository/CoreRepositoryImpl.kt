@@ -14,11 +14,13 @@ class CoreRepositoryImpl @Inject constructor(
 
 
     override suspend fun insert(coreEntity: CoreEntityModel) {
-        val coreEntities = coreDao.insertSong(CoreEntity(
-            id = coreEntity.id,
-            nameMusic = coreEntity.nameMusic,
-            idMusic = coreEntity.idMusic
-        ))
+        coreDao.insertSong(
+            CoreEntity(
+                id = coreEntity.id,
+                nameMusic = coreEntity.nameMusic,
+                idMusic = coreEntity.idMusic
+            )
+        )
     }
 
     override suspend fun search(name: String): List<CoreEntityModel>{
