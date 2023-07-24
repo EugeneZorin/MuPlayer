@@ -4,7 +4,8 @@ import android.content.Context
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
-import com.example.data.room.core.CoreDatabase
+import androidx.room.TypeConverters
+import com.example.data.room.converter.AlbumConverter
 
 @Database(
     entities = [
@@ -12,14 +13,15 @@ import com.example.data.room.core.CoreDatabase
     ],
     version = 1
 )
+@TypeConverters(AlbumConverter::class)
 abstract class AlbumsDatabase: RoomDatabase() {
     abstract fun albumsDao(): AlbumsDao
 
     companion object{
-        fun database(context: Context): CoreDatabase {
+        fun database(context: Context): AlbumsDatabase {
             return Room.databaseBuilder(
                 context,
-                CoreDatabase::class.java,
+                AlbumsDatabase::class.java,
                 "albums_entity"
             ).build()
         }
