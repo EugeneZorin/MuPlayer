@@ -7,18 +7,14 @@ import com.google.gson.reflect.TypeToken
 class AlbumConverter {
 
     @TypeConverter
-    fun fromMapWrapper(mapWrapper: MapWrapper): String {
-        return Gson().toJson(mapWrapper.map)
+    fun fromString(value: String): Map<String, String> {
+        val mapType = object : TypeToken<Map<String, String>>(){}.type
+        return Gson().fromJson(value, mapType)
     }
 
     @TypeConverter
-    fun toMapWrapper(json: String): MapWrapper {
-        val mapWrapper = MapWrapper()
-        mapWrapper.map = Gson().fromJson(json, object : TypeToken<Map<String, String>>() {}.type)
-        return mapWrapper
+    fun toString(map: Map<String, String>): String {
+        return Gson().toJson(map)
     }
 }
 
-class MapWrapper {
-    var map: Map<String, String> = emptyMap()
-}
