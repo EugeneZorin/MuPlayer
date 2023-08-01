@@ -1,4 +1,4 @@
-package com.example.data.room.di
+package com.example.data.di
 
 import android.app.Application
 import com.example.data.room.aldums.AlbumsDao
