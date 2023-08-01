@@ -2,11 +2,11 @@ package com.example.data.search
 
 import android.content.ContentResolver
 import android.provider.MediaStore
-import com.example.domain.usecase.contract.SearchFileContact
+import com.example.domain.usecase.search.SearchFileData
 
 class FindAllAudioFiles(
     private val contentResolver: ContentResolver
-) : SearchFileContact{
+) : SearchFileData {
     override fun findAllAudioFiles(): Map<String, String> {
 
         val uri = MediaStore.Audio.Media.EXTERNAL_CONTENT_URI

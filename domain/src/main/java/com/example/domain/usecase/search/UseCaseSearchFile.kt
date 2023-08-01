@@ -1,15 +1,13 @@
-package com.example.domain.usecase
+package com.example.domain.usecase.search
 
-import com.example.domain.entity.AlbumEntityModel
 import com.example.domain.entity.CoreEntityModel
 import com.example.domain.repository.CoreContract
-import com.example.domain.usecase.contract.SearchFileContact
 
-class SearchFile(
-    private val searchFileContact: SearchFileContact,
+class UseCaseSearchFile(
+    private val searchFileContact: SearchFileData,
     private val coreContract: CoreContract
-) {
-    suspend fun searchFileContact(): Boolean {
+): SearchFilePresentation {
+    override suspend fun searchFileContact(): Boolean {
         searchFileContact.findAllAudioFiles().forEach {
             coreContract.insert(
                 CoreEntityModel(

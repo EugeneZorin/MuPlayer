@@ -17,10 +17,10 @@ import dagger.hilt.components.SingletonComponent
 @InstallIn(SingletonComponent::class)
 object AlbumModule {
 
-   @Provides
+   /*@Provides
    fun provideViewModel(useCaseAlbumContract: UseCaseAlbumContract): MyViewModel{
        return MyViewModel(useCaseAlbumContract)
-   }
+   }*/
 
     @Provides
     fun provideCreateAlbum(albumContract: AlbumContract): UseCaseAlbumContract{
