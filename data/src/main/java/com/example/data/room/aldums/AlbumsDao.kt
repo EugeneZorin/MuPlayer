@@ -5,6 +5,7 @@ import androidx.room.Insert
 import androidx.room.MapInfo
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
+import com.example.domain.entity.AlbumEntityModel
 
 @Dao
 interface AlbumsDao {
@@ -17,5 +18,8 @@ interface AlbumsDao {
     @Query("SELECT id, album_map FROM albums_entity WHERE id = :id")
     @MapInfo(keyColumn = "id", valueColumn = "album_map")
     suspend fun searchSong(id: String): Map<String, String>?
+
+    @Query("SELECT * FROM albums_entity")
+    suspend fun getAllAlbums(): List<AlbumEntityModel>
 
 }

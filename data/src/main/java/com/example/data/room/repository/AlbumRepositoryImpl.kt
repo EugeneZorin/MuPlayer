@@ -23,6 +23,11 @@ class AlbumRepositoryImpl @Inject constructor(
         return albumsDao.searchSong(id)
     }
 
+    override suspend fun getAllAlbums(): List<AlbumEntityModel> {
+        return albumsDao.getAllAlbums()
+    }
+
+
     override suspend fun delete(id: String) {
         albumsDao.delete(id)
     }

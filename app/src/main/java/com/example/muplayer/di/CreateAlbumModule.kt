@@ -3,8 +3,8 @@ package com.example.muplayer.di
 import com.example.data.room.aldums.AlbumsDao
 import com.example.data.room.repository.AlbumRepositoryImpl
 import com.example.domain.repository.AlbumContract
-import com.example.domain.usecase.CreateAlbumImpl
-import com.example.domain.usecase.contract.CreateAlbumContract
+import com.example.domain.usecase.UseCaseAlbum
+import com.example.domain.usecase.contract.UseCaseAlbumContract
 import com.example.muplayer.MyViewModel
 import dagger.Module
 import dagger.Provides
@@ -16,13 +16,13 @@ import dagger.hilt.components.SingletonComponent
 object CreateAlbumModule {
 
    @Provides
-   fun provideViewModel(createAlbumContract: CreateAlbumContract): MyViewModel{
-       return MyViewModel(createAlbumContract)
+   fun provideViewModel(useCaseAlbumContract: UseCaseAlbumContract): MyViewModel{
+       return MyViewModel(useCaseAlbumContract)
    }
 
     @Provides
-    fun provideCreateAlbum(albumContract: AlbumContract): CreateAlbumContract{
-        return CreateAlbumImpl(albumContract = albumContract)
+    fun provideCreateAlbum(albumContract: AlbumContract): UseCaseAlbumContract{
+        return UseCaseAlbum(albumContract = albumContract)
     }
 
     @Provides

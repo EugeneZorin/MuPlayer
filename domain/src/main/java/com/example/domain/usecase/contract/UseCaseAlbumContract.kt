@@ -1,9 +1,10 @@
-package com.example.domain.repository
+package com.example.domain.usecase.contract
 
 import com.example.domain.entity.AlbumEntityModel
+import java.util.concurrent.Flow
 
-interface AlbumContract {
-    suspend fun insertAlbum(albumsEntity: AlbumEntityModel)
+interface UseCaseAlbumContract {
+    suspend fun createAlbumContract(id: String, albumList: Map<String, String>?)
     suspend fun delete(id: String)
     suspend fun searchSong(id: String): Map<String, String>?
 

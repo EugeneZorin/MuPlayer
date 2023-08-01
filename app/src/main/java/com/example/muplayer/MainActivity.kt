@@ -5,17 +5,10 @@ import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewmodel.compose.viewModel
-import com.example.data.room.core.CoreEntity
-import com.example.data.room.repository.AlbumRepositoryImpl
-import com.example.data.room.repository.CoreRepositoryImpl
 import com.example.domain.entity.AlbumEntityModel
-import com.example.domain.entity.CoreEntityModel
-import com.example.domain.repository.CoreContract
-import com.example.domain.usecase.contract.CreateAlbumContract
+import com.example.domain.usecase.contract.UseCaseAlbumContract
 import dagger.hilt.android.AndroidEntryPoint
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
 import javax.inject.Inject
@@ -25,12 +18,12 @@ class MainActivity : ComponentActivity() {
 
 
     @Inject
-    lateinit var createAlbumContract: CreateAlbumContract
+    lateinit var useCaseAlbumContract: UseCaseAlbumContract
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        val myViewModel: MyViewModel = MyViewModel(createAlbumContract)
+        val myViewModel: MyViewModel = MyViewModel(useCaseAlbumContract)
 
         setContent {
 
@@ -43,6 +36,8 @@ class MainActivity : ComponentActivity() {
 
                     )
                     myViewModel.createAlbum("name", albumList)
+                    val result = myViewModel.getAll()
+                    Log.d("MyLog","SET: $result")
                 }
             }
 
@@ -54,11 +49,19 @@ class MainActivity : ComponentActivity() {
 
 @HiltViewModel
 class MyViewModel @Inject constructor(
-    private val createAlbumContract: CreateAlbumContract
+    private val useCaseAlbumContract: UseCaseAlbumContract
 ): ViewModel() {
 
     suspend fun createAlbum(id: String, albumList: Map<String, String>?){
-        createAlbumContract.createAlbumContract(id = id, albumList = albumList )
+        useCaseAlbumContract.createAlbumContract(id = id, albumList = albumList )
+    }
+
+    suspend fun search(id: String): Map<String, String>? {
+        return useCaseAlbumContract.searchSong(id)
+    }
+
+    suspend fun getAll(): List<AlbumEntityModel>{
+        return useCaseAlbumContract.getAllAlbums()
     }
 
 }
