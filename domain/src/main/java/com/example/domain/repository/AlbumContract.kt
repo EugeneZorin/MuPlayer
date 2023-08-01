@@ -6,7 +6,6 @@ interface AlbumContract {
     suspend fun insertAlbum(albumsEntity: AlbumEntityModel)
     suspend fun delete(id: String)
     suspend fun searchSong(id: String): Map<String, String>?
-
     suspend fun getAllAlbums(): List<AlbumEntityModel>
 
 }

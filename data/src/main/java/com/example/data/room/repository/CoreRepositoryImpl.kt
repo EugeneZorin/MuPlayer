@@ -23,6 +23,13 @@ class CoreRepositoryImpl @Inject constructor(
         )
     }
 
+    override suspend fun getAllAlbums(): List<CoreEntityModel> {
+        val getAll = coreDao.getAllCore()
+        return getAll.map {
+            coreEntityMapper.mapToDomain(it)
+        }
+    }
+
     override suspend fun search(name: String): List<CoreEntityModel>{
         val coreEntities = coreDao.searchSong(name)
         return coreEntities.map {
