@@ -5,6 +5,7 @@ import androidx.room.Delete
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
+import com.example.domain.entity.AlbumEntityModel
 
 @Dao
 interface CoreDao {
@@ -16,5 +17,8 @@ interface CoreDao {
 
     @Query("SELECT * FROM core_entity WHERE name_music = :name")
     suspend fun searchSong(name: String): List<CoreEntity>
+
+    @Query("SELECT * FROM core_entity")
+    suspend fun getAllCore(): List<CoreEntity>
 
 }

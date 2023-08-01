@@ -5,7 +5,7 @@ import com.example.data.room.core.CoreDao
 import com.example.data.room.core.CoreDatabase
 import com.example.data.room.core.CoreEntity
 import com.example.data.room.repository.CoreRepositoryImpl
-import com.example.data.room.repository.mappers.CoreRepositoryMapperImpl
+import com.example.data.room.repository.mappers.CoreMapperImpl
 import com.example.domain.repository.mappers.CoreEntityMapper
 import dagger.Module
 import dagger.Provides
@@ -37,7 +37,7 @@ object CoreModule {
 
     @Provides
     fun provideCoreEntityMapper(): CoreEntityMapper<CoreEntity> {
-        return CoreRepositoryMapperImpl()
+        return CoreMapperImpl()
     }
 
 }

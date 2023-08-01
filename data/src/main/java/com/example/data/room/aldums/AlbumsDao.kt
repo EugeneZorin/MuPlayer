@@ -20,6 +20,6 @@ interface AlbumsDao {
     suspend fun searchSong(id: String): Map<String, String>?
 
     @Query("SELECT * FROM albums_entity")
-    suspend fun getAllAlbums(): List<AlbumEntityModel>
+    suspend fun getAllAlbums(): List<AlbumsEntity>
 
 }

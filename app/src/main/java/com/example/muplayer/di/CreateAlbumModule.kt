@@ -1,8 +1,14 @@
 package com.example.muplayer.di
 
 import com.example.data.room.aldums.AlbumsDao
+import com.example.data.room.aldums.AlbumsEntity
+import com.example.data.room.core.CoreEntity
 import com.example.data.room.repository.AlbumRepositoryImpl
+import com.example.data.room.repository.mappers.AlbumMapperImpl
+import com.example.data.room.repository.mappers.CoreMapperImpl
 import com.example.domain.repository.AlbumContract
+import com.example.domain.repository.mappers.AlbumEntityMapper
+import com.example.domain.repository.mappers.CoreEntityMapper
 import com.example.domain.usecase.UseCaseAlbum
 import com.example.domain.usecase.contract.UseCaseAlbumContract
 import com.example.muplayer.MyViewModel
@@ -26,8 +32,14 @@ object CreateAlbumModule {
     }
 
     @Provides
-    fun provideDaoAlbum(albumsDao: AlbumsDao): AlbumContract {
-        return AlbumRepositoryImpl(albumsDao)
+    fun provideDaoAlbum(
+        albumsDao: AlbumsDao,
+        albumEntityModel: AlbumEntityMapper<AlbumsEntity>
+    ): AlbumContract {
+        return AlbumRepositoryImpl(
+            albumsDao,
+            albumEntityModel
+        )
     }
 
 

@@ -9,13 +9,15 @@ import javax.inject.Inject
 
 class AlbumRepositoryImpl @Inject constructor(
     private val albumsDao: AlbumsDao,
+    private val albumEntityModel: AlbumEntityMapper<AlbumsEntity>
 ): AlbumContract {
 
     override suspend fun insertAlbum(albumsEntity: AlbumEntityModel) {
         albumsDao.insertAlbum(
             AlbumsEntity(
                 id = albumsEntity.id,
-                albumList = albumsEntity.albumList)
+                albumList = albumsEntity.albumList
+            )
         )
     }
 
@@ -24,8 +26,12 @@ class AlbumRepositoryImpl @Inject constructor(
     }
 
     override suspend fun getAllAlbums(): List<AlbumEntityModel> {
-        return albumsDao.getAllAlbums()
+        val getAllAlbum = albumsDao.getAllAlbums()
+        return getAllAlbum.map {
+            albumEntityModel.mapToDomain(it)
+        }
     }
+
 
 
     override suspend fun delete(id: String) {
