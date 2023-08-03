@@ -1,15 +1,11 @@
 package com.example.muplayer
 
-import android.content.ContentResolver
 import android.os.Bundle
-import android.provider.MediaStore
 import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.lifecycle.ViewModel
-import com.example.domain.entity.AlbumEntityModel
-import com.example.domain.usecase.contract.UseCaseAlbumContract
-import com.example.domain.usecase.search.SearchFilePresentation
+import com.example.domain.usecase.search.SearchAudioContract
 import dagger.hilt.android.AndroidEntryPoint
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
@@ -20,13 +16,14 @@ import javax.inject.Inject
 class MainActivity : ComponentActivity() {
 
 
-    @Inject
-    lateinit var searchFilePresentation: SearchFilePresentation
 
+
+    @Inject
+    lateinit var searchAudioContract: SearchAudioContract
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        val myViewModel: MyViewModel = MyViewModel(searchFilePresentation)
+        val myViewModel: MyViewModel = MyViewModel(searchAudioContract)
 
         setContent {
 
@@ -57,11 +54,11 @@ class MainActivity : ComponentActivity() {
 
 @HiltViewModel
 class MyViewModel @Inject constructor(
-    private val searchFilePresentation: SearchFilePresentation
+    private val searchAudioContract: SearchAudioContract
 ): ViewModel() {
 
     suspend fun test(){
-        searchFilePresentation.searchFileContact()
+        searchAudioContract.searchFileContact()
     }
 
 
