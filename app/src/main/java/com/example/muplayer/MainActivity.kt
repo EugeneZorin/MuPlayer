@@ -1,10 +1,13 @@
 package com.example.muplayer
 
 import android.os.Bundle
+import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.lifecycle.ViewModel
 import com.example.domain.usecase.contract.UseCaseAlbumContract
+import com.example.domain.usecase.search.FindAllAudioFilesContract
+import com.example.domain.usecase.search.SearchAudioContract
 import dagger.hilt.android.AndroidEntryPoint
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
@@ -16,14 +19,12 @@ class MainActivity : ComponentActivity() {
 
 
     @Inject
-    lateinit var useCaseAlbumContract: UseCaseAlbumContract
+    lateinit var searchAudioContract: SearchAudioContract
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-
-        val myViewModel: MyViewModel = MyViewModel(useCaseAlbumContract)
 
         setContent {
 
@@ -36,9 +37,11 @@ class MainActivity : ComponentActivity() {
 
                     )
 
+                    val myViewModel: MyViewModel = MyViewModel(searchAudioContract)
 
-                    myViewModel.execute()
 
+                    val result = myViewModel.execute()
+                    Log.d("SEE", "SET: $result")
 
 
                 }
@@ -53,11 +56,11 @@ class MainActivity : ComponentActivity() {
 
 @HiltViewModel
 class MyViewModel @Inject constructor(
-    private val useCaseAlbumContract: UseCaseAlbumContract
+    private val searchAudioContract: SearchAudioContract,
 ) : ViewModel() {
 
-    suspend fun execute(){
-        useCaseAlbumContract.getAllAlbums()
+    suspend fun execute() {
+         searchAudioContract.searchFileContact()
     }
 }
 

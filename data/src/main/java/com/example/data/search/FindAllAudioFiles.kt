@@ -5,7 +5,7 @@ import android.provider.MediaStore
 import com.example.domain.usecase.search.FindAllAudioFilesContract
 import javax.inject.Inject
 
-class FindAllAudioFiles (
+class FindAllAudioFiles @Inject constructor(
     private val contentResolver: ContentResolver,
 ): FindAllAudioFilesContract {
      override fun findAllAudioFiles(): Map<String, String> {
