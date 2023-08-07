@@ -5,7 +5,6 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.lifecycle.ViewModel
 import com.example.domain.usecase.contract.UseCaseAlbumContract
-import com.example.domain.usecase.search.SearchAudioContract
 import dagger.hilt.android.AndroidEntryPoint
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
@@ -23,6 +22,7 @@ class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
+
         val myViewModel: MyViewModel = MyViewModel(useCaseAlbumContract)
 
         setContent {
@@ -35,9 +35,7 @@ class MainActivity : ComponentActivity() {
                         "key3" to "value3"
 
                     )
-                    /*myViewModel.createAlbum("name", albumList)
-                    val result = myViewModel.getAll()*/
-                   /* Log.d("MyLog","SET: $result")*/
+
 
                     myViewModel.execute()
 

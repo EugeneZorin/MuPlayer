@@ -1,4 +1,4 @@
-package com.example.muplayer
+package com.example.muplayer.app
 
 import android.app.Application
 import dagger.hilt.android.HiltAndroidApp

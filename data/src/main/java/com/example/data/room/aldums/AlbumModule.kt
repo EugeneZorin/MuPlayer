@@ -1,4 +1,4 @@
-package com.example.muplayer
+package com.example.data.room.aldums
 
 import android.app.Application
 import com.example.data.room.aldums.AlbumsDao
@@ -19,27 +19,15 @@ import dagger.hilt.components.SingletonComponent
 @InstallIn(SingletonComponent::class)
 object AlbumModule {
 
-
     @Provides
-    fun provideMyViewModel(
-        useCaseAlbumContract: UseCaseAlbumContract,
-    ): MyViewModel {
-        return MyViewModel(useCaseAlbumContract)
-    }
-
-    @Provides
-    fun provideUseCaseAlbumContract(
-        albumContract: AlbumContract
-    ): UseCaseAlbumContract {
-        return UseCaseAlbum(albumContract)
-    }
-
-    @Provides
-    fun provideAlbumRepository(
+    fun provideDaoAlbum(
         albumsDao: AlbumsDao,
         albumEntityModel: AlbumEntityMapper<AlbumsEntity>
-    ): AlbumRepositoryImpl {
-        return AlbumRepositoryImpl(albumsDao, albumEntityModel)
+    ): AlbumContract {
+        return AlbumRepositoryImpl(
+            albumsDao,
+            albumEntityModel
+        )
     }
 
     @Provides
@@ -57,6 +45,8 @@ object AlbumModule {
     fun provideAlbumEntityMapper(): AlbumEntityMapper<AlbumsEntity> {
         return AlbumMapperImpl()
     }
+
+
 
 
 }
