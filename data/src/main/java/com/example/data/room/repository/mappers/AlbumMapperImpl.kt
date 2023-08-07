@@ -7,7 +7,7 @@ import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
-class AlbumMapperImpl @Inject constructor(): AlbumEntityMapper<AlbumsEntity> {
+class AlbumMapperImpl: AlbumEntityMapper<AlbumsEntity> {
     override fun mapToDomain(entity: AlbumsEntity): AlbumEntityModel {
         return AlbumEntityModel(
             id = entity.id,

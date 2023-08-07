@@ -5,10 +5,10 @@ import android.provider.MediaStore
 import com.example.domain.usecase.search.FindAllAudioFilesContract
 import javax.inject.Inject
 
-class FindAllAudioFiles @Inject constructor(
+class FindAllAudioFiles (
     private val contentResolver: ContentResolver,
-) {
-      fun findAllAudioFiles(): Map<String, String> {
+): FindAllAudioFilesContract {
+     override fun findAllAudioFiles(): Map<String, String> {
 
 
         val uri = MediaStore.Audio.Media.EXTERNAL_CONTENT_URI

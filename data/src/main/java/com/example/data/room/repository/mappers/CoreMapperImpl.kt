@@ -7,7 +7,7 @@ import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
-class CoreMapperImpl @Inject constructor(): CoreEntityMapper<CoreEntity> {
+class CoreMapperImpl: CoreEntityMapper<CoreEntity> {
     override fun mapToDomain(entity: CoreEntity): CoreEntityModel {
        return CoreEntityModel(
            id = entity.id,

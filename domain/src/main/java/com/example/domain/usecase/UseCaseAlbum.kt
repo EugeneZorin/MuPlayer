@@ -7,6 +7,7 @@ import com.example.domain.usecase.contract.UseCaseAlbumContract
 class UseCaseAlbum(
     private val albumContract: AlbumContract,
 ) : UseCaseAlbumContract {
+
     override suspend fun createAlbumContract(id: String, albumList: Map<String, String>?) {
         albumContract.insertAlbum(AlbumEntityModel(
             id = id,
