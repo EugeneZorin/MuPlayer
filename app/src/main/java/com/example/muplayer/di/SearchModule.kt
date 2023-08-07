@@ -1,5 +1,6 @@
 package com.example.muplayer.di
 
+import android.app.Application
 import android.content.ContentResolver
 import android.content.Context
 import com.example.data.room.core.CoreDao
@@ -67,15 +68,8 @@ object SearchModule {
         )
     }
 
-    @Provides
-    fun provideAlbumDao( coreDatabase: CoreDatabase ): CoreDao {
-        return coreDatabase.coreDao
-    }
 
-    @Provides
-    fun provideCoreEntityMapper(): CoreEntityMapper<CoreEntity> {
-        return CoreMapperImpl()
-    }
+
 
 
 }

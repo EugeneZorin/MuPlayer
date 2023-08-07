@@ -5,8 +5,6 @@ import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.lifecycle.ViewModel
-import com.example.domain.usecase.contract.UseCaseAlbumContract
-import com.example.domain.usecase.search.FindAllAudioFilesContract
 import com.example.domain.usecase.search.SearchAudioContract
 import dagger.hilt.android.AndroidEntryPoint
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -30,14 +28,8 @@ class MainActivity : ComponentActivity() {
 
             runBlocking {
                 launch {
-                    val albumList: Map<String, String> = mapOf(
-                        "key1" to "value1",
-                        "key2" to "value2",
-                        "key3" to "value3"
 
-                    )
-
-                    val myViewModel: MyViewModel = MyViewModel(searchAudioContract)
+                    val myViewModel = MyViewModel(searchAudioContract)
 
 
                     val result = myViewModel.execute()
