@@ -6,11 +6,15 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.lifecycle.ViewModel
 import com.example.domain.usecase.search.SearchAudioContract
+import com.example.muplayer.permissions.SearchPermission
 import dagger.hilt.android.AndroidEntryPoint
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
 import javax.inject.Inject
+import android.Manifest
+import android.content.pm.PackageManager
+
 
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
@@ -20,27 +24,23 @@ class MainActivity : ComponentActivity() {
     lateinit var searchAudioContract: SearchAudioContract
 
 
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
 
         setContent {
-
             runBlocking {
                 launch {
-
-                    val myViewModel = MyViewModel(searchAudioContract)
-
-
-                    val result = myViewModel.execute()
-                    Log.d("SEE", "SET: $result")
-
 
                 }
             }
 
         }
     }
+
+
+
 
 
 }
@@ -52,9 +52,8 @@ class MyViewModel @Inject constructor(
 ) : ViewModel() {
 
     suspend fun execute() {
-         searchAudioContract.searchFileContact()
+        searchAudioContract.searchFileContact()
     }
 }
-
 
 

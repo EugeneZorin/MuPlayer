@@ -6,11 +6,7 @@ import com.example.data.room.core.CoreDatabase
 import com.example.data.room.core.CoreEntity
 import com.example.data.room.repository.CoreRepositoryImpl
 import com.example.data.room.repository.mappers.CoreMapperImpl
-import com.example.domain.repository.AlbumContract
 import com.example.domain.repository.mappers.CoreEntityMapper
-import com.example.domain.usecase.UseCaseAlbum
-import com.example.domain.usecase.contract.UseCaseAlbumContract
-import com.example.muplayer.MyViewModel
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
