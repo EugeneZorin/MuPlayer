@@ -8,14 +8,19 @@ class UseCaseFindAudio (
     private val useCaseCoreContract: UseCaseCoreContract
 ) : SearchAudioContract {
     override suspend fun searchFileContact(): Boolean {
-        findAllAudioFilesContract.findAllAudioFiles().forEach {
-            useCaseCoreContract.insertSong(
-                CoreEntityModel(
-                    nameMusic = it.key,
-                    idMusic = it.value
+        val audioFiles = findAllAudioFilesContract.findAllAudioFiles()
+        return if (audioFiles.isEmpty()){
+            findAllAudioFilesContract.findAllAudioFiles().forEach {
+                useCaseCoreContract.insertSong(
+                    CoreEntityModel(
+                        nameMusic = it.key,
+                        idMusic = it.value
+                    )
                 )
-            )
+            }
+            true
+        } else {
+            false
         }
-        return true
     }
 }
