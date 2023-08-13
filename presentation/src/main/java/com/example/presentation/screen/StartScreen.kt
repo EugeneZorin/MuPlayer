@@ -25,7 +25,7 @@ import com.example.presentation.R
 @Composable
 fun StartScreen() {
 
-    val composition by rememberLottieComposition(LottieCompositionSpec.RawRes(R.raw.animateion))
+    val composition by rememberLottieComposition(LottieCompositionSpec.RawRes(R.raw.start_screen_animation))
 
     val isPlaying by remember {
         mutableStateOf(true)
@@ -45,7 +45,7 @@ fun StartScreen() {
                 fontSize = 40.sp
             )*/
             LottieAnimation(
-                modifier = Modifier.size(200.dp),
+                modifier = Modifier.fillMaxSize(),
                 composition = composition,
                 progress = { progress }
             )

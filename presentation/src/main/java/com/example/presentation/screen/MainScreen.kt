@@ -27,7 +27,7 @@ fun MainScreen() {
 
     ) {
 
-
+        StartScreen()
 
         Box(
             modifier = Modifier.align(Alignment.CenterHorizontally)
