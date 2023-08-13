@@ -1,4 +1,4 @@
-package com.example.muplayer.ui.theme
+package com.example.presentation.theme
 
 import androidx.compose.ui.graphics.Color
 
