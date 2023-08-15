@@ -1,33 +1,53 @@
 package com.example.presentation.panel
 
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.BottomAppBar
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
-import androidx.compose.ui.text.font.Font
-import androidx.compose.ui.text.font.FontFamily
-import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
+import androidx.compose.ui.graphics.Color
+import androidx.compose.material3.Icon
+import androidx.compose.ui.graphics.painter.Painter
+import androidx.compose.ui.res.painterResource
 import com.example.presentation.R
 
-@Composable
-fun BottomPanel(){
 
+@Composable
+fun BottomPanel() {
 
     BottomAppBar (
-        modifier = Modifier
-            .padding(15.dp)
-            .clip(RoundedCornerShape(25.dp))
+        containerColor = Color(0xFFFBF7F7),
+        contentColor = Color(0xFF797373)
     ) {
+        IconBottomPanel(
+            icon = painterResource(id = R.drawable.queue_music),
+            contentDescription = "Playlist",
+            text = "Playlist"
+        )
 
+        IconBottomPanel(
+            icon = painterResource(id = R.drawable.queue_music),
+            contentDescription = "Playlist",
+            text = "Playlist"
+        )
+
+        IconBottomPanel(
+            icon = painterResource(id = R.drawable.queue_music),
+            contentDescription = "Playlist",
+            text = "Playlist"
+        )
+
+    }
+
+    /*BottomAppBar(
+        containerColor = Color(0xFFFBF7F7),
+        contentColor = Color(0xFF797373)
+    ) {
         Row(
             modifier = Modifier
                 .fillMaxWidth(),
@@ -40,34 +60,57 @@ fun BottomPanel(){
             ) {
                 Text(
                     text = "Setting",
-                    fontFamily = FontFamily(Font(R.font.irish_grover_regular)),
                     fontSize = 18.sp
                 )
             }
             IconButton(
                 modifier = Modifier.fillMaxWidth(0.2f),
-                onClick = {
-
-                }
+                onClick = {  }
             ) {
                 Text(
                     text = "Home",
-                    fontFamily = FontFamily(Font(R.font.irish_grover_regular)),
                     fontSize = 18.sp
                 )
             }
             IconButton(
                 modifier = Modifier.fillMaxWidth(0.3f),
-                onClick = { }
+                onClick = {  }
             ) {
-                Text(
-                    text = "Albums",
-                    fontFamily = FontFamily(Font(R.font.irish_grover_regular)),
-                    fontSize = 18.sp
+                Icon(
+                    painter = painterResource(id = R.drawable.queue_music),
+                    contentDescription = "Playlist"
                 )
+
+               
             }
         }
+    }*/
+}
+
+
+@Composable
+fun IconBottomPanel(icon: Painter, contentDescription: String, text: String) {
+
+    IconButton(
+        modifier = Modifier
+            .fillMaxWidth(0.3f)
+            .fillMaxHeight(),
+        onClick = { }
+    ) {
+        Column(
+            horizontalAlignment = Alignment.CenterHorizontally,
+            verticalArrangement = Arrangement.Center
+        ) {
+            Icon(
+                painter = icon,
+                contentDescription = contentDescription
+            )
+            Text(text = text)
+        }
+
     }
 
 }
+
+
 
