@@ -68,6 +68,8 @@ dependencies {
 
     //
     implementation "com.airbnb.android:lottie-compose:6.0.1"
+    implementation "androidx.compose.animation:animation:1.5.0"
+
 
 
 }
