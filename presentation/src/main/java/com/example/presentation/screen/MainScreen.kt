@@ -4,6 +4,7 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -11,6 +12,7 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.material3.AlertDialogDefaults.containerColor
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -36,32 +38,49 @@ fun MainScreen() {
 
 
     Scaffold(
+
         topBar = {
             Column(
                 horizontalAlignment = Alignment.CenterHorizontally,
+                verticalArrangement = Arrangement.Center
             ) {
                 SearchView(search = search, onValueChange = { search = it })
             }
         },
 
-        bottomBar = { BottomPanel() },
+        containerColor = Color.White,
+
+        bottomBar = {
+            BottomPanel()
+        },
 
         ) {
 
 
-        LazyColumn(
+        Column(
             modifier = Modifier
                 .fillMaxSize()
                 .padding(it)
-                .padding(15.dp)
+                .padding(horizontal = 17.dp)
                 .background(Color.White),
-            verticalArrangement = Arrangement.spacedBy(5.dp),
+        ) {
 
+            Box(
+                modifier = Modifier
+                    .padding(vertical = 5.dp)
             ) {
-            items(100) {
-                MusicLine()
+                Text(text = "123")
+            }
+
+            LazyColumn(
+                verticalArrangement = Arrangement.spacedBy(5.dp),
+                ) {
+                items(100) {
+                    MusicLine()
+                }
             }
         }
+
     }
 
 }

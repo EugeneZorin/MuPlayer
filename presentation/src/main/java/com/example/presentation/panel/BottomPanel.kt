@@ -4,6 +4,7 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
@@ -25,8 +26,9 @@ import com.example.presentation.R
 @Composable
 fun BottomPanel() {
     BottomAppBar(
+        modifier = Modifier.fillMaxHeight(0.09f),
         containerColor = Color(0xFFFBF7F7),
-        contentColor = Color(0xFF797373)
+        contentColor = Color(0xFF797373),
     ) {
         Row(
             modifier = Modifier
