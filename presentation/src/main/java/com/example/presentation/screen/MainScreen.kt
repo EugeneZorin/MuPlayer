@@ -45,7 +45,9 @@ fun MainScreen() {
 
         },
 
-        ) { SongColumn(it) }
+    ) {
+        SongColumn(it)
+    }
 
 }
 

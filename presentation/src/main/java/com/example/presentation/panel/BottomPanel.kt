@@ -20,16 +20,19 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.presentation.R
+import com.example.presentation.screen.components.main.Player
 
 
 @Preview(showBackground = true)
 @Composable
 fun BottomPanel() {
+
     BottomAppBar(
         modifier = Modifier.fillMaxHeight(0.09f),
         containerColor = Color(0xFFFBF7F7),
         contentColor = Color(0xFF797373),
     ) {
+
         Row(
             modifier = Modifier
                 .fillMaxWidth()
