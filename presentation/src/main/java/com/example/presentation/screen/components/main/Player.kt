@@ -37,67 +37,58 @@ fun Player() {
 
     var progress by remember { mutableFloatStateOf(0f) }
 
-    Column {
-        Box(
-            modifier = Modifier.fillMaxWidth()
-        ) {
-            Stripe(progress) { newProgress ->
-                progress = newProgress
-            }
+    Column(
+        modifier = Modifier
+            .background(Color(0xFFE1EAF2))
+            .fillMaxWidth(),
+    ) {
+
+        Stripe(progress) { newProgress ->
+            progress = newProgress
         }
 
-        Box(
-            modifier = Modifier
-                .background(Color(0xFFE1EAF2))
-                .fillMaxWidth()
-                .padding(14.dp),
+        Row(
+            modifier = Modifier.fillMaxWidth().padding(15.dp),
+            verticalAlignment = Alignment.CenterVertically
         ) {
 
-
+            Column {
+                Text(text = "Названия песни ")
+                Text(
+                    text = "Исполнитель - Неизвестен",
+                    color = Color.Gray
+                )
+            }
 
             Row(
-                modifier = Modifier.fillMaxWidth(),
-                verticalAlignment = Alignment.CenterVertically
+                modifier = Modifier
+                    .weight(1f)
+                    .padding(horizontal = 20.dp),
+                horizontalArrangement = Arrangement.End
             ) {
 
-                Column {
-                    Text(text = "Названия песни ")
-                    Text(
-                        text = "Исполнитель - Неизвестен",
-                        color = Color.Gray
+
+                Box(
+                    modifier = Modifier
+                        .padding(horizontal = 20.dp),
+                ) {
+                    Icon(
+                        painter = painterResource(id = R.drawable.baseline_pause),
+                        contentDescription = null,
+                        modifier = Modifier
+                            .size(30.dp)
+                            .clickable { }
                     )
                 }
 
-                Row(
-                    modifier = Modifier
-                        .weight(1f)
-                        .padding(horizontal = 20.dp),
-                    horizontalArrangement = Arrangement.End
-                ) {
-
-
-                    Box(
+                Box {
+                    Icon(
+                        painter = painterResource(id = R.drawable.baseline_skip_next),
+                        contentDescription = null,
                         modifier = Modifier
-                            .padding(horizontal = 20.dp),
-                    ) {
-                        Icon(
-                            painter = painterResource(id = R.drawable.baseline_pause),
-                            contentDescription = null,
-                            modifier = Modifier
-                                .size(30.dp)
-                                .clickable { }
-                        )
-                    }
-
-                    Box {
-                        Icon(
-                            painter = painterResource(id = R.drawable.baseline_skip_next),
-                            contentDescription = null,
-                            modifier = Modifier
-                                .size(30.dp)
-                                .clickable { }
-                        )
-                    }
+                            .size(30.dp)
+                            .clickable { }
+                    )
                 }
             }
         }
@@ -111,7 +102,8 @@ fun Player() {
 
 @Composable
 fun Stripe(progress: Float, onProgressChanged: (Float) -> Unit) {
-    val offsetX = remember { mutableStateOf(0f) }
+
+    val offsetX = remember { mutableFloatStateOf(0f) }
 
     Canvas(
         modifier = Modifier
@@ -133,9 +125,16 @@ fun Stripe(progress: Float, onProgressChanged: (Float) -> Unit) {
         val circleY = lineHeight / 2
         val circleYOffset = (lineHeight - circleSize) / 512
 
+
         drawRect(
             color = Color.Gray,
             size = Size(size.width, lineHeight)
+        )
+
+        drawCircle(
+            color = Color(0xFF982377),
+            radius = circleSize / 4,
+            center = Offset(circleX, circleY + circleYOffset)
         )
 
 
@@ -144,11 +143,6 @@ fun Stripe(progress: Float, onProgressChanged: (Float) -> Unit) {
             size = Size(progressWidth, lineHeight),
         )
 
-        drawCircle(
-            color = Color(0xFF982377),
-            radius = circleSize / 4,
-            center = Offset(circleX, circleY + circleYOffset)
-        )
 
     }
 }
