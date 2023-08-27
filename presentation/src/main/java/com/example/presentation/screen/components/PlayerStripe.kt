@@ -11,9 +11,11 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableFloatStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.rememberUpdatedState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.geometry.Size
@@ -25,22 +27,21 @@ import kotlinx.coroutines.launch
 @Composable
 fun PlayerStripe(progress: Float, onProgressChanged: (Float) -> Unit) {
 
-
-
+    var time = 10000
     val offsetX = remember { mutableFloatStateOf(0f) }
-
-
-
-
     val animatedProgress = remember { Animatable(initialValue = 0f) }
     val scope = rememberCoroutineScope()
+    val previousProgress by rememberUpdatedState(progress)
 
-    LaunchedEffect(animatedProgress) {
+    LaunchedEffect(progress) {
+        animatedProgress.stop()
+        animatedProgress.snapTo(0f)
         scope.launch {
             animatedProgress.animateTo(
                 targetValue = 1f,
+                initialVelocity = if (previousProgress < progress) 1f else -1f,
                 animationSpec = infiniteRepeatable(
-                    animation = tween(durationMillis = 10000),
+                    animation = tween(durationMillis = time),
                     repeatMode = RepeatMode.Restart
                 )
             )
@@ -54,8 +55,8 @@ fun PlayerStripe(progress: Float, onProgressChanged: (Float) -> Unit) {
             .height(10.dp)
             .pointerInput(Unit) {
                 detectDragGestures { _, pan ->
-                    offsetX.value += pan.x
-                    val newProgress = (offsetX.value / size.width).coerceIn(0f, 1f)
+                    offsetX.floatValue += pan.x
+                    val newProgress = (offsetX.floatValue / size.width).coerceIn(0f, 1f)
                     onProgressChanged(newProgress)
                 }
             }
@@ -66,8 +67,10 @@ fun PlayerStripe(progress: Float, onProgressChanged: (Float) -> Unit) {
         val circleSize = 30.dp.toPx()
 
 
-        val progressWidth = (size.width * animatedProgress.value).coerceIn(0f, size.width)
-        val circleX = progressWidth.coerceIn(0f , size.width )
+
+        val progressWidth = (size.width * (animatedProgress.value + progress)).coerceIn(0f, size.width)
+
+        val circleX = progressWidth.coerceIn(0f, size.width)
         val circleY = lineHeight / 2
         val circleYOffset = (lineHeight - circleSize) / 512
 
