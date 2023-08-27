@@ -10,11 +10,13 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.Button
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableFloatStateOf
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
@@ -32,6 +34,7 @@ import com.example.presentation.screen.components.PlayerStripe
 fun PlayerScreen() {
 
     var progress by remember { mutableFloatStateOf(0f) }
+    var buttonPlayer by remember { mutableStateOf(true) }
 
     Scaffold(
 
@@ -97,13 +100,25 @@ fun PlayerScreen() {
                             .fillMaxWidth()
                     ) {
 
-                        PlayerStripe(progress) { newProgress ->
+                        PlayerStripe(progress, buttonPlayer) { newProgress ->
                             progress = newProgress
                         }
 
+                        Row(modifier = Modifier.fillMaxWidth()) {
+                            Button(
+                                onClick = { buttonPlayer = true },
+
+                                ) {
+
+                            }
+
+                            Button(
+                                onClick = { buttonPlayer = false },
+                            ) {
+
+                            }
+                        }
                     }
-
-
 
 
                 }
