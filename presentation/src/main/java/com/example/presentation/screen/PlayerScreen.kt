@@ -68,8 +68,6 @@ fun PlayerScreen() {
                         .background(Color(0xFFE1EAF2))
                 ) {
                     it
-
-
                 }
             }
 
@@ -100,24 +98,22 @@ fun PlayerScreen() {
                             .fillMaxWidth()
                     ) {
 
-                        PlayerStripe(progress, buttonPlayer) { newProgress ->
-                            progress = newProgress
-                        }
+                        PlayerStripe( )
 
-                        Row(modifier = Modifier.fillMaxWidth()) {
-                            Button(
-                                onClick = { buttonPlayer = true },
-
-                                ) {
-
-                            }
-
-                            Button(
-                                onClick = { buttonPlayer = false },
-                            ) {
-
-                            }
-                        }
+//                        Row(modifier = Modifier.fillMaxWidth()) {
+//                            Button(
+//                                onClick = { buttonPlayer = true },
+//
+//                                ) {
+//
+//                            }
+//
+//                            Button(
+//                                onClick = { buttonPlayer = false },
+//                            ) {
+//
+//                            }
+//                        }
                     }
 
 
@@ -131,5 +127,7 @@ fun PlayerScreen() {
 
     }
 }
+
+
 
 

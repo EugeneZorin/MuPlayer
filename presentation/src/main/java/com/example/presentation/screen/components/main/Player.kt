@@ -31,22 +31,12 @@ import com.example.presentation.screen.components.PlayerStripe
 @Composable
 fun Player() {
 
-    var progress by remember { mutableFloatStateOf(0f) }
-    var buttonPlayer by remember { mutableStateOf(true) }
 
     Column(
         modifier = Modifier
             .background(Color(0xFFE1EAF2))
             .fillMaxWidth(),
     ) {
-
-        Column(modifier = Modifier.fillMaxWidth()){
-
-            PlayerStripe(progress, buttonPlayer) { newProgress ->
-                progress = newProgress
-            }
-
-        }
 
 
 

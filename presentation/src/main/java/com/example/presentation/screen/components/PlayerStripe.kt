@@ -2,12 +2,20 @@ package com.example.presentation.screen.components
 
 import androidx.compose.animation.core.Animatable
 import androidx.compose.animation.core.RepeatMode
+import androidx.compose.animation.core.TargetBasedAnimation
+import androidx.compose.animation.core.VectorConverter
 import androidx.compose.animation.core.infiniteRepeatable
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.Canvas
+import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
 import androidx.compose.foundation.gestures.detectDragGestures
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.offset
+import androidx.compose.foundation.layout.size
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
@@ -15,99 +23,86 @@ import androidx.compose.runtime.mutableFloatStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
-import androidx.compose.runtime.rememberUpdatedState
 import androidx.compose.runtime.setValue
+import androidx.compose.runtime.withFrameNanos
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.drawscope.scale
+import androidx.compose.ui.graphics.drawscope.translate
 import androidx.compose.ui.input.pointer.pointerInput
+import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.dp
+import com.example.presentation.R
 import kotlinx.coroutines.launch
+import kotlin.math.roundToInt
 
+@Preview(showBackground = true)
 @Composable
-fun PlayerStripe(
-    progress: Float,
-    buttonPlayer: Boolean,
-    onProgressChanged: (Float) -> Unit
-) {
+fun PlayerStripe() {
 
-    var time = 10000
-    val offsetX = remember { mutableFloatStateOf(0f) }
-    val animatedProgress = remember { Animatable(initialValue = 0f) }
+
+    var offsetX by remember { mutableFloatStateOf(0f) }
     val scope = rememberCoroutineScope()
-    val previousProgress by rememberUpdatedState(progress)
+    val animated = remember { Animatable(initialValue = 0f) }
 
-    val isPlaying by rememberUpdatedState(buttonPlayer)
-    val isAnimating = isPlaying && buttonPlayer
-
-    var pausedProgress by remember { mutableStateOf(0f) }
-
-    LaunchedEffect(isAnimating) {
-        if (isAnimating) {
-            animatedProgress.stop()
-            scope.launch {
-                animatedProgress.animateTo(
-                    targetValue = 1f,
-                    initialVelocity = if (previousProgress < progress) 1f else -1f,
-                    animationSpec = infiniteRepeatable(
-                        animation = tween(durationMillis = time),
-                        repeatMode = RepeatMode.Restart
-                    )
-                )
-            }
-        } else {
-            animatedProgress.stop()
-            pausedProgress = animatedProgress.value
-        }
+    val anim = remember {
+        TargetBasedAnimation(
+            animationSpec = tween(200),
+            typeConverter = Float.VectorConverter,
+            initialValue = 200f,
+            targetValue = 1000f
+        )
     }
 
-    LaunchedEffect(animatedProgress.value) {
-        if (animatedProgress.value == 1f) {
-            pausedProgress = 0f
-        }
+
+
+    LaunchedEffect(anim){
+
     }
+
 
     Canvas(
         modifier = Modifier
             .fillMaxWidth()
             .height(10.dp)
             .pointerInput(Unit) {
-                detectDragGestures { _, pan ->
-                    offsetX.floatValue += pan.x
-                    val newProgress = (offsetX.floatValue / size.width).coerceIn(0f, 1f)
-                    onProgressChanged(newProgress)
+                detectDragGestures { change, dragAmount ->
+                    change.consume()
+                    offsetX += dragAmount.x
+
                 }
-            }
-    ) {
+            },
 
+        ) {
 
-        val lineHeight = 4.dp.toPx()
-        val circleSize = 30.dp.toPx()
-
-        val progressWidth = (size.width * (animatedProgress.value + progress)).coerceIn(0f, size.width)
-
-        val circleX = progressWidth.coerceIn(0f, size.width)
-        val circleY = lineHeight / 2
-        val circleYOffset = (lineHeight - circleSize) / 512
 
         drawRect(
             color = Color.Gray,
-            size = Size(size.width, lineHeight)
+            size = Size(size.width, 4.dp.toPx()),
         )
+
 
         drawCircle(
             color = Color(0xFF982377),
-            radius = circleSize / 4,
-            center = Offset(circleX, circleY + circleYOffset)
+            radius = 30.dp.toPx() / 4,
+            center = Offset(
+                offsetX.coerceIn(0f, size.width),
+                2.dp.toPx() + (4.dp.toPx() - 30.dp.toPx()) / 512
+            )
         )
 
         drawRect(
             color = Color(0xFF982377),
-            size = Size(progressWidth, lineHeight),
+            size = Size(offsetX.coerceIn(0f, size.width), 4.dp.toPx()),
         )
 
 
     }
+
+
 }
 

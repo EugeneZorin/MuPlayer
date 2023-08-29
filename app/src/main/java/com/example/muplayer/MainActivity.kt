@@ -7,6 +7,7 @@ import androidx.lifecycle.ViewModel
 import com.example.domain.usecase.search.SearchAudioContract
 import com.example.presentation.screen.MainScreen
 import com.example.presentation.screen.PlayerScreen
+import com.example.presentation.screen.components.PlayerStripe
 import dagger.hilt.android.AndroidEntryPoint
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
