@@ -2,17 +2,17 @@ package com.example.data.room.repository
 
 import com.example.data.room.aldums.AlbumsDao
 import com.example.data.room.aldums.AlbumsEntity
-import com.example.domain.entity.AlbumEntityModel
-import com.example.domain.repository.AlbumContract
-import com.example.domain.repository.mappers.AlbumEntityMapper
+import com.example.domain.entity.PlaylistEntityModel
+import com.example.domain.repository.PlaylistsContract
+import com.example.domain.repository.mappers.PlaylistEntityMapper
 import javax.inject.Inject
 
 class AlbumRepositoryImpl @Inject constructor(
     private val albumsDao: AlbumsDao,
-    private val albumEntityModel: AlbumEntityMapper<AlbumsEntity>
-): AlbumContract {
+    private val albumEntityModel: PlaylistEntityMapper<AlbumsEntity>
+): PlaylistsContract {
 
-    override suspend fun insertAlbum(albumsEntity: AlbumEntityModel) {
+    override suspend fun insertAlbum(albumsEntity: PlaylistEntityModel) {
         albumsDao.insertAlbum(
             AlbumsEntity(
                 id = albumsEntity.id,
@@ -25,7 +25,7 @@ class AlbumRepositoryImpl @Inject constructor(
         return albumsDao.searchSong(id)
     }
 
-    override suspend fun getAllAlbums(): List<AlbumEntityModel> {
+    override suspend fun getAllAlbums(): List<PlaylistEntityModel> {
         val getAllAlbum = albumsDao.getAllAlbums()
         return getAllAlbum.map {
             albumEntityModel.mapToDomain(it)

@@ -1,15 +1,15 @@
 package com.example.domain.usecase
 
-import com.example.domain.entity.AlbumEntityModel
-import com.example.domain.repository.AlbumContract
-import com.example.domain.usecase.contract.UseCaseAlbumContract
+import com.example.domain.entity.PlaylistEntityModel
+import com.example.domain.repository.PlaylistsContract
+import com.example.domain.usecase.contract.UseCasePlaylistContract
 
-class UseCaseAlbum(
-    private val albumContract: AlbumContract,
-) : UseCaseAlbumContract {
+class UseCasePlaylist(
+    private val albumContract: PlaylistsContract,
+) : UseCasePlaylistContract {
 
     override suspend fun createAlbumContract(id: String, albumList: Map<String, String>?) {
-        albumContract.insertAlbum(AlbumEntityModel(
+        albumContract.insertAlbum(PlaylistEntityModel(
             id = id,
             albumList = albumList)
         )
@@ -23,7 +23,7 @@ class UseCaseAlbum(
         return albumContract.searchSong(id)
     }
 
-    override suspend fun getAllAlbums(): List<AlbumEntityModel> {
+    override suspend fun getAllAlbums(): List<PlaylistEntityModel> {
         return albumContract.getAllAlbums()
     }
 

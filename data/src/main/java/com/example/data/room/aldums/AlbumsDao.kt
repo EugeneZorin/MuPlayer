@@ -5,7 +5,6 @@ import androidx.room.Insert
 import androidx.room.MapInfo
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
-import com.example.domain.entity.AlbumEntityModel
 
 @Dao
 interface AlbumsDao {

@@ -20,6 +20,6 @@ class UseCaseCore(
     }
 
     override suspend fun getAllCore(): List<CoreEntityModel> {
-        return coreContract.getAllAlbums()
+        return coreContract.getAllCore()
     }
 }

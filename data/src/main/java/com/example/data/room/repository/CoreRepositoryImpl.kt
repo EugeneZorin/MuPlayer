@@ -23,7 +23,7 @@ class CoreRepositoryImpl @Inject constructor(
         )
     }
 
-    override suspend fun getAllAlbums(): List<CoreEntityModel> {
+    override suspend fun getAllCore(): List<CoreEntityModel> {
         val getAll = coreDao.getAllCore()
         return getAll.map {
             coreEntityMapper.mapToDomain(it)

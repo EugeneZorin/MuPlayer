@@ -16,7 +16,6 @@ import com.example.domain.usecase.contract.UseCaseCoreContract
 import com.example.domain.usecase.search.FindAllAudioFilesContract
 import com.example.domain.usecase.search.SearchAudioContract
 import com.example.domain.usecase.search.UseCaseFindAudio
-import com.example.muplayer.MyViewModel
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -27,7 +26,7 @@ import dagger.hilt.components.SingletonComponent
 @InstallIn(SingletonComponent::class)
 object SearchModule {
 
-    @Provides
+    /*@Provides
     fun provideViewModel(
         searchAudioContract: SearchAudioContract,
     ): MyViewModel {
@@ -67,7 +66,7 @@ object SearchModule {
             coreDao, coreEntityMapper
         )
     }
-
+*/
 
 
 

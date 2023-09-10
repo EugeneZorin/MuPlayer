@@ -47,7 +47,7 @@ class MainActivity : ComponentActivity() {
 }
 
 
-@HiltViewModel
+/*@HiltViewModel
 class MyViewModel @Inject constructor(
     private val searchAudioContract: SearchAudioContract,
 ) : ViewModel() {
@@ -55,6 +55,6 @@ class MyViewModel @Inject constructor(
     suspend fun execute() {
         searchAudioContract.searchFileContact()
     }
-}
+}*/
 
 

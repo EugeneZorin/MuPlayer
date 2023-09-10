@@ -1,11 +1,9 @@
 package com.example.data.room.core
 
 import androidx.room.Dao
-import androidx.room.Delete
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
-import com.example.domain.entity.AlbumEntityModel
 
 @Dao
 interface CoreDao {

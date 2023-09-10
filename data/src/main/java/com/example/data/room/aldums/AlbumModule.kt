@@ -1,15 +1,10 @@
 package com.example.data.room.aldums
 
 import android.app.Application
-import com.example.data.room.aldums.AlbumsDao
-import com.example.data.room.aldums.AlbumsDatabase
-import com.example.data.room.aldums.AlbumsEntity
 import com.example.data.room.repository.AlbumRepositoryImpl
 import com.example.data.room.repository.mappers.AlbumMapperImpl
-import com.example.domain.repository.AlbumContract
-import com.example.domain.repository.mappers.AlbumEntityMapper
-import com.example.domain.usecase.UseCaseAlbum
-import com.example.domain.usecase.contract.UseCaseAlbumContract
+import com.example.domain.repository.PlaylistsContract
+import com.example.domain.repository.mappers.PlaylistEntityMapper
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -22,8 +17,8 @@ object AlbumModule {
     @Provides
     fun provideDaoAlbum(
         albumsDao: AlbumsDao,
-        albumEntityModel: AlbumEntityMapper<AlbumsEntity>
-    ): AlbumContract {
+        albumEntityModel: PlaylistEntityMapper<AlbumsEntity>
+    ): PlaylistsContract {
         return AlbumRepositoryImpl(
             albumsDao,
             albumEntityModel
@@ -42,7 +37,7 @@ object AlbumModule {
     }
 
     @Provides
-    fun provideAlbumEntityMapper(): AlbumEntityMapper<AlbumsEntity> {
+    fun provideAlbumEntityMapper(): PlaylistEntityMapper<AlbumsEntity> {
         return AlbumMapperImpl()
     }
 
