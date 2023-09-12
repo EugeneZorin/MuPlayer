@@ -37,8 +37,11 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.media3.common.MediaItem
 import androidx.media3.common.Player
 import androidx.media3.exoplayer.ExoPlayer
+import com.example.domain.usecase.search.FindAllAudioFilesContract
 import com.example.presentation.screen.components.main.Player
+import com.example.presentation.viewmodel.FindAllMusicViewModel
 import com.example.presentation.viewmodel.ShowAllMusicViewModel
+
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.isActive
@@ -47,11 +50,12 @@ import kotlinx.coroutines.suspendCancellableCoroutine
 
 
 
-@SuppressLint("UnrememberedMutableState")
+
 @Preview(showBackground = true)
 @Composable
 fun PlayerStripe(
     showAllMusicViewModel: ShowAllMusicViewModel = viewModel(),
+    findAllMusicViewModel: FindAllMusicViewModel = viewModel(),
 )  {
 
 
@@ -59,6 +63,7 @@ fun PlayerStripe(
     val scope = rememberCoroutineScope()
 
     var elapsed by remember { mutableIntStateOf(0) }
+
 
 
 
@@ -87,9 +92,9 @@ fun PlayerStripe(
                         progress = time.toFloat() / iterations.toFloat()
                         delay(delayMillis.toLong())
                     }
-
-                    val list = showAllMusicViewModel.showAllMusic()
+                    val list = findAllMusicViewModel.executed()
                     Log.d("Coroutines", "SET: $list")
+
 
                 }
             }
@@ -107,6 +112,9 @@ fun PlayerStripe(
         Button(onClick = {
             isPlaying = true
             isPaused = true
+        }) {}
+        Button(onClick = {
+            findAllMusicViewModel.executed()
         }) {}
 
         Text(text = elapsed.toString())

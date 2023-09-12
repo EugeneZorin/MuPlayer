@@ -16,6 +16,7 @@ import com.example.domain.usecase.contract.UseCaseCoreContract
 import com.example.domain.usecase.search.FindAllAudioFilesContract
 import com.example.domain.usecase.search.SearchAudioContract
 import com.example.domain.usecase.search.UseCaseFindAudio
+import com.example.presentation.viewmodel.FindAllMusicViewModel
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -26,21 +27,20 @@ import dagger.hilt.components.SingletonComponent
 @InstallIn(SingletonComponent::class)
 object SearchModule {
 
-    /*@Provides
-    fun provideViewModel(
-        searchAudioContract: SearchAudioContract,
-    ): MyViewModel {
-        return MyViewModel(searchAudioContract)
-    }
-
-
     @Provides
-    fun provideSearchAudioContract(
+    fun provideFindAllMusicViewModel(
         findAllAudioFilesContract: FindAllAudioFilesContract,
-        useCaseCoreContract: UseCaseCoreContract,
-    ): SearchAudioContract {
-        return UseCaseFindAudio(findAllAudioFilesContract, useCaseCoreContract)
+    ): FindAllMusicViewModel {
+        return FindAllMusicViewModel(findAllAudioFilesContract)
     }
+
+
+  /*  @Provides
+    fun provideFindAllAudioFilesContract(
+        contentResolver: ContentResolver,
+    ): FindAllAudioFilesContract {
+        return FindAllAudioFiles(contentResolver)
+    }*/
 
 
     @Provides
@@ -50,7 +50,7 @@ object SearchModule {
         return FindAllAudioFiles(context.contentResolver)
     }
 
-    @Provides
+    /*@Provides
     fun provideUseCaseCoreContract(
         coreContract: CoreContract
     ): UseCaseCoreContract {
@@ -65,10 +65,6 @@ object SearchModule {
         return CoreRepositoryImpl(
             coreDao, coreEntityMapper
         )
-    }
-*/
-
-
-
+    }*/
 
 }

@@ -1,6 +1,9 @@
-package com.example.data.room.aldums
+package com.example.muplayer.di
 
 import android.app.Application
+import com.example.data.room.aldums.AlbumsDao
+import com.example.data.room.aldums.AlbumsDatabase
+import com.example.data.room.aldums.AlbumsEntity
 import com.example.data.room.repository.AlbumRepositoryImpl
 import com.example.data.room.repository.mappers.AlbumMapperImpl
 import com.example.domain.repository.PlaylistsContract
@@ -26,13 +29,13 @@ object AlbumModule {
     }
 
     @Provides
-    fun provideAlbumDatabase(application: Application ): AlbumsDatabase{
+    fun provideAlbumDatabase(application: Application ): AlbumsDatabase {
         return AlbumsDatabase.database(application)
     }
 
 
     @Provides
-    fun provideAlbumDao( albumsDatabase: AlbumsDatabase ): AlbumsDao {
+    fun provideAlbumDao( albumsDatabase: AlbumsDatabase): AlbumsDao {
         return albumsDatabase.albumsDao()
     }
 

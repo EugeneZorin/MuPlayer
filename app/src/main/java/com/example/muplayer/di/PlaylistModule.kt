@@ -17,7 +17,7 @@ import dagger.hilt.components.SingletonComponent
 object PlaylistModule {
 
 
-    @Provides
+    /*@Provides
     fun provideCoreRepository(
         coreDao: CoreDao,
         coreEntityMapper: CoreEntityMapper<CoreEntity>
@@ -40,8 +40,6 @@ object PlaylistModule {
     fun provideCoreEntityMapper(): CoreEntityMapper<CoreEntity> {
         return CoreMapperImpl()
     }
-
-
-
+*/
 
 }
