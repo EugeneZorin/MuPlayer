@@ -1,4 +1,4 @@
-package com.example.data.room.aldums
+package com.example.data.room.playlist
 
 import androidx.room.Dao
 import androidx.room.Insert
@@ -7,9 +7,9 @@ import androidx.room.OnConflictStrategy
 import androidx.room.Query
 
 @Dao
-interface AlbumsDao {
+interface PlaylistDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insertAlbum(albumsEntity: AlbumsEntity)
+    suspend fun insertAlbum(albumsEntity: PlaylistEntity)
 
     @Query("DELETE FROM albums_entity WHERE id = :id")
     suspend fun delete(id: String)
@@ -19,6 +19,6 @@ interface AlbumsDao {
     suspend fun searchSong(id: String): Map<String, String>?
 
     @Query("SELECT * FROM albums_entity")
-    suspend fun getAllAlbums(): List<AlbumsEntity>
+    suspend fun getAllAlbums(): List<PlaylistEntity>
 
 }

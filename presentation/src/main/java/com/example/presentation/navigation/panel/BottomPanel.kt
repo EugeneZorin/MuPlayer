@@ -1,4 +1,4 @@
-package com.example.presentation.panel
+package com.example.presentation.navigation.panel
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -20,7 +20,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.presentation.R
-import com.example.presentation.screen.components.main.Player
+import com.example.presentation.components.main.Player
 
 
 @Preview(showBackground = true)

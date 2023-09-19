@@ -27,7 +27,6 @@ fun StartScreen() {
         iterations = LottieConstants.IterateForever
     )
 
-
     Box(
         modifier = Modifier.fillMaxSize()
     ) {

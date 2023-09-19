@@ -1,13 +1,11 @@
-package com.example.data.room.aldums
+package com.example.data.room.playlist
 
 import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
-import androidx.room.TypeConverters
-import com.example.data.room.converter.AlbumConverter
 
 @Entity(tableName = "albums_entity")
-data class AlbumsEntity(
+data class PlaylistEntity(
 
     @PrimaryKey() val id: String,
 

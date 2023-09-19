@@ -1,4 +1,4 @@
-package com.example.presentation.screen.components.main
+package com.example.presentation.components.main
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -18,7 +18,9 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 
 @Composable
-fun SongColumn(it: PaddingValues) {
+fun SongColumn(
+    it: PaddingValues
+) {
 
     Column(
         modifier = Modifier

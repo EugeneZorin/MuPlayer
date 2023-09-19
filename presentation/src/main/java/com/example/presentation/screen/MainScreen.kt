@@ -12,10 +12,10 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
-import com.example.presentation.panel.BottomPanel
-import com.example.presentation.screen.components.SearchView
-import com.example.presentation.screen.components.main.Player
-import com.example.presentation.screen.components.main.SongColumn
+import com.example.presentation.navigation.panel.BottomPanel
+import com.example.presentation.components.SearchView
+import com.example.presentation.components.main.Player
+import com.example.presentation.components.main.SongColumn
 
 @Preview(showBackground = true)
 @Composable

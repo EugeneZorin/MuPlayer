@@ -1,27 +1,27 @@
-package com.example.data.room.aldums
+package com.example.data.room.playlist
 
 import android.content.Context
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
-import com.example.data.room.converter.AlbumConverter
+import com.example.data.room.converter.PlaylistConverter
 
 @Database(
     entities = [
-        AlbumsEntity::class
+        PlaylistEntity::class
     ],
     version = 2
 )
-@TypeConverters(AlbumConverter::class)
-abstract class AlbumsDatabase: RoomDatabase() {
-    abstract fun albumsDao(): AlbumsDao
+@TypeConverters(PlaylistConverter::class)
+abstract class PlaylistDatabase: RoomDatabase() {
+    abstract fun albumsDao(): PlaylistDao
 
     companion object{
-        fun database(context: Context): AlbumsDatabase {
+        fun database(context: Context): PlaylistDatabase {
             return Room.databaseBuilder(
                 context,
-                AlbumsDatabase::class.java,
+                PlaylistDatabase::class.java,
                 "albums_entity"
             ).build()
         }

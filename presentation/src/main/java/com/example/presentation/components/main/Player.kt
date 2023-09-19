@@ -1,4 +1,4 @@
-package com.example.presentation.screen.components.main
+package com.example.presentation.components.main
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -25,7 +25,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.presentation.R
-import com.example.presentation.screen.components.PlayerStripe
+import com.example.presentation.components.PlayerStripe
 
 @Preview(showBackground = true)
 @Composable

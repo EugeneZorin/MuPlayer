@@ -25,8 +25,8 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.example.presentation.panel.BottomPanel
-import com.example.presentation.screen.components.PlayerStripe
+import com.example.presentation.navigation.panel.BottomPanel
+import com.example.presentation.components.PlayerStripe
 
 
 @Preview(showBackground = true)
@@ -98,7 +98,7 @@ fun PlayerScreen() {
                             .fillMaxWidth()
                     ) {
 
-                        PlayerStripe( )
+                        PlayerStripe()
 
 //                        Row(modifier = Modifier.fillMaxWidth()) {
 //                            Button(

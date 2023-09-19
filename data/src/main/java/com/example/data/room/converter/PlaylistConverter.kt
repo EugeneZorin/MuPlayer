@@ -4,7 +4,7 @@ import androidx.room.TypeConverter
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 
-class AlbumConverter {
+class PlaylistConverter {
 
     @TypeConverter
     fun fromString(value: String): Map<String, String> {
