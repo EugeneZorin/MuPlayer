@@ -15,53 +15,62 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.rememberUpdatedState
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.platform.LocalContext
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.media3.common.AudioAttributes
 import androidx.media3.common.MediaItem
 import androidx.media3.common.PlaybackException
 import androidx.media3.common.Player
 import androidx.media3.exoplayer.ExoPlayer
+import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.isActive
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.suspendCancellableCoroutine
 
 
-class SharedTest() : ViewModel() {
-    val targetTimeMillis = 5000
-    var isPlaying by mutableStateOf(true)
-    var moveProgress by mutableIntStateOf(0)
-}
-
 
 @Composable
 fun PlayerStripe() {
 
 
-
     val context = LocalContext.current
     val player = ExoPlayer.Builder(context).build()
     var isPlaying by remember { mutableStateOf(player.isPlaying) }
+    val mediaItem = MediaItem.fromUri("/storage/emulated/0/Download/Overlord III - Opening _ VORACITY (320 kbps).mp3")
+    var job: Job? = null
+    val scope = rememberCoroutineScope()
+    val currentTime: MutableLiveData<Pair<Long, Long>> by lazy {
+        MutableLiveData(player.currentPosition to player.duration)
+    }
 
-    player.addListener(object : Player.Listener {
-        override fun onIsPlayingChanged(isPlaying: Boolean) {
-            if (isPlaying) {
-                player.play()
-            } else {
-                player.pause()
-            }
-        }
-    })
+    val iterations = currentTime.value?.second!! / 16
 
 
 
-    LaunchedEffect(context) {
-        val mediaItem = MediaItem.fromUri("/storage/emulated/0/Download/Overlord III - Opening _ VORACITY (320 kbps).mp3")
+
+
+
+
+    LaunchedEffect(context){
+
         player.setMediaItem(mediaItem)
         player.prepare()
+
+        player.addListener(object : Player.Listener {
+            override fun onIsPlayingChanged(isPlaying: Boolean) {
+                if (isPlaying) {
+                    Log.d("Start", "SET: START")
+                } else {
+                    Log.d("currentPosition", "SET: STOP")
+                }
+            }
+        })
+
     }
 
 
@@ -69,12 +78,32 @@ fun PlayerStripe() {
 
 
 
+    LaunchedEffect(context) {
+        if (isPlaying) {
+            job = scope.launch {
+                for (time in (iterations * player.currentPosition).toInt() until iterations) {
+                    if (isPlaying) {
+                        delay(16)
+                        Log.d("StartProgress", "SET: ${player.currentPosition}")
+                    }
+                }
+
+            }
+        } else {
+            job?.cancel()
+        }
+    }
+
+
 
     IconButton(
         onClick = {
             isPlaying = !isPlaying
-
-
+            if (isPlaying) {
+                player.play()
+            } else {
+                player.pause()
+            }
         }
     ) {
         Icon(
@@ -82,9 +111,6 @@ fun PlayerStripe() {
             contentDescription = if (isPlaying) "Pause" else "Play"
         )
     }
-
-
-
 
 
 
