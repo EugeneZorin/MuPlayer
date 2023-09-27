@@ -1,5 +1,6 @@
 package com.example.presentation.components.main
 
+import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -16,9 +17,11 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.presentation.viewmodels.MainViewModel
+
 
 @Composable
 fun SongColumn(
@@ -26,6 +29,9 @@ fun SongColumn(
     mainViewModel: MainViewModel = viewModel(),
 ) {
 
+
+
+    Log.d("mainViewModel", "${mainViewModel.allMusic.value}")
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -39,7 +45,7 @@ fun SongColumn(
                 .padding(vertical = 5.dp, horizontal = 5.dp)
         ) {
             Text(
-                text = mainViewModel.allMusic.value?.size.toString(),
+                text = "Произведений: ",
                 color = Color.Gray
             )
         }
@@ -48,7 +54,7 @@ fun SongColumn(
             verticalArrangement = Arrangement.spacedBy(5.dp),
         ) {
             items(100) {
-                Box (
+                Box(
                     modifier = Modifier
                         .clip(shape = RoundedCornerShape(10.dp))
                         .background(Color(0xFFFBF7F7))

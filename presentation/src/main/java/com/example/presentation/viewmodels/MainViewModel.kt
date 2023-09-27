@@ -1,5 +1,7 @@
 package com.example.presentation.viewmodels
 
+import android.util.Log
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -15,6 +17,7 @@ class MainViewModel @Inject constructor(
 ): ViewModel() {
 
     private val _allMusic = MutableLiveData<List<CoreEntityModel>>()
+
     var allMusic: MutableLiveData<List<CoreEntityModel>> = _allMusic
 
     private suspend fun getAllMusic(){
@@ -25,6 +28,15 @@ class MainViewModel @Inject constructor(
         viewModelScope.launch {
             getAllMusic()
         }
+
+    }
+
+
+    fun getNumberMusicTracks(): Int {
+        return if (allMusic.value?.size == null) 0 else allMusic.value!!.size
+    }
+    fun getAllMusicLiveData(): LiveData<List<CoreEntityModel>> {
+        return allMusic
     }
 
 
