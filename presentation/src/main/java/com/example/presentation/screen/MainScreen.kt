@@ -14,7 +14,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import com.example.presentation.navigation.panel.BottomPanel
 import com.example.presentation.components.SearchView
-import com.example.presentation.components.main.Player
+import com.example.presentation.components.palylist.Player
 import com.example.presentation.components.main.SongColumn
 
 @Preview(showBackground = true)

@@ -1,4 +1,4 @@
-package com.example.presentation.components
+package com.example.presentation.components.palylist
 
 import android.util.Log
 import androidx.compose.foundation.Canvas
@@ -47,6 +47,8 @@ fun PlayerStripe() {
     var job: Job? = null
     var offsetX by remember { mutableFloatStateOf(0f) }
     var progress by remember { mutableFloatStateOf(0f) }
+
+
 
 
     LaunchedEffect(isPlaying) {

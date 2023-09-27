@@ -16,10 +16,14 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewmodel.compose.viewModel
+import com.example.presentation.viewmodels.MainViewModel
 
 @Composable
 fun SongColumn(
-    it: PaddingValues
+    it: PaddingValues,
+    mainViewModel: MainViewModel = viewModel(),
 ) {
 
     Column(
@@ -35,7 +39,7 @@ fun SongColumn(
                 .padding(vertical = 5.dp, horizontal = 5.dp)
         ) {
             Text(
-                text = "Произведений: 51",
+                text = mainViewModel.allMusic.value?.size.toString(),
                 color = Color.Gray
             )
         }
