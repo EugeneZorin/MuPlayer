@@ -1,6 +1,7 @@
 package com.example.presentation.components.main
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -24,8 +25,8 @@ import com.example.presentation.viewmodels.MainViewModel
 
 @Composable
 fun SongColumn(
-    modifier: Modifier = Modifier,
     it: PaddingValues,
+    modifier: Modifier = Modifier,
     mainViewModel: MainViewModel = viewModel(),
 ) {
 
@@ -49,9 +50,13 @@ fun SongColumn(
             )
         }
 
-        if (quantitiesMusic.value?.size == 0) {
+        if (quantitiesMusic.value?.size != null) {
             LazyColumn(
                 verticalArrangement = Arrangement.spacedBy(5.dp),
+                modifier = modifier
+                    .padding(vertical = 5.dp, horizontal = 5.dp)
+                    .clickable {  }
+
             ) {
                 items(quantitiesMusic.value!!.size) {
                     Box(
@@ -72,10 +77,8 @@ fun SongColumn(
                 }
             }
         } else {
-            Box(
-                modifier = modifier
+            Box(modifier = modifier
                     .fillMaxSize()
-                   ,
             ) {
                 Box(modifier = modifier
                     .align(Alignment.Center))
