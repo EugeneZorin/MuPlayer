@@ -1,6 +1,5 @@
 package com.example.presentation.components.main
 
-import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -13,27 +12,27 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.livedata.observeAsState
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
-import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.presentation.viewmodels.MainViewModel
 
 
 @Composable
 fun SongColumn(
+    modifier: Modifier = Modifier,
     it: PaddingValues,
     mainViewModel: MainViewModel = viewModel(),
 ) {
 
+    val quantitiesMusic = mainViewModel.allMusic.observeAsState()
 
-
-    Log.d("mainViewModel", "${mainViewModel.allMusic.value}")
     Column(
-        modifier = Modifier
+        modifier = modifier
             .fillMaxSize()
             .padding(it)
             .padding(horizontal = 17.dp)
@@ -41,33 +40,47 @@ fun SongColumn(
     ) {
 
         Box(
-            modifier = Modifier
+            modifier = modifier
                 .padding(vertical = 5.dp, horizontal = 5.dp)
         ) {
             Text(
-                text = "Произведений: ",
+                text = "Works: ${quantitiesMusic.value?.size}",
                 color = Color.Gray
             )
         }
 
-        LazyColumn(
-            verticalArrangement = Arrangement.spacedBy(5.dp),
-        ) {
-            items(100) {
-                Box(
-                    modifier = Modifier
-                        .clip(shape = RoundedCornerShape(10.dp))
-                        .background(Color(0xFFFBF7F7))
-                        .fillMaxWidth()
-                        .padding(14.dp),
-                ) {
-                    Column {
-                        Text(text = "Названия песни ")
-                        Text(
-                            text = "Исполнитель - Неизвестен",
-                            color = Color.Gray
-                        )
+        if (quantitiesMusic.value?.size == 0) {
+            LazyColumn(
+                verticalArrangement = Arrangement.spacedBy(5.dp),
+            ) {
+                items(quantitiesMusic.value!!.size) {
+                    Box(
+                        modifier = modifier
+                            .clip(shape = RoundedCornerShape(10.dp))
+                            .background(Color(0xFFFBF7F7))
+                            .fillMaxWidth()
+                            .padding(14.dp),
+                    ) {
+                        Column {
+                            Text(text = quantitiesMusic.value!![it].nameMusic)
+                            Text(
+                                text = "Performer - Unknown",
+                                color = Color.Gray
+                            )
+                        }
                     }
+                }
+            }
+        } else {
+            Box(
+                modifier = modifier
+                    .fillMaxSize()
+                   ,
+            ) {
+                Box(modifier = modifier
+                    .align(Alignment.Center))
+                {
+                    Text(text = "Music not found")
                 }
             }
         }

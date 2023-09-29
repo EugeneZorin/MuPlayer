@@ -13,15 +13,16 @@ import javax.inject.Inject
 
 @HiltViewModel
 class MainViewModel @Inject constructor(
-    private val useCaseCoreContract: UseCaseCoreContract
+    private val  useCaseCoreContract: UseCaseCoreContract
 ): ViewModel() {
 
     private val _allMusic = MutableLiveData<List<CoreEntityModel>>()
-
     var allMusic: MutableLiveData<List<CoreEntityModel>> = _allMusic
+
 
     private suspend fun getAllMusic(){
         allMusic.value = useCaseCoreContract.getAllCore()
+        Log.d("allMusic", "${allMusic.value!![0].nameMusic}")
     }
 
     init {
@@ -29,14 +30,6 @@ class MainViewModel @Inject constructor(
             getAllMusic()
         }
 
-    }
-
-
-    fun getNumberMusicTracks(): Int {
-        return if (allMusic.value?.size == null) 0 else allMusic.value!!.size
-    }
-    fun getAllMusicLiveData(): LiveData<List<CoreEntityModel>> {
-        return allMusic
     }
 
 
