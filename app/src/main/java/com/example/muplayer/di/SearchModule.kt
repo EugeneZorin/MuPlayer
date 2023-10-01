@@ -1,25 +1,7 @@
 package com.example.muplayer.di
 
-import android.app.Application
-import android.content.ContentResolver
-import android.content.Context
-import com.example.data.room.core.CoreDao
-import com.example.data.room.core.CoreDatabase
-import com.example.data.room.core.CoreEntity
-import com.example.data.room.repository.CoreRepositoryImpl
-import com.example.data.room.repository.mappers.CoreMapperImpl
-import com.example.data.search.FindAllAudioFiles
-import com.example.domain.repository.CoreContract
-import com.example.domain.repository.mappers.CoreEntityMapper
-import com.example.domain.usecase.UseCaseCore
-import com.example.domain.usecase.contract.UseCaseCoreContract
-import com.example.domain.usecase.search.FindAllAudioFilesContract
-import com.example.domain.usecase.search.SearchAudioContract
-import com.example.presentation.viewmodels.MainViewModel
 import dagger.Module
-import dagger.Provides
 import dagger.hilt.InstallIn
-import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
 
 @Module

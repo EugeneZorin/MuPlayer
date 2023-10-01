@@ -1,4 +1,4 @@
-package com.example.domain.usecase.contract
+package com.example.domain.usecase.contract.room
 
 import com.example.domain.entity.PlaylistEntityModel
 

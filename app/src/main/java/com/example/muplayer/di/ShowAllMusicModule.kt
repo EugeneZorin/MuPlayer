@@ -3,10 +3,10 @@ package com.example.muplayer.di
 import com.example.data.room.core.CoreDao
 import com.example.data.room.core.CoreEntity
 import com.example.data.room.repository.CoreRepositoryImpl
-import com.example.domain.repository.CoreContract
+import com.example.domain.repository.room.CoreContract
 import com.example.domain.repository.mappers.CoreEntityMapper
 import com.example.domain.usecase.UseCaseCore
-import com.example.domain.usecase.contract.UseCaseCoreContract
+import com.example.domain.usecase.contract.room.UseCaseCoreContract
 import com.example.presentation.viewmodels.MainViewModel
 
 import dagger.Module

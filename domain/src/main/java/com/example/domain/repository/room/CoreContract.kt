@@ -1,4 +1,4 @@
-package com.example.domain.repository
+package com.example.domain.repository.room
 
 import com.example.domain.entity.CoreEntityModel
 

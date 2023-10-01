@@ -5,7 +5,6 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -23,14 +22,10 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.hilt.navigation.compose.hiltViewModel
-import androidx.lifecycle.viewmodel.compose.viewModel
-import com.example.presentation.navigation.panel.BottomPanel
 import com.example.presentation.components.SearchView
 import com.example.presentation.components.palylist.Player
-import com.example.presentation.components.main.SongColumn
+import com.example.presentation.navigation.panel.BottomPanel
 import com.example.presentation.viewmodels.MainViewModel
 
 @Composable
@@ -87,8 +82,7 @@ fun MainScreen(
                     verticalArrangement = Arrangement.spacedBy(5.dp),
                     modifier = modifier
                         .padding(vertical = 5.dp, horizontal = 5.dp)
-                        .clickable { }
-
+                        .clickable() { }
                 ) {
                     items(quantitiesMusic.value!!.size) {
                         Box(

@@ -28,12 +28,8 @@ import com.example.presentation.navigation.panel.BottomPanel
 import com.example.presentation.components.palylist.PlayerStripe
 
 
-@Preview(showBackground = true)
 @Composable
 fun PlayerScreen() {
-
-    var progress by remember { mutableFloatStateOf(0f) }
-    var buttonPlayer by remember { mutableStateOf(true) }
 
     Scaffold(
 

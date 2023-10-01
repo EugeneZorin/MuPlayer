@@ -36,10 +36,9 @@ import kotlinx.coroutines.launch
 
 @Composable
 fun PlayerStripe() {
+
     val context = LocalContext.current
-    val player = remember {
-        mutableStateOf(ExoPlayer.Builder(context).build())
-    }
+    val player = remember { mutableStateOf(ExoPlayer.Builder(context).build()) }
     var isPlaying by remember { mutableStateOf(false) }
     val mediaItem =
         MediaItem.fromUri("/storage/emulated/0/Download/Overlord III - Opening _ VORACITY (320 kbps).mp3")
@@ -47,9 +46,6 @@ fun PlayerStripe() {
     var job: Job? = null
     var offsetX by remember { mutableFloatStateOf(0f) }
     var progress by remember { mutableFloatStateOf(0f) }
-
-
-
 
     LaunchedEffect(isPlaying) {
         if (isPlaying) {

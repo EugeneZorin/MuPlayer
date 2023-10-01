@@ -1,8 +1,8 @@
 package com.example.domain.usecase
 
 import com.example.domain.entity.PlaylistEntityModel
-import com.example.domain.repository.PlaylistsContract
-import com.example.domain.usecase.contract.UseCasePlaylistContract
+import com.example.domain.repository.room.PlaylistsContract
+import com.example.domain.usecase.contract.room.UseCasePlaylistContract
 
 class UseCasePlaylist(
     private val albumContract: PlaylistsContract,

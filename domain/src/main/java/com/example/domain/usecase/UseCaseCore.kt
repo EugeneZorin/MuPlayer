@@ -1,12 +1,12 @@
 package com.example.domain.usecase
 
 import com.example.domain.entity.CoreEntityModel
-import com.example.domain.repository.CoreContract
-import com.example.domain.usecase.contract.UseCaseCoreContract
+import com.example.domain.repository.room.CoreContract
+import com.example.domain.usecase.contract.room.UseCaseCoreContract
 
 class UseCaseCore(
     private val coreContract: CoreContract
-): UseCaseCoreContract{
+): UseCaseCoreContract {
     override suspend fun insertSong(coreEntity: CoreEntityModel) {
         coreContract.insert(coreEntity)
     }
