@@ -5,14 +5,14 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.domain.entity.CoreEntityModel
-import com.example.domain.usecase.contract.room.UseCaseCoreContract
+import com.example.domain.usecase.contract.room.CoreContractPres
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
 class MainViewModel @Inject constructor(
-    private val  useCaseCoreContract: UseCaseCoreContract
+    private val  useCaseCoreContract: CoreContractPres
 ): ViewModel() {
 
     private val _allMusic = MutableLiveData<List<CoreEntityModel>>()

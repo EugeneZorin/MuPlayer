@@ -2,7 +2,7 @@ package com.example.domain.usecase.contract.room
 
 import com.example.domain.entity.CoreEntityModel
 
-interface UseCaseCoreContract {
+interface CoreContractPres {
     suspend fun insertSong(coreEntity: CoreEntityModel)
     suspend fun delete(id: Long)
     suspend fun searchSong(name: String): List<CoreEntityModel>

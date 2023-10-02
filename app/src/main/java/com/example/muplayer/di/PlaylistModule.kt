@@ -4,7 +4,7 @@ import android.app.Application
 import com.example.data.room.core.CoreDao
 import com.example.data.room.core.CoreDatabase
 import com.example.data.room.core.CoreEntity
-import com.example.data.room.repository.CoreRepositoryImpl
+import com.example.data.room.repository.CoreRepositoryImplDt
 import com.example.data.room.repository.mappers.CoreMapperImpl
 import com.example.domain.repository.mappers.CoreEntityMapper
 import dagger.Module
@@ -21,8 +21,8 @@ object PlaylistModule {
     fun provideCoreRepository(
         coreDao: CoreDao,
         coreEntityMapper: CoreEntityMapper<CoreEntity>
-    ): CoreRepositoryImpl {
-        return CoreRepositoryImpl(coreDao, coreEntityMapper)
+    ): CoreRepositoryImplDt {
+        return CoreRepositoryImplDt(coreDao, coreEntityMapper)
     }
 
     @Provides

@@ -1,13 +1,13 @@
 package com.example.domain.usecase
 
 import com.example.domain.entity.CoreEntityModel
-import com.example.domain.usecase.contract.room.UseCaseCoreContract
+import com.example.domain.usecase.contract.room.CoreContractPres
 import com.example.domain.usecase.search.FindAllAudioFilesContract
 import com.example.domain.usecase.search.SearchAudioContract
 
 class UseCaseSearchAudio (
     private val findAllAudioFilesContract: FindAllAudioFilesContract,
-    private val useCaseCoreContract: UseCaseCoreContract
+    private val useCaseCoreContract: CoreContractPres
 ) : SearchAudioContract {
     override suspend fun searchFileContact(): Boolean {
         val audioFiles = findAllAudioFilesContract.findAllAudioFiles()

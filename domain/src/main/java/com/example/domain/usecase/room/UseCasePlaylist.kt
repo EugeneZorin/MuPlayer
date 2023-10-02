@@ -1,12 +1,12 @@
-package com.example.domain.usecase
+package com.example.domain.usecase.room
 
 import com.example.domain.entity.PlaylistEntityModel
-import com.example.domain.repository.room.PlaylistsContract
-import com.example.domain.usecase.contract.room.UseCasePlaylistContract
+import com.example.domain.repository.room.PlaylistsContractDt
+import com.example.domain.usecase.contract.room.PlaylistContractPres
 
 class UseCasePlaylist(
-    private val albumContract: PlaylistsContract,
-) : UseCasePlaylistContract {
+    private val albumContract: PlaylistsContractDt,
+) : PlaylistContractPres {
 
     override suspend fun createAlbumContract(id: String, albumList: Map<String, String>?) {
         albumContract.insertAlbum(PlaylistEntityModel(
