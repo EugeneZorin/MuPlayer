@@ -1,6 +1,7 @@
 package com.example.data.datastore
 
 
+import com.example.domain.entity.PlayerEntityModel
 import kotlinx.serialization.Serializable
 
 @Serializable

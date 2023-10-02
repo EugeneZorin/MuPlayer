@@ -1,7 +1,7 @@
 package com.example.domain.usecase
 
 import com.example.domain.entity.CoreEntityModel
-import com.example.domain.usecase.contract.room.CoreContractPres
+import com.example.domain.usecase.room.contract.CoreContractPres
 import com.example.domain.usecase.search.FindAllAudioFilesContract
 import com.example.domain.usecase.search.SearchAudioContract
 

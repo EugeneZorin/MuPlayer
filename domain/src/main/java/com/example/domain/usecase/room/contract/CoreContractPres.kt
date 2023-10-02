@@ -1,4 +1,4 @@
-package com.example.domain.usecase.contract.room
+package com.example.domain.usecase.room.contract
 
 import com.example.domain.entity.CoreEntityModel
 

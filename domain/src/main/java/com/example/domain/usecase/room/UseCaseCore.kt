@@ -2,7 +2,7 @@ package com.example.domain.usecase.room
 
 import com.example.domain.entity.CoreEntityModel
 import com.example.domain.repository.room.CoreContractDt
-import com.example.domain.usecase.contract.room.CoreContractPres
+import com.example.domain.usecase.room.contract.CoreContractPres
 
 class UseCaseCore(
     private val coreContract: CoreContractDt

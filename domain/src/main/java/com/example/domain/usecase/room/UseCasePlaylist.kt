@@ -2,7 +2,7 @@ package com.example.domain.usecase.room
 
 import com.example.domain.entity.PlaylistEntityModel
 import com.example.domain.repository.room.PlaylistsContractDt
-import com.example.domain.usecase.contract.room.PlaylistContractPres
+import com.example.domain.usecase.room.contract.PlaylistContractPres
 
 class UseCasePlaylist(
     private val albumContract: PlaylistsContractDt,
