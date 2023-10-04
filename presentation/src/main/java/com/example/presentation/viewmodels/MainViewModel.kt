@@ -5,7 +5,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.domain.entity.CoreEntityModel
-import com.example.domain.usecase.datastory.contract.PlayerContractPres
+import com.example.domain.usecase.datastory.contract.PlayerStatePres
 import com.example.domain.usecase.room.contract.CoreContractPres
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
@@ -14,7 +14,7 @@ import javax.inject.Inject
 @HiltViewModel
 class MainViewModel @Inject constructor(
     private val  useCaseCoreContract: CoreContractPres,
-    private val  playerContractPres: PlayerContractPres
+    private val playerStatePres: PlayerStatePres
 ): ViewModel() {
 
     private val _allMusic = MutableLiveData<List<CoreEntityModel>>()
@@ -29,7 +29,9 @@ class MainViewModel @Inject constructor(
 
     init {
         viewModelScope.launch {
-            Log.d("playerContractPres", playerContractPres.getData().toString())
+            val value = playerStatePres.getData()
+            Log.d("value_check", "$value")
+
             getAllMusic()
 
         }

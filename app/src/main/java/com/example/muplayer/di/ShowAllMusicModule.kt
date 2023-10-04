@@ -6,13 +6,12 @@ import com.example.data.datastore.PlayerData
 import com.example.data.room.core.CoreDao
 import com.example.data.room.core.CoreEntity
 import com.example.data.room.repository.CoreRepositoryImplDt
-import com.example.data.room.repository.mappers.PlayerDataMapperImpl
-import com.example.domain.repository.datastory.PlayerContractDt
+import com.example.domain.entity.PlayerEntityModel
+import com.example.domain.repository.datastory.PlayerStateDt
 import com.example.domain.repository.mappers.CoreEntityMapper
-import com.example.domain.repository.mappers.PlayerDataEntityMapper
 import com.example.domain.repository.room.CoreContractDt
-import com.example.domain.usecase.datastory.UseCasePlayer
-import com.example.domain.usecase.datastory.contract.PlayerContractPres
+import com.example.domain.usecase.datastory.PlayerStateImpl
+import com.example.domain.usecase.datastory.contract.PlayerStatePres
 import com.example.domain.usecase.room.UseCaseCore
 import com.example.domain.usecase.room.contract.CoreContractPres
 import com.example.presentation.viewmodels.MainViewModel
@@ -28,30 +27,30 @@ object ShowAllMusicModule {
     @Provides
     fun provideViewModel(
         useCaseCoreContract: CoreContractPres,
-        playerContractPres: PlayerContractPres
+        playerStatePres: PlayerStatePres
     ): MainViewModel {
-        return MainViewModel(useCaseCoreContract, playerContractPres)
+        return MainViewModel(useCaseCoreContract, playerStatePres)
     }
 
     @Provides
-    fun providePlayerContractPres(
-        playerContractDt: PlayerContractDt
-    ): PlayerContractPres {
-        return UseCasePlayer(playerContractDt)
+    fun providePlayerStatePres(
+        playerStateContract: PlayerStateDt<PlayerEntityModel>
+    ): PlayerStatePres {
+        return PlayerStateImpl(playerStateContract)
     }
 
     @Provides
     fun provideDataStatePlayer(
-        @ApplicationContext context: Context,
-        playerDataEntityMapper: PlayerDataEntityMapper<PlayerData>
-    ): PlayerContractDt {
-        return DataStatePlayer(context, playerDataEntityMapper)
+        @ApplicationContext context: Context
+    ): PlayerStateDt<PlayerData> {
+        return DataStatePlayer(context)
     }
 
-    @Provides
-    fun providePlayerMapper(): PlayerDataEntityMapper<PlayerData> {
-        return PlayerDataMapperImpl()
-    }
+
+
+
+
+
 
     @Provides
     fun provideUseCaseCoreContract(
