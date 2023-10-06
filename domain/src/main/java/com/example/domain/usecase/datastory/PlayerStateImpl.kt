@@ -5,7 +5,7 @@ import com.example.domain.repository.datastory.PlayerStateDt
 import com.example.domain.usecase.datastory.contract.PlayerStatePres
 
 class PlayerStateImpl (
-    private val playerStateContract: PlayerStateDt<PlayerEntityModel>
+    private val playerStateContract: PlayerStateDt
 ): PlayerStatePres {
     override suspend fun getData(): List<PlayerEntityModel>{
         return playerStateContract.getData()

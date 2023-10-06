@@ -3,12 +3,14 @@ package com.example.muplayer.di
 import android.content.Context
 import com.example.data.datastore.DataStatePlayer
 import com.example.data.datastore.PlayerData
+import com.example.data.datastore.mappers.PlayerMapper
 import com.example.data.room.core.CoreDao
 import com.example.data.room.core.CoreEntity
 import com.example.data.room.repository.CoreRepositoryImplDt
 import com.example.domain.entity.PlayerEntityModel
 import com.example.domain.repository.datastory.PlayerStateDt
 import com.example.domain.repository.mappers.CoreEntityMapper
+import com.example.domain.repository.mappers.PlayerDataMapper
 import com.example.domain.repository.room.CoreContractDt
 import com.example.domain.usecase.datastory.PlayerStateImpl
 import com.example.domain.usecase.datastory.contract.PlayerStatePres
@@ -34,18 +36,23 @@ object ShowAllMusicModule {
 
     @Provides
     fun providePlayerStatePres(
-        playerStateContract: PlayerStateDt<PlayerEntityModel>
+        playerStateContract: PlayerStateDt
     ): PlayerStatePres {
         return PlayerStateImpl(playerStateContract)
     }
 
     @Provides
     fun provideDataStatePlayer(
-        @ApplicationContext context: Context
-    ): PlayerStateDt<PlayerData> {
-        return DataStatePlayer(context)
+        @ApplicationContext context: Context,
+        playerMapper: PlayerMapper
+    ): PlayerStateDt {
+        return DataStatePlayer(context,playerMapper)
     }
 
+    @Provides
+    fun providePlayerMapper(): PlayerMapper {
+        return PlayerMapper()
+    }
 
 
 
