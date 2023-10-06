@@ -1,6 +1,5 @@
 package com.example.data.datastore
 
-import android.util.Log
 import androidx.datastore.core.CorruptionException
 import androidx.datastore.core.Serializer
 import kotlinx.coroutines.Dispatchers
@@ -9,6 +8,7 @@ import kotlinx.serialization.SerializationException
 import kotlinx.serialization.json.Json
 import java.io.InputStream
 import java.io.OutputStream
+
 
 object DataPlayerSerializer: Serializer<PlayerData> {
     override val defaultValue: PlayerData

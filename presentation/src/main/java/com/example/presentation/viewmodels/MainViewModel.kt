@@ -29,11 +29,13 @@ class MainViewModel @Inject constructor(
 
     init {
         viewModelScope.launch {
+            getAllMusic()
+        }
+
+        viewModelScope.launch {
+            Log.d("value_check", "1")
             val value = playerStatePres.getData()
             Log.d("value_check", "$value")
-
-            getAllMusic()
-
         }
 
 
