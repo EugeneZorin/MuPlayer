@@ -22,12 +22,24 @@ class DataStatePlayer @Inject constructor(
         serializer = DataPlayerSerializer
     )
 
+    private val playerData = context.playerDataStore
+
 
     override suspend fun getData(): PlayerEntityModel {
-        val playerData = context.playerDataStore
         return playerData.data.map {
             playerMapper.mapToDomain(it)
         }.first()
+    }
+
+    override suspend fun updateData(data: PlayerEntityModel) {
+        playerData.updateData {
+            it.copy(
+                time = data.time,
+                nameMusic = data.nameMusic,
+                idMusic = data.idMusic,
+                position = data.position
+            )
+        }
     }
 
 }

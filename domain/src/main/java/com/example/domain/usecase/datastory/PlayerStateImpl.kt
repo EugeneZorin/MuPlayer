@@ -12,4 +12,8 @@ class PlayerStateImpl (
     override suspend fun getData(): PlayerEntityModel {
         return playerStateDt.getData()
     }
+
+    override suspend fun updateData(data: PlayerEntityModel) {
+        playerStateDt.updateData(data)
+    }
 }

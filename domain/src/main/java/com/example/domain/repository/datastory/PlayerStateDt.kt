@@ -4,4 +4,5 @@ import com.example.domain.entity.PlayerEntityModel
 
 interface PlayerStateDt {
     suspend fun getData(): PlayerEntityModel
+    suspend fun updateData(data: PlayerEntityModel)
 }
