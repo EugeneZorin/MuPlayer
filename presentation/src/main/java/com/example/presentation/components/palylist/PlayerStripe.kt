@@ -29,13 +29,16 @@ import androidx.compose.ui.unit.dp
 import androidx.media3.common.MediaItem
 import androidx.media3.common.Player
 import androidx.media3.exoplayer.ExoPlayer
+import com.example.presentation.viewmodels.MainViewModel
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
 
 @Composable
-fun PlayerStripe() {
+fun PlayerStripe(
+
+) {
 
     val context = LocalContext.current
     val player = remember { mutableStateOf(ExoPlayer.Builder(context).build()) }

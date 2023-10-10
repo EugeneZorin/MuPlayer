@@ -14,6 +14,7 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.runtime.mutableFloatStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -24,13 +25,16 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavController
 import com.example.presentation.navigation.panel.BottomPanel
 import com.example.presentation.components.palylist.PlayerStripe
+import com.example.presentation.viewmodels.MainViewModel
 
 
 @Composable
-fun PlayerScreen() {
-
+fun PlayerScreen(
+    navController: NavController,
+) {
     Scaffold(
 
         containerColor = Color.White,
@@ -39,7 +43,6 @@ fun PlayerScreen() {
             Column {
                 BottomPanel()
             }
-
         },
 
         ) {
@@ -70,9 +73,9 @@ fun PlayerScreen() {
                 modifier = Modifier.padding(vertical = 15.dp, horizontal = 5.dp)
             ) {
 
-                Text(text = "Названия песни ")
+                Text(text = "Song titles: ")
                 Text(
-                    text = "Исполнитель - Неизвестен",
+                    text = "Performer - Unknown",
                     color = Color.Gray
                 )
             }
@@ -95,20 +98,6 @@ fun PlayerScreen() {
 
                         PlayerStripe()
 
-//                        Row(modifier = Modifier.fillMaxWidth()) {
-//                            Button(
-//                                onClick = { buttonPlayer = true },
-//
-//                                ) {
-//
-//                            }
-//
-//                            Button(
-//                                onClick = { buttonPlayer = false },
-//                            ) {
-//
-//                            }
-//                        }
                     }
 
 

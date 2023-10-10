@@ -23,6 +23,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavController
 import com.example.presentation.components.SearchView
 import com.example.presentation.components.palylist.Player
 import com.example.presentation.navigation.panel.BottomPanel
@@ -31,6 +32,7 @@ import com.example.presentation.viewmodels.MainViewModel
 @Composable
 fun MainScreen(
     mainViewModel: MainViewModel,
+    navController: NavController,
     modifier: Modifier = Modifier,
 ) {
 
@@ -82,7 +84,9 @@ fun MainScreen(
                     verticalArrangement = Arrangement.spacedBy(5.dp),
                     modifier = modifier
                         .padding(vertical = 5.dp, horizontal = 5.dp)
-                        .clickable() { }
+                        .clickable() {
+                            navController.navigate("player_screen")
+                        }
                 ) {
                     items(quantitiesMusic.value!!.size) {
                         Box(

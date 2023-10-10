@@ -5,7 +5,9 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import com.example.presentation.components.palylist.PlayerStripe
 import com.example.presentation.screen.MainScreen
+import com.example.presentation.screen.PlayerScreen
 import com.example.presentation.viewmodels.MainViewModel
 
 
@@ -17,7 +19,13 @@ fun NavigationGraph() {
 
     NavHost(navController = navController, startDestination = "main_screen") {
         composable("main_screen") {
-            MainScreen( mainViewModel = mainViewModel )
+            MainScreen( mainViewModel = mainViewModel, navController = navController )
+        }
+        composable("player_screen"){
+            PlayerScreen( navController = navController )
+        }
+        composable("player_stripe"){
+            PlayerStripe()
         }
     }
 }
