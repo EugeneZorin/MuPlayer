@@ -22,11 +22,8 @@ class MainViewModel @Inject constructor(
     private val _allMusic = MutableLiveData<List<CoreEntityModel>>()
     var allMusic: MutableLiveData<List<CoreEntityModel>> = _allMusic
 
-
     private suspend fun getAllMusic(){
         allMusic.value = useCaseCoreContract.getAllCore()
-
-
     }
 
     init {

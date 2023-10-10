@@ -36,52 +36,77 @@ android {
 
 dependencies {
 
-    implementation 'androidx.core:core-ktx:1.8.0'
-    implementation platform('org.jetbrains.kotlin:kotlin-bom:1.8.0')
-    implementation 'androidx.lifecycle:lifecycle-runtime-ktx:2.3.1'
-    implementation 'androidx.activity:activity-compose:1.5.1'
-    implementation platform('androidx.compose:compose-bom:2022.10.00')
+    implementation project(path: ':domain')
+
+    def hilt_version = "2.47"
+    def hilt_navigation_version = "1.1.0-alpha01"
+    def coroutines_version = "1.6.4"
+    def androidx_core_version = "1.8.0"
+    def lifecycle_runtime_version = "2.3.1"
+    def runtime_livedata_version = "1.5.2"
+    def activity_compose_version = "1.5.1"
+    def media3_version = "1.1.1"
+    def navigation_compose_version = "2.7.2"
+    def animation_version = "1.5.0"
+    def lottie_version = "6.0.1"
+    def material3_version = "1.1.1"
+    def compose_ui_version = "1.5.3"
+    
+
+    // Core
+    implementation "androidx.core:core-ktx:$androidx_core_version"
+    implementation "androidx.lifecycle:lifecycle-runtime-ktx:$lifecycle_runtime_version"
+    implementation "androidx.activity:activity-compose:$activity_compose_version"
+
+    // LiveData
+    implementation "androidx.compose.runtime:runtime-livedata:$runtime_livedata_version"
+
+    // Material3
+    implementation "androidx.compose.material3:material3:$material3_version"
+    implementation "androidx.compose.material3:material3-window-size-class:$material3_version"
+    implementation 'androidx.compose.material3:material3'
+
+    // ExoPlayer
+    implementation "androidx.media3:media3-exoplayer:$media3_version"
+    implementation "androidx.media3:media3-ui:$media3_version"
+
+    // Coroutines
+    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:$coroutines_version"
+
+    // Hilt
+    implementation "com.google.dagger:hilt-android:$hilt_version"
+    implementation "androidx.hilt:hilt-navigation-compose:$hilt_navigation_version"
+    kapt "com.google.dagger:hilt-compiler:$hilt_version"
+
+    // NavGraph
+    implementation "androidx.navigation:navigation-compose:$navigation_compose_version"
+
+
+    // Animation
+    implementation "androidx.compose.animation:animation:$animation_version"
+
+    implementation "com.airbnb.android:lottie-compose:$lottie_version"
+
+
+    // Compose
     implementation 'androidx.compose.ui:ui'
     implementation 'androidx.compose.ui:ui-graphics'
     implementation 'androidx.compose.ui:ui-tooling-preview'
-    implementation 'androidx.compose.material3:material3'
-    implementation 'androidx.media3:media3-exoplayer:1.1.1'
-    implementation project(path: ':domain')
-    implementation 'androidx.media3:media3-ui:1.1.1'
-    implementation 'com.google.firebase:firebase-firestore-ktx:24.7.1'
+    implementation "androidx.compose.ui:ui:$compose_ui_version"
+
+
+    debugImplementation 'androidx.compose.ui:ui-tooling'
+    debugImplementation 'androidx.compose.ui:ui-test-manifest'
+
+    // Test
     testImplementation 'junit:junit:4.13.2'
     androidTestImplementation 'androidx.test.ext:junit:1.1.5'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.5.1'
-    androidTestImplementation platform('androidx.compose:compose-bom:2022.10.00')
     androidTestImplementation 'androidx.compose.ui:ui-test-junit4'
-    debugImplementation 'androidx.compose.ui:ui-tooling'
-    debugImplementation 'androidx.compose.ui:ui-test-manifest'
-    implementation "androidx.compose.ui:ui:1.5.0"
 
 
-    // Coroutines
-    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:1.7.3"
-
-    // Hilt
-    implementation "com.google.dagger:hilt-android:2.44.2"
-    kapt "com.google.dagger:hilt-compiler:2.44.2"
-    implementation "androidx.hilt:hilt-navigation-compose:1.1.0-alpha01"
-
-    // NavGraph
-    implementation "androidx.navigation:navigation-compose:2.7.2"
-
-    //
-    implementation "com.airbnb.android:lottie-compose:6.0.1"
-    implementation "androidx.compose.animation:animation:1.5.0"
-
-    implementation "androidx.compose.material3:material3:1.1.1"
-    implementation "androidx.compose.material3:material3-window-size-class:1.1.1"
+    // ???
     implementation "androidx.palette:palette-ktx:1.0.0"
-
-    implementation "androidx.media3:media3-exoplayer:1.1.1"
-    implementation 'androidx.compose.runtime:runtime-livedata:1.5.2'
-    implementation "androidx.navigation:navigation-compose:2.7.3"
-    implementation 'androidx.hilt:hilt-navigation-compose:1.0.0'
 
 
 }
