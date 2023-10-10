@@ -3,5 +3,5 @@ package com.example.domain.usecase.datastory.contract
 import com.example.domain.entity.PlayerEntityModel
 
 interface PlayerStatePres {
-    suspend fun getData(): List<PlayerEntityModel>
+    suspend fun getData(): PlayerEntityModel
 }

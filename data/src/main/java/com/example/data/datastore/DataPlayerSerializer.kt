@@ -11,8 +11,8 @@ import java.io.OutputStream
 
 
 object DataPlayerSerializer: Serializer<PlayerData> {
-    override val defaultValue: PlayerData
-        get() = PlayerData()
+
+    override val defaultValue: PlayerData = PlayerData()
 
     override suspend fun readFrom(input: InputStream): PlayerData {
         try {
