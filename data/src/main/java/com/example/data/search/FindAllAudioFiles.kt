@@ -10,7 +10,6 @@ class FindAllAudioFiles @Inject constructor(
 ): FindAllAudioFilesContract {
      override fun findAllAudioFiles(): Map<String, String> {
 
-
         val uri = MediaStore.Audio.Media.EXTERNAL_CONTENT_URI
 
         val music: MutableMap<String, String> = mutableMapOf()
@@ -31,8 +30,6 @@ class FindAllAudioFiles @Inject constructor(
                 val path = it.getString(dataColumn)
                 music[title] = path
             }
-
-
         }
         return music
     }

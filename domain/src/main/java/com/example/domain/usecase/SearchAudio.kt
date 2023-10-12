@@ -5,13 +5,12 @@ import com.example.domain.usecase.room.contract.CoreContractPres
 import com.example.domain.usecase.search.FindAllAudioFilesContract
 import com.example.domain.usecase.search.SearchAudioContract
 
-class UseCaseSearchAudio (
+class SearchAudio (
     private val findAllAudioFilesContract: FindAllAudioFilesContract,
     private val useCaseCoreContract: CoreContractPres
 ) : SearchAudioContract {
-    override suspend fun searchFileContact(): Any {
-        val audioFiles = findAllAudioFilesContract.findAllAudioFiles()
-        return if (audioFiles.isEmpty()){
+    override suspend fun searchFileContact() {
+        try {
             findAllAudioFilesContract.findAllAudioFiles().forEach {
                 useCaseCoreContract.insertSong(
                     CoreEntityModel(
@@ -20,9 +19,8 @@ class UseCaseSearchAudio (
                     )
                 )
             }
-            audioFiles
-        } else {
-            false
+        } catch (exception: Exception){
+            throw exception
         }
     }
 }

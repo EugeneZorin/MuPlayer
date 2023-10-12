@@ -1,17 +1,10 @@
 package com.example.muplayer.di
 
-import android.content.Context
-import com.example.data.search.FindAllAudioFiles
-import com.example.domain.usecase.UseCaseSearchAudio
 import com.example.domain.usecase.datastory.contract.PlayerStatePres
-import com.example.domain.usecase.room.contract.CoreContractPres
-import com.example.domain.usecase.search.FindAllAudioFilesContract
-import com.example.domain.usecase.search.SearchAudioContract
 import com.example.presentation.viewmodels.ViewModelPlayer
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
-import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
 
 @Module

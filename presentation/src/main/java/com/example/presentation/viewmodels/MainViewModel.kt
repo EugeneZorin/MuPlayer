@@ -33,7 +33,7 @@ class MainViewModel @Inject constructor(
     }
 
 
-    /*fun updateData(it: Int){
+    fun updateData(it: Int){
         viewModelScope.launch {
             playerStatePres.updateData(
                 data = PlayerEntityModel(
@@ -43,7 +43,7 @@ class MainViewModel @Inject constructor(
                 )
             )
         }
-    }*/
+    }
 
 
 
@@ -52,9 +52,9 @@ class MainViewModel @Inject constructor(
 
 
         viewModelScope.launch {
+            val test = searchAudioContract.searchFileContact()
 
-            val set = searchAudioContract.searchFileContact()
-            Log.d("SSSSSSS","$set")
+
 
             getAllMusic()
 

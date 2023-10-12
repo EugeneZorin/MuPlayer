@@ -1,20 +1,16 @@
 package com.example.muplayer.di
 
-import android.content.ContentResolver
 import android.content.Context
 import com.example.data.datastore.DataStatePlayer
-import com.example.data.datastore.PlayerData
 import com.example.data.datastore.mappers.PlayerMapper
 import com.example.data.room.core.CoreDao
 import com.example.data.room.core.CoreEntity
 import com.example.data.room.repository.CoreRepositoryImplDt
 import com.example.data.search.FindAllAudioFiles
-import com.example.domain.entity.PlayerEntityModel
 import com.example.domain.repository.datastory.PlayerStateDt
 import com.example.domain.repository.mappers.CoreEntityMapper
-import com.example.domain.repository.mappers.PlayerDataMapper
 import com.example.domain.repository.room.CoreContractDt
-import com.example.domain.usecase.UseCaseSearchAudio
+import com.example.domain.usecase.SearchAudio
 import com.example.domain.usecase.datastory.PlayerStateImpl
 import com.example.domain.usecase.datastory.contract.PlayerStatePres
 import com.example.domain.usecase.room.UseCaseCore
@@ -45,7 +41,7 @@ object ShowAllMusicModule {
         findAllAudioFilesContract: FindAllAudioFilesContract,
         useCaseCoreContract: CoreContractPres
     ): SearchAudioContract {
-        return UseCaseSearchAudio(findAllAudioFilesContract, useCaseCoreContract)
+        return SearchAudio(findAllAudioFilesContract, useCaseCoreContract)
     }
 
     @Provides
