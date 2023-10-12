@@ -85,6 +85,7 @@ fun MainScreen(
                     modifier = modifier
                         .padding(vertical = 5.dp, horizontal = 5.dp)
                         .clickable() {
+
                             navController.navigate("player_screen")
                         }
                 ) {

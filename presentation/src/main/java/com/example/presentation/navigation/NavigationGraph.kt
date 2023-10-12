@@ -17,14 +17,16 @@ fun NavigationGraph() {
     val navController = rememberNavController()
     val mainViewModel = hiltViewModel<MainViewModel>()
 
-    NavHost(navController = navController, startDestination = "main_screen") {
-        composable("main_screen") {
+    NavHost(navController = navController, startDestination = MainScreens.MAIN_SCREE) {
+        composable(MainScreens.MAIN_SCREE) {
             MainScreen( mainViewModel = mainViewModel, navController = navController )
         }
-        composable("player_screen"){
+        composable(MainScreens.PLAYER_SCREEN){
             PlayerScreen( navController = navController )
         }
-        composable("player_stripe"){
+        composable(
+            MainScreens.PLAYER_STRIPE,
+        ){
             PlayerStripe()
         }
     }

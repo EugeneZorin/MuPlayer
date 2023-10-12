@@ -26,10 +26,14 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.media3.common.MediaItem
 import androidx.media3.common.Player
 import androidx.media3.exoplayer.ExoPlayer
 import com.example.presentation.viewmodels.MainViewModel
+import com.example.presentation.viewmodels.ViewModelPlayer
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
@@ -37,21 +41,30 @@ import kotlinx.coroutines.launch
 
 @Composable
 fun PlayerStripe(
-
+    viewModelPlayer: ViewModelPlayer = hiltViewModel(),
 ) {
 
     val context = LocalContext.current
+
     val player = remember { mutableStateOf(ExoPlayer.Builder(context).build()) }
-    var isPlaying by remember { mutableStateOf(false) }
+
+    var isPlaying by remember {
+        mutableStateOf(viewModelPlayer.playerStatus.value!!)
+    }
+
     val mediaItem =
         MediaItem.fromUri("/storage/emulated/0/Download/Overlord III - Opening _ VORACITY (320 kbps).mp3")
+
     val scope = rememberCoroutineScope()
+
     var job: Job? = null
+
     var offsetX by remember { mutableFloatStateOf(0f) }
     var progress by remember { mutableFloatStateOf(0f) }
 
     LaunchedEffect(isPlaying) {
         if (isPlaying) {
+
             job = scope.launch {
                 while (isPlaying) {
                     progress =
@@ -111,9 +124,7 @@ fun PlayerStripe(
 
                     offsetX += dragAmount.x
 
-                    player.value.seekTo((
-                            (offsetX * player.value.duration) / size.width).toLong()
-                    )
+                    player.value.seekTo(((offsetX * player.value.duration) / size.width).toLong())
                 }
             },
 

@@ -42,14 +42,14 @@ class MainViewModel @Inject constructor(
 
         viewModelScope.launch {
             delay(5000)
-            playerStatePres.updateData(
+            /*playerStatePres.updateData(
                 data = PlayerEntityModel(
-                    time = 100,
+                    time = 12000,
                     nameMusic = "Name",
-                    idMusic = "sdfwfwf",
-                    position = 10000
+                    idMusic = "/storage/emulated/0/Download/Overlord III - Opening _ VORACITY (320 kbps).mp3",
+                    position = 0
                 )
-            )
+            )*/
             val value = playerStatePres.getData()
             Log.d("check", "$value")
         }
