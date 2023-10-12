@@ -34,7 +34,6 @@ class DataStatePlayer @Inject constructor(
     override suspend fun updateData(data: PlayerEntityModel) {
         playerData.updateData {
             it.copy(
-                time = data.time,
                 nameMusic = data.nameMusic,
                 idMusic = data.idMusic,
                 position = data.position

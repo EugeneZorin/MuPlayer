@@ -23,22 +23,26 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
+import com.example.domain.entity.PlayerEntityModel
 import com.example.presentation.components.SearchView
 import com.example.presentation.components.palylist.Player
 import com.example.presentation.navigation.panel.BottomPanel
 import com.example.presentation.viewmodels.MainViewModel
+import com.example.presentation.viewmodels.ViewModelPlayer
 
 @Composable
 fun MainScreen(
     mainViewModel: MainViewModel,
     navController: NavController,
     modifier: Modifier = Modifier,
+    viewModelPlayer: ViewModelPlayer = hiltViewModel(),
 ) {
 
     var search by remember { mutableStateOf("") }
     val quantitiesMusic = mainViewModel.allMusic.observeAsState()
-
+    val test = viewModelPlayer.playerStatus.value
     Scaffold(
 
         topBar = {
@@ -84,10 +88,6 @@ fun MainScreen(
                     verticalArrangement = Arrangement.spacedBy(5.dp),
                     modifier = modifier
                         .padding(vertical = 5.dp, horizontal = 5.dp)
-                        .clickable() {
-
-                            navController.navigate("player_screen")
-                        }
                 ) {
                     items(quantitiesMusic.value!!.size) {
                         Box(
@@ -95,7 +95,11 @@ fun MainScreen(
                                 .clip(shape = RoundedCornerShape(10.dp))
                                 .background(Color(0xFFFBF7F7))
                                 .fillMaxWidth()
-                                .padding(14.dp),
+                                .clickable() {
+                                    /*mainViewModel.updateData(it)*/
+                                }
+                                .padding(14.dp)
+                                ,
                         ) {
                             Column {
                                 Text(text = quantitiesMusic.value!![it].nameMusic)

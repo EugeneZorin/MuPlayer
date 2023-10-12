@@ -94,16 +94,9 @@ fun PlayerScreen(
                         PlayerStripe()
 
                     }
-
-
                 }
-
             }
-
-
         }
-
-
     }
 }
 

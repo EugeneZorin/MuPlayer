@@ -1,27 +1,36 @@
 package com.example.muplayer.di
 
+import android.content.Context
+import com.example.data.search.FindAllAudioFiles
+import com.example.domain.usecase.UseCaseSearchAudio
+import com.example.domain.usecase.datastory.contract.PlayerStatePres
+import com.example.domain.usecase.room.contract.CoreContractPres
+import com.example.domain.usecase.search.FindAllAudioFilesContract
+import com.example.domain.usecase.search.SearchAudioContract
+import com.example.presentation.viewmodels.ViewModelPlayer
 import dagger.Module
+import dagger.Provides
 import dagger.hilt.InstallIn
+import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
 
 @Module
 @InstallIn(SingletonComponent::class)
 object SearchModule {
-/*
     @Provides
     fun provideViewModel(
-        searchAudioContract: SearchAudioContract,
-    ): MainViewModel {
-        return MainViewModel(searchAudioContract)
+        playerStatePres: PlayerStatePres,
+    ): ViewModelPlayer {
+        return ViewModelPlayer(playerStatePres)
     }
 
 
-    @Provides
+  /*  @Provides
     fun provideSearchAudioContract(
         findAllAudioFilesContract: FindAllAudioFilesContract,
-        useCaseCoreContract: UseCaseCoreContract,
+        useCaseCoreContract: CoreContractPres,
     ): SearchAudioContract {
-        return UseCaseFindAudio(findAllAudioFilesContract, useCaseCoreContract)
+        return UseCaseSearchAudio(findAllAudioFilesContract, useCaseCoreContract)
     }
 
 
@@ -30,9 +39,9 @@ object SearchModule {
         @ApplicationContext context: Context,
     ): FindAllAudioFilesContract {
         return FindAllAudioFiles(context.contentResolver)
-    }
+    }*/
 
-    @Provides
+   /* @Provides
     fun provideUseCaseCoreContract(
         coreContract: CoreContract
     ): UseCaseCoreContract {

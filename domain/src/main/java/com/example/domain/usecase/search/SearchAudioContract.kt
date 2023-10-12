@@ -1,5 +1,5 @@
 package com.example.domain.usecase.search
 
 interface SearchAudioContract {
-    suspend fun searchFileContact(): Boolean
+    suspend fun searchFileContact(): Any
 }

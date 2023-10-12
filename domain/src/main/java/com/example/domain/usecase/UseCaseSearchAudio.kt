@@ -9,7 +9,7 @@ class UseCaseSearchAudio (
     private val findAllAudioFilesContract: FindAllAudioFilesContract,
     private val useCaseCoreContract: CoreContractPres
 ) : SearchAudioContract {
-    override suspend fun searchFileContact(): Boolean {
+    override suspend fun searchFileContact(): Any {
         val audioFiles = findAllAudioFilesContract.findAllAudioFiles()
         return if (audioFiles.isEmpty()){
             findAllAudioFilesContract.findAllAudioFiles().forEach {
@@ -20,7 +20,7 @@ class UseCaseSearchAudio (
                     )
                 )
             }
-            true
+            audioFiles
         } else {
             false
         }
