@@ -17,6 +17,8 @@ fun NavigationGraph() {
     val navController = rememberNavController()
     val mainViewModel = hiltViewModel<MainViewModel>()
 
+    
+
     NavHost(navController = navController, startDestination = MainScreens.MAIN_SCREE) {
         composable(MainScreens.MAIN_SCREE) {
             MainScreen( mainViewModel = mainViewModel, navController = navController )

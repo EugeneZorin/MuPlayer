@@ -24,6 +24,7 @@ class ViewModelPlayer @Inject constructor(
     val playerStatus: MutableLiveData<Boolean> = _playerStatus
 
 
+
     init {
 
         viewModelScope.launch {
@@ -31,6 +32,7 @@ class ViewModelPlayer @Inject constructor(
         }
 
     }
+
 
 
 

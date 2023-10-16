@@ -13,24 +13,25 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
-import com.example.presentation.navigation.panel.BottomPanel
 import com.example.presentation.components.palylist.PlayerStripe
-import com.example.presentation.viewmodels.MainViewModel
+import com.example.presentation.navigation.panel.BottomPanel
 
 
 @Composable
 fun PlayerScreen(
     navController: NavController,
 ) {
+
+
+
     Scaffold(
+
 
         containerColor = Color.White,
 
@@ -90,7 +91,6 @@ fun PlayerScreen(
                         modifier = Modifier
                             .fillMaxWidth()
                     ) {
-
                         PlayerStripe()
 
                     }

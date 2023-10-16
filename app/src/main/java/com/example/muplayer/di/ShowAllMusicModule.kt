@@ -17,6 +17,7 @@ import com.example.domain.usecase.room.UseCaseCore
 import com.example.domain.usecase.room.contract.CoreContractPres
 import com.example.domain.usecase.search.FindAllAudioFilesContract
 import com.example.domain.usecase.search.SearchAudioContract
+import com.example.muplayer.permissions.PermissionManager
 import com.example.presentation.viewmodels.MainViewModel
 import dagger.Module
 import dagger.Provides
@@ -43,6 +44,7 @@ object ShowAllMusicModule {
     ): SearchAudioContract {
         return SearchAudio(findAllAudioFilesContract, useCaseCoreContract)
     }
+
 
     @Provides
     fun provideFindAllAudio(
