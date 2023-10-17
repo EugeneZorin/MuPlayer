@@ -1,5 +1,9 @@
 package com.example.presentation.screen
 
+import android.Manifest
+import androidx.activity.compose.rememberLauncherForActivityResult
+import androidx.activity.result.ActivityResultLauncher
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -29,6 +33,7 @@ import com.example.domain.entity.PlayerEntityModel
 import com.example.presentation.components.SearchView
 import com.example.presentation.components.palylist.Player
 import com.example.presentation.navigation.panel.BottomPanel
+import com.example.presentation.permissions.GetPermission
 import com.example.presentation.viewmodels.MainViewModel
 import com.example.presentation.viewmodels.ViewModelPlayer
 
@@ -42,9 +47,11 @@ fun MainScreen(
 
 
 
+
+
     var search by remember { mutableStateOf("") }
     val quantitiesMusic = mainViewModel.allMusic.observeAsState()
-    val test = viewModelPlayer.playerStatus.value
+
     Scaffold(
 
         topBar = {
@@ -62,6 +69,7 @@ fun MainScreen(
             Column {
                 Player()
                 BottomPanel()
+
             }
 
         },
@@ -83,7 +91,9 @@ fun MainScreen(
                     text = "Works: ${quantitiesMusic.value?.size}",
                     color = Color.Gray
                 )
+
             }
+
 
             if (quantitiesMusic.value?.size != null) {
                 LazyColumn(
