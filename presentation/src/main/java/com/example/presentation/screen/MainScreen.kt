@@ -33,7 +33,7 @@ import com.example.domain.entity.PlayerEntityModel
 import com.example.presentation.components.SearchView
 import com.example.presentation.components.palylist.Player
 import com.example.presentation.navigation.panel.BottomPanel
-import com.example.presentation.permissions.GetPermission
+import com.example.presentation.permissions.RequestPermission
 import com.example.presentation.viewmodels.MainViewModel
 import com.example.presentation.viewmodels.ViewModelPlayer
 
@@ -45,13 +45,10 @@ fun MainScreen(
     viewModelPlayer: ViewModelPlayer = hiltViewModel(),
 ) {
 
-
-
-
-
     var search by remember { mutableStateOf("") }
     val quantitiesMusic = mainViewModel.allMusic.observeAsState()
 
+    RequestPermission(mainViewModel = mainViewModel, requestPermission = Manifest.permission.READ_EXTERNAL_STORAGE)
     Scaffold(
 
         topBar = {

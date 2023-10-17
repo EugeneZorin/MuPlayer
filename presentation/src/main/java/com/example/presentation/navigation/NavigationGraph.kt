@@ -7,7 +7,6 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.example.presentation.components.palylist.PlayerStripe
-import com.example.presentation.permissions.GetPermission
 import com.example.presentation.screen.MainScreen
 import com.example.presentation.screen.PlayerScreen
 import com.example.presentation.viewmodels.MainViewModel

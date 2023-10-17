@@ -55,7 +55,7 @@ class MainViewModel @Inject constructor(
         }
     }
 
-    // add new permission
+    // Add new permission
     fun onPermissionGet(
         permission: String,
         granted: Boolean

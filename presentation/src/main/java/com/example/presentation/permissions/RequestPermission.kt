@@ -1,25 +1,37 @@
 package com.example.presentation.permissions
 
 import android.Manifest
+import android.app.Activity
 import androidx.activity.compose.rememberLauncherForActivityResult
-import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.DisposableEffect
 import com.example.presentation.viewmodels.MainViewModel
 
 @Composable
-fun GetPermission(
-    mainViewModel: MainViewModel
+fun RequestPermission(
+    mainViewModel: MainViewModel,
+    requestPermission: String
 ) {
 
-    // Request permission fro search audio files
-    val readExternalStorage = rememberLauncherForActivityResult(
+    val launcher = rememberLauncherForActivityResult(
         contract = ActivityResultContracts.RequestPermission(),
-        onResult = {
+        onResult = { isGranted ->
             mainViewModel.onPermissionGet(
-                permission = Manifest.permission.READ_EXTERNAL_STORAGE,
-                granted = it
+                permission = requestPermission,
+                granted = isGranted
             )
         }
     )
+
+    DisposableEffect(Unit) {
+        launcher.launch(requestPermission)
+        onDispose { }
+    }
 }
+
+
+
+
+
+
