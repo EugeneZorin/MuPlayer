@@ -1,9 +1,6 @@
 package com.example.presentation.screen
 
 import android.Manifest
-import androidx.activity.compose.rememberLauncherForActivityResult
-import androidx.activity.result.ActivityResultLauncher
-import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -50,7 +47,6 @@ fun MainScreen(
 
     RequestPermission(mainViewModel = mainViewModel, requestPermission = Manifest.permission.READ_EXTERNAL_STORAGE)
     Scaffold(
-
         topBar = {
             Column(
                 modifier = modifier.fillMaxWidth(),

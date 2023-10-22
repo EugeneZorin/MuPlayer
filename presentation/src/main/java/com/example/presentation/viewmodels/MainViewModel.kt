@@ -22,9 +22,6 @@ class MainViewModel @Inject constructor(
     private val playerStatePres: PlayerStatePres,
 ): ViewModel() {
 
-    private val _permissions = mutableStateListOf<String>()
-    private val permissions = _permissions
-
 
     private val _allMusic = MutableLiveData<List<CoreEntityModel>>()
     var allMusic: MutableLiveData<List<CoreEntityModel>> = _allMusic
@@ -55,6 +52,14 @@ class MainViewModel @Inject constructor(
         }
     }
 
+    // Permission bloc
+    private val _permissions = mutableStateListOf<String>()
+    private val permissions = _permissions
+
+    fun dismissDialog() {
+        permissions.removeFirst()
+    }
+
     // Add new permission
     fun onPermissionGet(
         permission: String,
@@ -64,6 +69,7 @@ class MainViewModel @Inject constructor(
             permissions.add(permission)
         }
     }
+
 
 
 }
