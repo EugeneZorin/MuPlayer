@@ -54,7 +54,7 @@ class MainViewModel @Inject constructor(
 
     // Permission bloc
     private val _permissions = mutableStateListOf<String>()
-    private val permissions = _permissions
+    val permissions = _permissions
 
     fun dismissDialog() {
         permissions.removeFirst()

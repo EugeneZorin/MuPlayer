@@ -45,7 +45,6 @@ fun MainScreen(
     var search by remember { mutableStateOf("") }
     val quantitiesMusic = mainViewModel.allMusic.observeAsState()
 
-    RequestPermission(mainViewModel = mainViewModel, requestPermission = Manifest.permission.READ_EXTERNAL_STORAGE)
     Scaffold(
         topBar = {
             Column(
