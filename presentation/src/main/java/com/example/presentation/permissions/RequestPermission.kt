@@ -25,6 +25,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
@@ -49,8 +50,6 @@ fun RequestPermission(
     val dialog = mainViewModel.permissions
 
 
-    Log.d("permission", "${shouldShowRequestPermissionRationale(context, requestPermission)}")
-
     val launcher = rememberLauncherForActivityResult(
         contract = ActivityResultContracts.RequestPermission(),
         onResult = { isGranted ->
@@ -58,6 +57,11 @@ fun RequestPermission(
                 permission = requestPermission,
                 granted = isGranted
             )
+            if (isGranted) {
+                navController.navigate(MainScreens.MAIN_SCREE)
+            }
+
+
         }
     )
 
@@ -65,7 +69,6 @@ fun RequestPermission(
         launcher.launch(requestPermission)
         onDispose {  }
     }
-
 
     dialog.reversed().forEach {
         AlertDialog(
@@ -84,7 +87,7 @@ fun RequestPermission(
                     modifier = Modifier
                         .fillMaxWidth()
                         .clickable {
-                            if (!shouldShowRequestPermissionRationale(context, it)) {
+                            if (shouldShowRequestPermissionRationale(context, it)) {
                                 context.openAppSetting()
                             } else {
                                 launcher.launch(requestPermission)
@@ -95,7 +98,6 @@ fun RequestPermission(
             },
         )
     }
-
 }
 
 fun Activity.openAppSetting() {
