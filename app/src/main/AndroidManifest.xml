@@ -17,6 +17,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.MuPlayer"
+        android:requestLegacyExternalStorage="true"
         tools:targetApi="31">
         <service
             android:name="com.example.presentation.service.PlayerService"

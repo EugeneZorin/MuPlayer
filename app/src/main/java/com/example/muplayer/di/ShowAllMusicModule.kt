@@ -3,13 +3,17 @@ package com.example.muplayer.di
 import android.content.Context
 import com.example.data.datastore.DataStatePlayer
 import com.example.data.datastore.mappers.PlayerMapper
+import com.example.data.preferences.FirstRun
 import com.example.data.room.core.CoreDao
 import com.example.data.room.core.CoreEntity
 import com.example.data.room.repository.CoreRepositoryImplDt
 import com.example.data.search.FindAllAudioFiles
 import com.example.domain.repository.datastory.PlayerStateDt
 import com.example.domain.repository.mappers.CoreEntityMapper
+import com.example.domain.repository.preferences.FirstRinDt
+import com.example.domain.repository.preferences.FirstRunPres
 import com.example.domain.repository.room.CoreContractDt
+import com.example.domain.usecase.preferences.FirstRunImpl
 import com.example.domain.usecase.SearchAudio
 import com.example.domain.usecase.datastory.PlayerStateImpl
 import com.example.domain.usecase.datastory.contract.PlayerStatePres
@@ -31,8 +35,24 @@ object ShowAllMusicModule {
     fun provideViewModel(
         useCaseCoreContract: CoreContractPres,
         playerStatePres: PlayerStatePres,
+        searchAudioContract: SearchAudioContract,
+        firstRunPres: FirstRunPres
     ): MainViewModel {
-        return MainViewModel(useCaseCoreContract, playerStatePres)
+        return MainViewModel(useCaseCoreContract, playerStatePres, searchAudioContract, firstRunPres)
+    }
+
+    @Provides
+    fun provideFirstRunImpl(
+        firstRinDt: FirstRinDt
+    ): FirstRunPres{
+        return FirstRunImpl(firstRinDt)
+    }
+
+    @Provides
+    fun provideFirstRun(
+        @ApplicationContext context: Context
+    ): FirstRinDt {
+        return FirstRun(context)
     }
 
     @Provides

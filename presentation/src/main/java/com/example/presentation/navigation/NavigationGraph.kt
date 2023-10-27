@@ -1,6 +1,5 @@
 package com.example.presentation.navigation
 
-import android.content.Context
 import androidx.compose.runtime.Composable
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.compose.NavHost
@@ -26,7 +25,7 @@ fun NavigationGraph() {
         composable(MainScreens.PERMISSION_REQUEST) {
             RequestPermission(
                 mainViewModel = mainViewModel,
-                requestPermission = Permissions.requestPermission,
+                requestPermission = Permissions.readExternalPermission,
                 navController = navController,
             )
         }

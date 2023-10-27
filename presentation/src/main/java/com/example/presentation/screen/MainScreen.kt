@@ -1,6 +1,7 @@
 package com.example.presentation.screen
 
 import android.Manifest
+import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -45,6 +46,8 @@ fun MainScreen(
     var search by remember { mutableStateOf("") }
     val quantitiesMusic = mainViewModel.allMusic.observeAsState()
 
+    Log.d("quantitiesMusic", "${quantitiesMusic.value}")
+
     Scaffold(
         topBar = {
             Column(
@@ -61,9 +64,7 @@ fun MainScreen(
             Column {
                 Player()
                 BottomPanel()
-
             }
-
         },
 
     ) {
@@ -100,7 +101,7 @@ fun MainScreen(
                                 .background(Color(0xFFFBF7F7))
                                 .fillMaxWidth()
                                 .clickable() {
-                                    /*mainViewModel.updateData(it)*/
+                                    mainViewModel.updateData(it)
                                 }
                                 .padding(14.dp)
                                 ,

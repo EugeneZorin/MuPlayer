@@ -12,11 +12,12 @@ class FindAllAudioFiles @Inject constructor(
 
         val uri = MediaStore.Audio.Media.EXTERNAL_CONTENT_URI
 
+
         val music: MutableMap<String, String> = mutableMapOf()
 
         val projection = arrayOf(
             MediaStore.Audio.Media.TITLE,
-            MediaStore.Audio.Media.DATA
+            MediaStore.Audio.Media.DATA,
         )
 
         val cursor = contentResolver.query(uri, projection, null, null, null)

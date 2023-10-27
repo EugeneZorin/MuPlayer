@@ -14,6 +14,7 @@ import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
@@ -23,6 +24,9 @@ import androidx.core.app.ActivityCompat.shouldShowRequestPermissionRationale
 import androidx.navigation.NavController
 import com.example.presentation.navigation.MainScreens
 import com.example.presentation.viewmodels.MainViewModel
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.runBlocking
+import kotlinx.coroutines.withContext
 
 @Composable
 fun RequestPermission(
@@ -38,15 +42,16 @@ fun RequestPermission(
     val launcher = rememberLauncherForActivityResult(
         contract = ActivityResultContracts.RequestPermission(),
         onResult = { isGranted ->
-            mainViewModel.onPermissionGet(
-                permission = requestPermission,
-                granted = isGranted
-            )
-            if (isGranted) {
-                navController.navigate(MainScreens.MAIN_SCREE)
+            runBlocking  {
+                mainViewModel.onPermissionGet(
+                    permission = requestPermission,
+                    granted = isGranted
+                )
+                if (isGranted) {
+                    mainViewModel.firstRun()
+                    navController.navigate(MainScreens.MAIN_SCREE)
+                }
             }
-
-
         }
     )
 

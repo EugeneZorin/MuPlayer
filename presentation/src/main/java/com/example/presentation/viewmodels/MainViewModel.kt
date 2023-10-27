@@ -2,17 +2,16 @@ package com.example.presentation.viewmodels
 
 import android.util.Log
 import androidx.compose.runtime.mutableStateListOf
-import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.domain.entity.CoreEntityModel
 import com.example.domain.entity.PlayerEntityModel
+import com.example.domain.repository.preferences.FirstRunPres
 import com.example.domain.usecase.datastory.contract.PlayerStatePres
 import com.example.domain.usecase.room.contract.CoreContractPres
 import com.example.domain.usecase.search.SearchAudioContract
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -20,6 +19,8 @@ import javax.inject.Inject
 class MainViewModel @Inject constructor(
     private val useCaseCoreContract: CoreContractPres,
     private val playerStatePres: PlayerStatePres,
+    private val searchAudioContract: SearchAudioContract,
+    private val firstRunPres: FirstRunPres
 ): ViewModel() {
 
 
@@ -52,7 +53,19 @@ class MainViewModel @Inject constructor(
         }
     }
 
+    // Check first run
+    suspend fun firstRun(){
+        // Search for audio files on the device
+        if (firstRunPres.isFirstRun()){
+            searchAudioContract.searchFileContact()
+        }
+
+        firstRunPres.setFirstRun(false)
+    }
+
+
     // Permission bloc
+
     private val _permissions = mutableStateListOf<String>()
     val permissions = _permissions
 
