@@ -7,10 +7,12 @@ import javax.inject.Inject
 
 class FindAllAudioFiles @Inject constructor(
     private val contentResolver: ContentResolver,
-): FindAllAudioFilesContract {
-     override fun findAllAudioFiles(): Map<String, String> {
+) : FindAllAudioFilesContract {
+    override fun findAllAudioFiles(): Map<String, String> {
 
         val uri = MediaStore.Audio.Media.EXTERNAL_CONTENT_URI
+        val selection = "${MediaStore.Audio.Media.DURATION} >= ?"
+        val selectionArgs = arrayOf(45000.toString())
 
 
         val music: MutableMap<String, String> = mutableMapOf()
@@ -20,7 +22,7 @@ class FindAllAudioFiles @Inject constructor(
             MediaStore.Audio.Media.DATA,
         )
 
-        val cursor = contentResolver.query(uri, projection, null, null, null)
+        val cursor = contentResolver.query(uri, projection, selection, selectionArgs, null)
 
         cursor?.use {
             val titleColumn = it.getColumnIndexOrThrow(MediaStore.Audio.Media.TITLE)
