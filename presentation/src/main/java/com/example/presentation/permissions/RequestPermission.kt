@@ -1,5 +1,6 @@
 package com.example.presentation.permissions
 
+import android.Manifest
 import android.app.Activity
 import android.content.Intent
 import android.net.Uri
@@ -47,6 +48,7 @@ fun RequestPermission(
                     permission = requestPermission,
                     granted = isGranted
                 )
+
                 if (isGranted) {
                     mainViewModel.firstRun()
                     navController.navigate(MainScreens.MAIN_SCREE)
@@ -89,6 +91,7 @@ fun RequestPermission(
                                 context.openAppSetting()
                             } else {
                                 launcher.launch(requestPermission)
+
                             }
                         }
                         .padding(16.dp)

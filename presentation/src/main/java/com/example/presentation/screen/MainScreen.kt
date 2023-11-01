@@ -1,7 +1,9 @@
 package com.example.presentation.screen
 
-import android.Manifest
-import android.util.Log
+import android.app.Activity
+import android.content.Intent
+import android.os.Build
+import androidx.annotation.RequiresApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -24,29 +26,28 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
-import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
-import com.example.domain.entity.PlayerEntityModel
 import com.example.presentation.components.SearchView
 import com.example.presentation.components.palylist.Player
 import com.example.presentation.navigation.panel.BottomPanel
-import com.example.presentation.permissions.RequestPermission
+import com.example.presentation.service.PlayerService
 import com.example.presentation.viewmodels.MainViewModel
-import com.example.presentation.viewmodels.ViewModelPlayer
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
 
+@RequiresApi(Build.VERSION_CODES.O)
 @Composable
 fun MainScreen(
     mainViewModel: MainViewModel,
     navController: NavController,
     modifier: Modifier = Modifier,
-    viewModelPlayer: ViewModelPlayer = hiltViewModel(),
 ) {
 
     var search by remember { mutableStateOf("") }
     val quantitiesMusic = mainViewModel.allMusic.observeAsState()
-
-    Log.d("quantitiesMusic", "${quantitiesMusic.value}")
+    val context = LocalContext.current
 
     Scaffold(
         topBar = {
@@ -62,7 +63,7 @@ fun MainScreen(
 
         bottomBar = {
             Column {
-                Player()
+               /* Player()*/
                 BottomPanel()
             }
         },
@@ -102,12 +103,17 @@ fun MainScreen(
                                 .fillMaxWidth()
                                 .clickable() {
                                     mainViewModel.updateData(it)
+                                    Intent(context, PlayerService::class.java).also { item ->
+                                        item.action = PlayerService.Actions.START.toString()
+                                        context.startForegroundService(item)
+                                    }
                                 }
                                 .padding(14.dp)
                                 ,
                         ) {
                             Column {
                                 Text(text = quantitiesMusic.value!![it].nameMusic)
+                                Player(it, quantitiesMusic)
                                 Text(
                                     text = "Performer - Unknown",
                                     color = Color.Gray
