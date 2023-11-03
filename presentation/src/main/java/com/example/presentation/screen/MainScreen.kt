@@ -104,7 +104,6 @@ fun MainScreen(
                                 .clickable() {
                                     mainViewModel.updateData(it)
                                     Intent(context, PlayerService::class.java).also { item ->
-                                        item.action = PlayerService.Actions.START.toString()
                                         context.startForegroundService(item)
                                     }
                                 }
