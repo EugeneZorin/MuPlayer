@@ -44,7 +44,7 @@ fun PlayerStripe(
     viewModelPlayer: ViewModelPlayer = hiltViewModel(),
 ) {
 
-    val context = LocalContext.current
+    /*val context = LocalContext.current
 
     val player = remember { mutableStateOf(ExoPlayer.Builder(context).build()) }
 
@@ -154,7 +154,7 @@ fun PlayerStripe(
             size = Size((size.width * progress).coerceIn(0f, size.width), 4.dp.toPx()),
         )
 
-    }
+    }*/
 }
 
 
