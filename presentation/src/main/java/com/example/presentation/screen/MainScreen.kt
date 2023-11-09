@@ -1,6 +1,5 @@
 package com.example.presentation.screen
 
-import android.app.Activity
 import android.content.Intent
 import android.os.Build
 import androidx.annotation.RequiresApi
@@ -34,8 +33,6 @@ import com.example.presentation.components.palylist.Player
 import com.example.presentation.navigation.panel.BottomPanel
 import com.example.presentation.service.PlayerService
 import com.example.presentation.viewmodels.MainViewModel
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.launch
 
 @RequiresApi(Build.VERSION_CODES.O)
 @Composable
@@ -68,7 +65,7 @@ fun MainScreen(
             }
         },
 
-    ) {
+    ) { it ->
         Column(
             modifier = modifier
                 .fillMaxSize()
@@ -103,8 +100,8 @@ fun MainScreen(
                                 .fillMaxWidth()
                                 .clickable() {
                                     mainViewModel.updateData(it)
-                                    Intent(context, PlayerService::class.java).also { item ->
-                                        context.startForegroundService(item)
+                                    Intent(context, PlayerService::class.java).also { service ->
+                                        context.startService(service)
                                     }
                                 }
                                 .padding(14.dp)

@@ -45,6 +45,8 @@ class MainViewModel @Inject constructor(
             )
         }
     }
+
+
     init {
         viewModelScope.launch {
             getAllMusic()

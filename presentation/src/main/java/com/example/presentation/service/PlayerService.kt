@@ -10,83 +10,67 @@ import android.os.Build
 import android.os.IBinder
 import android.util.Log
 import androidx.core.app.NotificationCompat
-import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.MutableLiveData
 import androidx.media3.common.MediaItem
 import androidx.media3.exoplayer.ExoPlayer
+import com.example.domain.entity.CoreEntityModel
 import com.example.domain.entity.PlayerEntityModel
+import com.example.domain.usecase.datastory.contract.PlayerStatePres
 import com.example.presentation.R
-import com.example.presentation.viewmodels.ViewModelPlayer
+import dagger.hilt.android.AndroidEntryPoint
+import dagger.hilt.android.components.ServiceComponent
+import dagger.hilt.android.scopes.ServiceScoped
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.Job
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
+import javax.inject.Inject
+
 
 class PlayerService: Service() {
 
-    private lateinit var viewModelPlayer: ViewModelPlayer
-    private lateinit var job: Job
+    @Inject lateinit var playerStatePres: PlayerStatePres
+
     private lateinit var player: ExoPlayer
     private lateinit var mediaItem: MediaItem
 
-
-
     override fun onCreate() {
         super.onCreate()
+
+
+        CoroutineScope(Dispatchers.Main).launch {
+            val text = playerStatePres.getData()
+        }
+
         player = ExoPlayer.Builder(this).build()
-        viewModelPlayer = ViewModelProvider
-            .AndroidViewModelFactory
-            .getInstance(application)
-            .create(ViewModelPlayer::class.java)
-        job = Job()
-        mediaItem = MediaItem.fromUri("/storage/emulated/0/Download/Overlord III - Opening _ VORACITY (320 kbps).mp3")
-
-    }
+        mediaItem = MediaItem.fromUri("/storage/emulated/0/Music/Iosif_Kobzon_-_I_vnov_prodolzhaetsya_boj_(TheMP3.Info).mp3")
 
 
-    private fun updatePlayerState(newState: PlayerEntityModel) {
-        viewModelPlayer.updatePlayerState(newState)
     }
 
 
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
+
+
         val notification = createNotification()
         startForeground(1, notification)
-      /*  startMusicPlayer()*/
 
-        return START_NOT_STICKY
+
+        CoroutineScope(Dispatchers.Main).launch {
+
+
+            player.setMediaItem(mediaItem)
+            player.prepare()
+            player.play()
+        }
+
+
+        return START_STICKY
     }
 
 
     override fun onBind(p0: Intent?): IBinder? {
         return null
     }
-
-
-    private fun startMusicPlayer() {
-        if (viewModelPlayer.pauseState.value == true) {
-
-            CoroutineScope(Dispatchers.Main + job).launch {
-                while (viewModelPlayer.pauseState.value == true) {
-                    viewModelPlayer.process.value =
-                        player.currentPosition.toFloat() / player.duration.toFloat()
-                    delay(16)
-                }
-            }
-
-        }
-
-        CoroutineScope(Dispatchers.IO).launch {
-            player.setMediaItem(mediaItem)
-            player.prepare()
-        }
-    }
-
-    override fun onDestroy() {
-        super.onDestroy()
-        job.cancel()
-    }
-
 
 
     private fun createNotification(): Notification {
@@ -112,7 +96,4 @@ class PlayerService: Service() {
             manager.createNotificationChannel(serviceChannel)
         }
     }
-
-
-
 }
