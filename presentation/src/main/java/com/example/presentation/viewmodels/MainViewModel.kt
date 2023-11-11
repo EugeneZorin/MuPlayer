@@ -34,6 +34,7 @@ class MainViewModel @Inject constructor(
     suspend fun getData(): PlayerEntityModel {
         return playerStatePres.getData()
     }
+
     fun updateData(it: Int){
         viewModelScope.launch {
             playerStatePres.updateData(

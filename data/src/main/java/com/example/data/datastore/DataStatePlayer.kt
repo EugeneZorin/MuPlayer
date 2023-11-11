@@ -13,7 +13,7 @@ import javax.inject.Inject
 
 
 class DataStatePlayer @Inject constructor(
-    private val context: Context,
+    context: Context,
     private val playerMapper: PlayerMapper
 ): PlayerStateDt {
 

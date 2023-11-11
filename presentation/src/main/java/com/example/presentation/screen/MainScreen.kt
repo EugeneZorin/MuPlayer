@@ -101,6 +101,7 @@ fun MainScreen(
                                 .clickable() {
                                     mainViewModel.updateData(it)
                                     Intent(context, PlayerService::class.java).also { service ->
+                                        service.putExtra("id_music", it)
                                         context.startService(service)
                                     }
                                 }

@@ -10,7 +10,6 @@ import android.os.Build
 import android.os.IBinder
 import android.util.Log
 import androidx.core.app.NotificationCompat
-import androidx.lifecycle.MutableLiveData
 import androidx.media3.common.MediaItem
 import androidx.media3.exoplayer.ExoPlayer
 import com.example.domain.entity.CoreEntityModel
@@ -25,21 +24,20 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
-
+@AndroidEntryPoint
 class PlayerService: Service() {
 
-    @Inject lateinit var playerStatePres: PlayerStatePres
+
+    @Inject
+    lateinit var playerStatePres: PlayerStatePres
 
     private lateinit var player: ExoPlayer
     private lateinit var mediaItem: MediaItem
 
+
     override fun onCreate() {
         super.onCreate()
 
-
-        CoroutineScope(Dispatchers.Main).launch {
-            val text = playerStatePres.getData()
-        }
 
         player = ExoPlayer.Builder(this).build()
         mediaItem = MediaItem.fromUri("/storage/emulated/0/Music/Iosif_Kobzon_-_I_vnov_prodolzhaetsya_boj_(TheMP3.Info).mp3")
@@ -50,18 +48,26 @@ class PlayerService: Service() {
 
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
 
+        val music = intent?.getStringExtra("id_music").toString()
+
+        Log.d("sdfaf","$music")
+
 
         val notification = createNotification()
         startForeground(1, notification)
 
 
-        CoroutineScope(Dispatchers.Main).launch {
+        /*CoroutineScope(Dispatchers.Main).launch {
 
+
+            mediaItem = MediaItem.fromUri(playerStatePres
+                .getData()
+                .idMusic[intent?.getStringExtra("id_music")!!.toInt()].toString())
 
             player.setMediaItem(mediaItem)
             player.prepare()
             player.play()
-        }
+        }*/
 
 
         return START_STICKY
