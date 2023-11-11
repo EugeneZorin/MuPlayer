@@ -9,6 +9,7 @@ import android.content.Intent
 import android.os.Build
 import android.os.IBinder
 import android.util.Log
+import android.widget.Toast
 import androidx.core.app.NotificationCompat
 import androidx.media3.common.MediaItem
 import androidx.media3.exoplayer.ExoPlayer
@@ -21,6 +22,7 @@ import dagger.hilt.android.components.ServiceComponent
 import dagger.hilt.android.scopes.ServiceScoped
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -39,14 +41,16 @@ class PlayerService: Service() {
         player = ExoPlayer.Builder(this).build()
     }
 
-
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
 
         val notification = createNotification()
         startForeground(1, notification)
 
-        CoroutineScope(Dispatchers.Main).launch {
+        CoroutineScope(Dispatchers.Main).launch{
             mediaItem = MediaItem.fromUri(playerStatePres.getData().idMusic)
+        }
+
+        CoroutineScope(Dispatchers.Main).launch {
             player.setMediaItem(mediaItem)
             player.prepare()
             player.play()
@@ -55,6 +59,10 @@ class PlayerService: Service() {
         return START_STICKY
     }
 
+    override fun onTaskRemoved(rootIntent: Intent?) {
+        player.stop()
+        stopSelf()
+    }
 
     override fun onBind(p0: Intent?): IBinder? {
         return null
