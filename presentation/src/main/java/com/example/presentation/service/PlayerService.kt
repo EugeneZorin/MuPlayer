@@ -39,16 +39,19 @@ class PlayerService: Service() {
     override fun onCreate() {
         super.onCreate()
         player = ExoPlayer.Builder(this).build()
-    }
-
-    override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
-
-        val notification = createNotification()
-        startForeground(1, notification)
 
         CoroutineScope(Dispatchers.Main).launch{
             mediaItem = MediaItem.fromUri(playerStatePres.getData().idMusic)
         }
+
+
+    }
+
+    override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
+
+        val notification = notification()
+        startForeground(1, notification)
+
 
         CoroutineScope(Dispatchers.Main).launch {
             player.setMediaItem(mediaItem)
@@ -68,6 +71,17 @@ class PlayerService: Service() {
         return null
     }
 
+
+    private fun notification(): Notification {
+
+        val notification = NotificationCompat.Builder(this, "channelId")
+            .setVisibility(NotificationCompat.VISIBILITY_PUBLIC)
+            .setSmallIcon(R.drawable.ic_launcher_foreground)
+            .setContentTitle("Wonderful music")
+            .setContentText("My Awesome Band")
+
+        return notification.build()
+    }
 
     private fun createNotification(): Notification {
         createNotificationChannel()

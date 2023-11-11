@@ -52,7 +52,8 @@ dependencies {
     def lottie_version = "6.0.1"
     def material3_version = "1.1.1"
     def compose_ui_version = "1.5.3"
-    
+    def androidx_media = "1.6.0"
+
 
     // Core
     implementation "androidx.core:core-ktx:$androidx_core_version"
@@ -66,6 +67,8 @@ dependencies {
     implementation "androidx.compose.material3:material3:$material3_version"
     implementation "androidx.compose.material3:material3-window-size-class:$material3_version"
     implementation 'androidx.compose.material3:material3'
+
+    implementation "androidx.media:media:$androidx_media"
 
     // ExoPlayer
     implementation "androidx.media3:media3-exoplayer:$media3_version"
