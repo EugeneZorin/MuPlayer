@@ -101,12 +101,10 @@ fun MainScreen(
                                 .clickable() {
                                     mainViewModel.updateData(it)
                                     Intent(context, PlayerService::class.java).also { service ->
-                                        service.putExtra("id_music", it)
-                                        context.startService(service)
+                                        context.startForegroundService(service)
                                     }
                                 }
                                 .padding(14.dp)
-                                ,
                         ) {
                             Column {
                                 Text(text = quantitiesMusic.value!![it].nameMusic)

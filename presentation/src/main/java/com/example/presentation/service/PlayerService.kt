@@ -27,7 +27,6 @@ import javax.inject.Inject
 @AndroidEntryPoint
 class PlayerService: Service() {
 
-
     @Inject
     lateinit var playerStatePres: PlayerStatePres
 
@@ -37,38 +36,21 @@ class PlayerService: Service() {
 
     override fun onCreate() {
         super.onCreate()
-
-
         player = ExoPlayer.Builder(this).build()
-        mediaItem = MediaItem.fromUri("/storage/emulated/0/Music/Iosif_Kobzon_-_I_vnov_prodolzhaetsya_boj_(TheMP3.Info).mp3")
-
-
     }
 
 
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
 
-        val music = intent?.getStringExtra("id_music").toString()
-
-        Log.d("sdfaf","$music")
-
-
         val notification = createNotification()
         startForeground(1, notification)
 
-
-        /*CoroutineScope(Dispatchers.Main).launch {
-
-
-            mediaItem = MediaItem.fromUri(playerStatePres
-                .getData()
-                .idMusic[intent?.getStringExtra("id_music")!!.toInt()].toString())
-
+        CoroutineScope(Dispatchers.Main).launch {
+            mediaItem = MediaItem.fromUri(playerStatePres.getData().idMusic)
             player.setMediaItem(mediaItem)
             player.prepare()
             player.play()
-        }*/
-
+        }
 
         return START_STICKY
     }
