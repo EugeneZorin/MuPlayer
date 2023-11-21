@@ -23,6 +23,7 @@ import com.example.domain.entity.PlayerEntityModel
 import com.example.domain.usecase.datastory.contract.PlayerStatePres
 import com.example.domain.usecase.room.contract.CoreContractPres
 import com.example.presentation.R
+import com.example.presentation.service.smusic.MusicSwitchContract
 import dagger.hilt.android.AndroidEntryPoint
 import dagger.hilt.android.components.ServiceComponent
 import dagger.hilt.android.scopes.ServiceScoped
@@ -37,6 +38,9 @@ class PlayerService : Service()  {
 
     @Inject
     lateinit var playerStatePres: PlayerStatePres
+
+    @Inject
+    lateinit var musicSwitchContract: MusicSwitchContract
 
     private lateinit var player: ExoPlayer
     private lateinit var mediaItem: MediaItem
@@ -67,19 +71,19 @@ class PlayerService : Service()  {
         val notification = notification()
         startForeground(1, notification)
 
-
-        when(intent?.action){
-            ACTION_PAUSE -> {
-                player.pause()
-            }
-            ACTION_PLAY -> {
-                player.play()
-            }
-            ACTION_NEXT -> {
-                TODO()
+        CoroutineScope(Dispatchers.Main).launch {
+            when(intent?.action){
+                ACTION_PAUSE -> {
+                    player.pause()
+                }
+                ACTION_PLAY -> {
+                    player.play()
+                }
+                ACTION_NEXT -> {
+                    musicSwitchContract.nextMusic()
+                }
             }
         }
-
 
 
         return START_STICKY

@@ -21,8 +21,8 @@ import com.example.domain.usecase.room.UseCaseCore
 import com.example.domain.usecase.room.contract.CoreContractPres
 import com.example.domain.usecase.search.FindAllAudioFilesContract
 import com.example.domain.usecase.search.SearchAudioContract
-import com.example.presentation.service.MusicSwitch
-import com.example.presentation.service.PlayerService
+import com.example.presentation.service.smusic.MusicSwitch
+import com.example.presentation.service.smusic.MusicSwitchContract
 import com.example.presentation.viewmodels.MainViewModel
 import dagger.Module
 import dagger.Provides
@@ -108,7 +108,7 @@ object ShowAllMusicModule {
     fun provideMusicSwitch(
         playerStatePres: PlayerStatePres,
         useCaseCoreContract: CoreContractPres
-    ): MusicSwitch{
+    ): MusicSwitchContract {
         return MusicSwitch(playerStatePres, useCaseCoreContract)
     }
 

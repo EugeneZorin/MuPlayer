@@ -23,7 +23,6 @@ class MainViewModel @Inject constructor(
     private val firstRunPres: FirstRunPres
 ): ViewModel() {
 
-
     private val _allMusic = MutableLiveData<List<CoreEntityModel>>()
     var allMusic: MutableLiveData<List<CoreEntityModel>> = _allMusic
 
