@@ -7,29 +7,18 @@ import android.app.PendingIntent
 import android.app.Service
 import android.content.Context
 import android.content.Intent
-import android.media.session.MediaSession
 import android.os.Build
 import android.os.IBinder
 import android.util.Log
-import android.widget.Toast
 import androidx.core.app.NotificationCompat
-import androidx.media3.common.AudioAttributes
-import androidx.media3.common.ForwardingPlayer
 import androidx.media3.common.MediaItem
-import androidx.media3.common.Player
 import androidx.media3.exoplayer.ExoPlayer
-import com.example.domain.entity.CoreEntityModel
-import com.example.domain.entity.PlayerEntityModel
 import com.example.domain.usecase.datastory.contract.PlayerStatePres
-import com.example.domain.usecase.room.contract.CoreContractPres
 import com.example.presentation.R
 import com.example.presentation.service.smusic.MusicSwitchContract
 import dagger.hilt.android.AndroidEntryPoint
-import dagger.hilt.android.components.ServiceComponent
-import dagger.hilt.android.scopes.ServiceScoped
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -51,25 +40,24 @@ class PlayerService : Service()  {
         player = ExoPlayer.Builder(this).build()
 
 
-
-        CoroutineScope(Dispatchers.Main).launch {
-
-            mediaItem = MediaItem.fromUri(playerStatePres.getData().idMusic)
-
-            player.setMediaItem(mediaItem)
-            player.prepare()
-            player.play()
-
-
-        }
-
     }
 
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
 
+        CoroutineScope(Dispatchers.Main).launch {
+            mediaItem = MediaItem.fromUri(playerStatePres.getData().idMusic)
+            player.setMediaItem(mediaItem)
+            player.prepare()
+        }
+
+        CoroutineScope(Dispatchers.Main).launch {
+            player.play()
+        }
 
         val notification = notification()
-        startForeground(2, notification)
+        startForeground(1, notification)
+
+
 
         CoroutineScope(Dispatchers.Main).launch {
             when(intent?.action){
@@ -101,7 +89,7 @@ class PlayerService : Service()  {
 
     private fun notification(): Notification {
 
-        val playIntent = Intent(this, PlayerService::class.java).apply {
+         val playIntent = Intent(this, PlayerService::class.java).apply {
             action = ACTION_PLAY
         }
 
@@ -123,9 +111,8 @@ class PlayerService : Service()  {
         val nextPendingIntent = PendingIntent.getService(
             this, 2, nextIntent, PendingIntent.FLAG_UPDATE_CURRENT
         )
-
-
-        val notification = NotificationCompat.Builder(this, "your_channel_id")
+        createNotificationChannel()
+        return NotificationCompat.Builder(this, "CHANNEL_ID")
             .setVisibility(NotificationCompat.VISIBILITY_PUBLIC)
             .setSmallIcon(R.drawable.ic_launcher_foreground)
             .addAction(R.drawable.queue_music, "Play", playPendingIntent)
@@ -133,10 +120,20 @@ class PlayerService : Service()  {
             .addAction(R.drawable.queue_music, "Next", nextPendingIntent)
             .setContentTitle("Wonderful music")
             .setContentText("My Awesome Band")
-
-        return notification.build()
+            .build()
     }
 
+
+    private fun createNotificationChannel() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            val name = "music"
+            val importance = NotificationManager.IMPORTANCE_MIN
+            val channel = NotificationChannel("CHANNEL_ID", name, importance)
+            val notificationManager: NotificationManager =
+                getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+            notificationManager.createNotificationChannel(channel)
+        }
+    }
 
     companion object {
         const val ACTION_PLAY = "ACTION_PLAY"

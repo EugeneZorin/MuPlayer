@@ -40,7 +40,7 @@ class MainViewModel @Inject constructor(
                 data = PlayerEntityModel(
                     nameMusic = allMusic.value!![it].nameMusic,
                     idMusic = allMusic.value!![it].idMusic,
-                    position = 0
+                    position = allMusic.value!![it].id!!
                 )
             )
         }
