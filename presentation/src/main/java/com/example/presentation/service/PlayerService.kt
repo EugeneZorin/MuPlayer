@@ -69,7 +69,7 @@ class PlayerService : Service()  {
 
 
         val notification = notification()
-        startForeground(1, notification)
+        startForeground(2, notification)
 
         CoroutineScope(Dispatchers.Main).launch {
             when(intent?.action){
@@ -125,7 +125,7 @@ class PlayerService : Service()  {
         )
 
 
-        val notification = NotificationCompat.Builder(this, "channelId")
+        val notification = NotificationCompat.Builder(this, "your_channel_id")
             .setVisibility(NotificationCompat.VISIBILITY_PUBLIC)
             .setSmallIcon(R.drawable.ic_launcher_foreground)
             .addAction(R.drawable.queue_music, "Play", playPendingIntent)
