@@ -19,8 +19,12 @@ import com.example.presentation.service.smusic.MusicSwitchContract
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.isActive
+import kotlinx.coroutines.job
 import kotlinx.coroutines.launch
 import javax.inject.Inject
+import kotlin.coroutines.coroutineContext
 
 @AndroidEntryPoint
 class PlayerService : Service()  {
@@ -33,13 +37,13 @@ class PlayerService : Service()  {
 
     private lateinit var player: ExoPlayer
     private lateinit var mediaItem: MediaItem
+    private lateinit var nameMusic: String
 
 
     override fun onCreate() {
         super.onCreate()
+
         player = ExoPlayer.Builder(this).build()
-
-
     }
 
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
@@ -48,18 +52,16 @@ class PlayerService : Service()  {
             mediaItem = MediaItem.fromUri(playerStatePres.getData().idMusic)
             player.setMediaItem(mediaItem)
             player.prepare()
-        }
-
-        CoroutineScope(Dispatchers.Main).launch {
             player.play()
         }
 
-        val notification = notification()
-        startForeground(1, notification)
-
-
-
         CoroutineScope(Dispatchers.Main).launch {
+            nameMusic = playerStatePres.getData().nameMusic
+            val notification = notification()
+            startForeground(1, notification)
+        }
+
+        CoroutineScope(Dispatchers.IO).launch {
             when(intent?.action){
                 ACTION_PAUSE -> {
                     player.pause()
@@ -72,7 +74,6 @@ class PlayerService : Service()  {
                 }
             }
         }
-
 
         return START_STICKY
     }
@@ -118,7 +119,7 @@ class PlayerService : Service()  {
             .addAction(R.drawable.queue_music, "Play", playPendingIntent)
             .addAction(R.drawable.queue_music, "Pause", pausePendingIntent)
             .addAction(R.drawable.queue_music, "Next", nextPendingIntent)
-            .setContentTitle("Wonderful music")
+            .setContentTitle(nameMusic)
             .setContentText("My Awesome Band")
             .build()
     }

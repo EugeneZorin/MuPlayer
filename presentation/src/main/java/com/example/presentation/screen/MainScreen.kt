@@ -33,6 +33,10 @@ import com.example.presentation.components.palylist.Player
 import com.example.presentation.navigation.panel.BottomPanel
 import com.example.presentation.service.PlayerService
 import com.example.presentation.viewmodels.MainViewModel
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.coroutineScope
+import kotlinx.coroutines.launch
 
 @RequiresApi(Build.VERSION_CODES.O)
 @Composable
@@ -99,9 +103,11 @@ fun MainScreen(
                                 .background(Color(0xFFFBF7F7))
                                 .fillMaxWidth()
                                 .clickable() {
-                                    mainViewModel.updateData(it)
-                                    Intent(context, PlayerService::class.java).also { service ->
-                                        context.startForegroundService(service)
+                                    CoroutineScope(Dispatchers.IO).launch {
+                                        mainViewModel.updateData(it)
+                                        Intent(context, PlayerService::class.java).also { service ->
+                                            context.startForegroundService(service)
+                                        }
                                     }
                                 }
                                 .padding(14.dp)
