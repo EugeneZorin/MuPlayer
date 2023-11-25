@@ -9,7 +9,6 @@ import android.content.Context
 import android.content.Intent
 import android.os.Build
 import android.os.IBinder
-import android.util.Log
 import androidx.core.app.NotificationCompat
 import androidx.media3.common.MediaItem
 import androidx.media3.exoplayer.ExoPlayer
@@ -19,12 +18,10 @@ import com.example.presentation.service.smusic.MusicSwitchContract
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.async
 import kotlinx.coroutines.delay
-import kotlinx.coroutines.isActive
-import kotlinx.coroutines.job
 import kotlinx.coroutines.launch
 import javax.inject.Inject
-import kotlin.coroutines.coroutineContext
 
 @AndroidEntryPoint
 class PlayerService : Service()  {
@@ -56,12 +53,13 @@ class PlayerService : Service()  {
         }
 
         CoroutineScope(Dispatchers.Main).launch {
+
             nameMusic = playerStatePres.getData().nameMusic
             val notification = notification()
             startForeground(1, notification)
         }
 
-        CoroutineScope(Dispatchers.IO).launch {
+        CoroutineScope(Dispatchers.Main).launch {
             when(intent?.action){
                 ACTION_PAUSE -> {
                     player.pause()

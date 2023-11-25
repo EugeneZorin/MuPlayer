@@ -104,10 +104,13 @@ fun MainScreen(
                                 .fillMaxWidth()
                                 .clickable() {
                                     CoroutineScope(Dispatchers.IO).launch {
+
                                         mainViewModel.updateData(it)
+
                                         Intent(context, PlayerService::class.java).also { service ->
                                             context.startForegroundService(service)
                                         }
+
                                     }
                                 }
                                 .padding(14.dp)

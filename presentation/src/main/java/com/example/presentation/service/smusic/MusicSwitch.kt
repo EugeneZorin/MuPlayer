@@ -16,34 +16,30 @@ class MusicSwitch @Inject constructor(
     private var useCaseCoreContract: CoreContractPres,
 ) : MusicSwitchContract {
 
-    override suspend fun nextMusic(){
+    override suspend fun nextMusic() = withContext(Dispatchers.IO){
 
-        if ((getPosition().toInt()) == getAllData().size){
+        // Current player position
+        val currentPosition = playerStatePres.getData().position
+
+        // All database
+        val allData = useCaseCoreContract.getAllCore()
+
+        if ((currentPosition.toInt()) == allData.size){
             playerStatePres.updateData(
                 data = PlayerEntityModel(
-                    nameMusic = getAllData()[0].nameMusic,
-                    idMusic = getAllData()[0].idMusic,
-                    position = getAllData()[0].id!!
+                    nameMusic = allData[0].nameMusic,
+                    idMusic = allData[0].idMusic,
+                    position = allData[0].id!!
                 )
             )
         } else {
             playerStatePres.updateData(
                 data = PlayerEntityModel(
-                    nameMusic = getAllData()[getPosition().toInt()].nameMusic,
-                    idMusic = getAllData()[getPosition().toInt()].idMusic,
-                    position = getAllData()[getPosition().toInt()].id!!
+                    nameMusic = allData[currentPosition.toInt()].nameMusic,
+                    idMusic = allData[currentPosition.toInt()].idMusic,
+                    position = allData[currentPosition.toInt()].id!!
                 )
             )
         }
-    }
-
-    // Current player position
-    private suspend fun getPosition() = withContext(Dispatchers.IO){
-        return@withContext playerStatePres.getData().position
-    }
-
-    // All database
-    private suspend fun getAllData() = withContext(Dispatchers.IO){
-        return@withContext useCaseCoreContract.getAllCore()
     }
 }
