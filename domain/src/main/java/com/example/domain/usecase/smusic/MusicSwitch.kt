@@ -1,19 +1,17 @@
-package com.example.presentation.service.smusic
+package com.example.domain.usecase.smusic
 
 import com.example.domain.entity.CoreEntityModel
 import com.example.domain.entity.PlayerEntityModel
+import com.example.domain.repository.smusic.MusicSwitchPres
 import com.example.domain.usecase.datastory.contract.PlayerStatePres
 import com.example.domain.usecase.room.contract.CoreContractPres
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.withContext
-import javax.inject.Inject
 
-class MusicSwitch @Inject constructor(
+class MusicSwitch (
     private var playerStatePres: PlayerStatePres,
     private var useCaseCoreContract: CoreContractPres,
-) : MusicSwitchContract {
+) : MusicSwitchPres {
 
-    override suspend fun nextMusic() = withContext(Dispatchers.Main){
+    override suspend fun nextMusic() {
 
         // Current player position
         val currentPosition = playerStatePres.getData().position

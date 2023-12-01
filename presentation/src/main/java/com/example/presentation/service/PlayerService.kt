@@ -12,14 +12,12 @@ import android.os.IBinder
 import androidx.core.app.NotificationCompat
 import androidx.media3.common.MediaItem
 import androidx.media3.exoplayer.ExoPlayer
+import com.example.domain.repository.smusic.MusicSwitchPres
 import com.example.domain.usecase.datastory.contract.PlayerStatePres
 import com.example.presentation.R
-import com.example.presentation.service.smusic.MusicSwitchContract
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.async
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -32,7 +30,7 @@ class PlayerService : Service()  {
 
     // Track changes on the next
     @Inject
-    lateinit var musicSwitchContract: MusicSwitchContract
+    lateinit var musicSwitchContract: MusicSwitchPres
 
     private lateinit var player: ExoPlayer
     private lateinit var mediaItem: MediaItem
