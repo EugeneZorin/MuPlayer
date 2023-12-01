@@ -26,9 +26,11 @@ import javax.inject.Inject
 @AndroidEntryPoint
 class PlayerService : Service()  {
 
+    // Getting data from the database
     @Inject
     lateinit var playerStatePres: PlayerStatePres
 
+    // Track changes on the next
     @Inject
     lateinit var musicSwitchContract: MusicSwitchContract
 
@@ -36,25 +38,33 @@ class PlayerService : Service()  {
     private lateinit var mediaItem: MediaItem
     private lateinit var nameMusic: String
 
-
     override fun onCreate() {
         super.onCreate()
-
+        // Initializing the ExoPlayer
         player = ExoPlayer.Builder(this).build()
     }
 
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
 
         CoroutineScope(Dispatchers.Main).launch {
+
+            // Switches to the next track in the list
+            when(intent?.action){
+                ACTION_NEXT -> {
+                    musicSwitchContract.nextMusic()
+                }
+            }
+
+            // Data is taken from the database to display on the screen and play music
             mediaItem = MediaItem.fromUri(playerStatePres.getData().idMusic)
+            nameMusic = playerStatePres.getData().nameMusic
+
+            // Initializing the ExoPlayer
             player.setMediaItem(mediaItem)
             player.prepare()
             player.play()
-        }
 
-        CoroutineScope(Dispatchers.Main).launch {
-
-            nameMusic = playerStatePres.getData().nameMusic
+            // Initializing the notification
             val notification = notification()
             startForeground(1, notification)
         }
@@ -66,9 +76,6 @@ class PlayerService : Service()  {
                 }
                 ACTION_PLAY -> {
                     player.play()
-                }
-                ACTION_NEXT -> {
-                    musicSwitchContract.nextMusic()
                 }
             }
         }
@@ -88,6 +95,7 @@ class PlayerService : Service()  {
 
     private fun notification(): Notification {
 
+        // Implementation of switching music tracks and setting pause or play
          val playIntent = Intent(this, PlayerService::class.java).apply {
             action = ACTION_PLAY
         }
@@ -110,8 +118,11 @@ class PlayerService : Service()  {
         val nextPendingIntent = PendingIntent.getService(
             this, 2, nextIntent, PendingIntent.FLAG_UPDATE_CURRENT
         )
+        // NotificationManager
         createNotificationChannel()
-        return NotificationCompat.Builder(this, "CHANNEL_ID")
+
+        // Notification
+        return NotificationCompat.Builder(this, ID)
             .setVisibility(NotificationCompat.VISIBILITY_PUBLIC)
             .setSmallIcon(R.drawable.ic_launcher_foreground)
             .addAction(R.drawable.queue_music, "Play", playPendingIntent)
@@ -122,12 +133,12 @@ class PlayerService : Service()  {
             .build()
     }
 
-
+    // NotificationManager
     private fun createNotificationChannel() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             val name = "music"
             val importance = NotificationManager.IMPORTANCE_MIN
-            val channel = NotificationChannel("CHANNEL_ID", name, importance)
+            val channel = NotificationChannel(ID, name, importance)
             val notificationManager: NotificationManager =
                 getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
             notificationManager.createNotificationChannel(channel)
@@ -138,5 +149,9 @@ class PlayerService : Service()  {
         const val ACTION_PLAY = "ACTION_PLAY"
         const val ACTION_PAUSE = "ACTION_PAUSE"
         const val ACTION_NEXT = "ACTION_NEXT"
+
+        const val ID = "CHANNEL_ID"
     }
+
+
 }
