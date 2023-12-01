@@ -31,6 +31,26 @@ class MusicSwitch (
 
     }
 
+    override suspend fun backMusic() {
+
+        // Current player position
+        val currentPosition = playerStatePres.getData().position
+
+        // All database
+        val allData = useCaseCoreContract.getAllCore()
+
+        try {
+            if ((currentPosition.toInt()) == allData.size){
+                updateEntityModel(ZERO, allData)
+            } else {
+                updateEntityModel(currentPosition.toInt(), allData)
+            }
+        } catch (e: Exception){
+            errorHandler(e)
+        }
+
+    }
+
     private suspend fun updateEntityModel(it: Int, allData: List<CoreEntityModel>){
         playerStatePres.updateData(
             data = PlayerEntityModel(

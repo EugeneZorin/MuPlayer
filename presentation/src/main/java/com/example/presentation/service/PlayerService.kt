@@ -7,6 +7,7 @@ import android.app.PendingIntent
 import android.app.Service
 import android.content.Context
 import android.content.Intent
+import android.graphics.BitmapFactory
 import android.os.Build
 import android.os.IBinder
 import androidx.core.app.NotificationCompat
@@ -19,6 +20,7 @@ import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import java.io.File
 import javax.inject.Inject
 
 @AndroidEntryPoint
@@ -116,16 +118,28 @@ class PlayerService : Service()  {
         val nextPendingIntent = PendingIntent.getService(
             this, 2, nextIntent, PendingIntent.FLAG_UPDATE_CURRENT
         )
+
+        val backIntent = Intent(this, PlayerService::class.java).apply {
+            action = ACTION_NEXT
+        }
+        val backPendingIntent = PendingIntent.getService(
+            this, 3, backIntent, PendingIntent.FLAG_UPDATE_CURRENT
+        )
         // NotificationManager
         createNotificationChannel()
 
+
         // Notification
         return NotificationCompat.Builder(this, ID)
+            .setColor(1000)
+            .setStyle(androidx.media.app.NotificationCompat.MediaStyle()
+                .setShowActionsInCompactView(1)
+            )
             .setVisibility(NotificationCompat.VISIBILITY_PUBLIC)
-            .setSmallIcon(R.drawable.ic_launcher_foreground)
-            .addAction(R.drawable.queue_music, "Play", playPendingIntent)
-            .addAction(R.drawable.queue_music, "Pause", pausePendingIntent)
-            .addAction(R.drawable.queue_music, "Next", nextPendingIntent)
+            .setSmallIcon(R.drawable.baseline_library_music_24)
+            .addAction(R.drawable.baseline_skip_previous_24, "back", nextPendingIntent)
+            .addAction(R.drawable.baseline_pause, "switch", pausePendingIntent)
+            .addAction(R.drawable.baseline_skip_next, "next", backPendingIntent)
             .setContentTitle(nameMusic)
             .setContentText("My Awesome Band")
             .build()
