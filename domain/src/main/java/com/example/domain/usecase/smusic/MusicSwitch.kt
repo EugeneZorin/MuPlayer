@@ -26,7 +26,7 @@ class MusicSwitch (
                 updateEntityModel(currentPosition.toInt(), allData)
             }
         } catch (e: Exception){
-            errorHandler(e)
+            errorNextHandler(e)
         }
 
     }
@@ -34,19 +34,19 @@ class MusicSwitch (
     override suspend fun backMusic() {
 
         // Current player position
-        val currentPosition = playerStatePres.getData().position
+        val currentPosition = playerStatePres.getData().position - TWO
 
         // All database
         val allData = useCaseCoreContract.getAllCore()
 
         try {
-            if ((currentPosition.toInt()) == allData.size){
-                updateEntityModel(ZERO, allData)
+            if ((currentPosition.toInt()) < ZERO){
+                updateEntityModel(allData.size - ONE , allData)
             } else {
                 updateEntityModel(currentPosition.toInt(), allData)
             }
         } catch (e: Exception){
-            errorHandler(e)
+            errorBackHandler(e)
         }
 
     }
@@ -61,11 +61,16 @@ class MusicSwitch (
         )
     }
 
-    private fun errorHandler(e: Exception) {
-        println("Error update PlayerEntityModel in MusicSwitch ${e.message}")
+    private fun errorNextHandler(e: Exception) {
+        println("Error update PlayerEntityModel in MusicSwitch (nextMusic): ${e.message}")
+    }
+    private fun errorBackHandler(e: Exception) {
+        println("Error update PlayerEntityModel in MusicSwitch (backMusic): ${e.message}")
     }
 
     companion object {
         const val ZERO = 0
+        const val ONE = 1
+        const val TWO = 2
     }
 }

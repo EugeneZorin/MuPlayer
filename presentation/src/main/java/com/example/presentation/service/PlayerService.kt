@@ -53,6 +53,9 @@ class PlayerService : Service()  {
                 ACTION_NEXT -> {
                     musicSwitchContract.nextMusic()
                 }
+                ACTION_BACK -> {
+                    musicSwitchContract.backMusic()
+                }
             }
 
             // Data is taken from the database to display on the screen and play music
@@ -120,7 +123,7 @@ class PlayerService : Service()  {
         )
 
         val backIntent = Intent(this, PlayerService::class.java).apply {
-            action = ACTION_NEXT
+            action = ACTION_BACK
         }
         val backPendingIntent = PendingIntent.getService(
             this, 3, backIntent, PendingIntent.FLAG_UPDATE_CURRENT
@@ -137,9 +140,9 @@ class PlayerService : Service()  {
             )
             .setVisibility(NotificationCompat.VISIBILITY_PUBLIC)
             .setSmallIcon(R.drawable.baseline_library_music_24)
-            .addAction(R.drawable.baseline_skip_previous_24, "back", nextPendingIntent)
-            .addAction(R.drawable.baseline_pause, "switch", pausePendingIntent)
-            .addAction(R.drawable.baseline_skip_next, "next", backPendingIntent)
+            .addAction(R.drawable.baseline_skip_previous_24, NEXT, backPendingIntent)
+            .addAction(R.drawable.baseline_pause, SWITCH, pausePendingIntent)
+            .addAction(R.drawable.baseline_skip_next, BACK, nextPendingIntent)
             .setContentTitle(nameMusic)
             .setContentText("My Awesome Band")
             .build()
@@ -161,8 +164,13 @@ class PlayerService : Service()  {
         const val ACTION_PLAY = "ACTION_PLAY"
         const val ACTION_PAUSE = "ACTION_PAUSE"
         const val ACTION_NEXT = "ACTION_NEXT"
+        const val ACTION_BACK = "ACTION_BACK"
 
         const val ID = "CHANNEL_ID"
+
+        const val NEXT = "next"
+        const val SWITCH = "switch"
+        const val BACK = "back"
     }
 
 
