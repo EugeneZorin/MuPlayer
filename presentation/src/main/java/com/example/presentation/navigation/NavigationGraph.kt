@@ -1,5 +1,7 @@
 package com.example.presentation.navigation
 
+import android.os.Build
+import androidx.annotation.RequiresApi
 import androidx.compose.runtime.Composable
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.compose.NavHost
@@ -13,6 +15,7 @@ import com.example.presentation.screen.PlayerScreen
 import com.example.presentation.viewmodels.MainViewModel
 
 
+@RequiresApi(Build.VERSION_CODES.O)
 @Composable
 fun NavigationGraph() {
 

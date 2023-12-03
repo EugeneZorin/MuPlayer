@@ -1,5 +1,6 @@
 package com.example.data.room.core
 
+import androidx.lifecycle.LiveData
 import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
@@ -18,5 +19,8 @@ interface CoreDao {
 
     @Query("SELECT * FROM core_entity")
     suspend fun getAllCore(): List<CoreEntity>
+
+    @Query("SELECT * FROM core_entity")
+    fun allCore(): LiveData<List<CoreEntity>>
 
 }

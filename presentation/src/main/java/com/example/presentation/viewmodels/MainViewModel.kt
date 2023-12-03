@@ -1,6 +1,7 @@
 package com.example.presentation.viewmodels
 
 import android.util.Log
+import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.runtime.mutableStateListOf
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -15,6 +16,7 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CoroutineName
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
@@ -30,17 +32,21 @@ class MainViewModel @Inject constructor(
     private val _allMusic = MutableLiveData<List<CoreEntityModel>>()
     var allMusic: MutableLiveData<List<CoreEntityModel>> = _allMusic
 
+    private var _getData = MutableLiveData<PlayerEntityModel>()
+    val getData: MutableLiveData<PlayerEntityModel> = _getData
+
+
+
+
+
     private suspend fun getAllMusic() {
         _allMusic.value = useCaseCoreContract.getAllCore()
-    }
-
-    suspend fun getData(): PlayerEntityModel {
-        return playerStatePres.getData()
     }
 
     suspend fun updateData(it: Int) = withContext(
         viewModelScope.coroutineContext
     ) {
+
         playerStatePres.updateData(
             data = PlayerEntityModel(
                 nameMusic = allMusic.value!![it].nameMusic,
@@ -48,14 +54,15 @@ class MainViewModel @Inject constructor(
                 position = allMusic.value!![it].id!!
             )
         )
+
+        _getData.value = playerStatePres.getData()
+
     }
 
 
     init {
         viewModelScope.launch {
             getAllMusic()
-            val value = playerStatePres.getData()
-            Log.d("value_check", "$value")
         }
     }
 

@@ -18,22 +18,30 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavController
 import com.example.domain.entity.CoreEntityModel
 import com.example.presentation.R
+import com.example.presentation.navigation.MainScreens
 
 @Composable
 fun Player(
     it: Int,
-    quantitiesMusic: State<List<CoreEntityModel>?>
+    quantitiesMusic: State<List<CoreEntityModel>?>,
+    navController: NavController,
 ) {
 
+    val position = it - 1
+    val music = quantitiesMusic.value!!
 
     Column(
         modifier = Modifier
             .background(Color(0xFFE1EAF2))
-            .fillMaxWidth(),
+            .fillMaxWidth()
+            .clickable {
+                navController.navigate(MainScreens.PLAYER_STRIPE)
+            }
+        ,
     ) {
-
 
 
         Row(
@@ -44,7 +52,7 @@ fun Player(
         ) {
 
             Column {
-                Text(text = quantitiesMusic.value!![it].nameMusic)
+                Text(text = music[position].nameMusic)
                 Text(
                     text = "Performer - Unknown",
                     color = Color.Gray
@@ -68,7 +76,9 @@ fun Player(
                         contentDescription = null,
                         modifier = Modifier
                             .size(30.dp)
-                            .clickable { }
+                            .clickable {
+
+                            }
                     )
                 }
 
@@ -78,7 +88,9 @@ fun Player(
                         contentDescription = null,
                         modifier = Modifier
                             .size(30.dp)
-                            .clickable { }
+                            .clickable {
+
+                            }
                     )
                 }
             }

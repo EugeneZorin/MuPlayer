@@ -2,6 +2,7 @@ package com.example.presentation.screen
 
 import android.content.Intent
 import android.os.Build
+import android.util.Log
 import androidx.annotation.RequiresApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -16,6 +17,7 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.runtime.mutableStateOf
@@ -35,7 +37,6 @@ import com.example.presentation.service.PlayerService
 import com.example.presentation.viewmodels.MainViewModel
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.launch
 
 @RequiresApi(Build.VERSION_CODES.O)
@@ -48,7 +49,12 @@ fun MainScreen(
 
     var search by remember { mutableStateOf("") }
     val quantitiesMusic = mainViewModel.allMusic.observeAsState()
+    val position = mainViewModel.getData.observeAsState()
     val context = LocalContext.current
+
+
+
+
 
     Scaffold(
         topBar = {
@@ -64,10 +70,15 @@ fun MainScreen(
 
         bottomBar = {
             Column {
-               /* Player()*/
+               if (position.value != null) {
+                   Player(
+                       position.value?.position!!.toInt(), quantitiesMusic, navController
+                   )
+               }
+
                 BottomPanel()
             }
-        },
+        }
 
     ) { it ->
         Column(
@@ -104,20 +115,16 @@ fun MainScreen(
                                 .fillMaxWidth()
                                 .clickable() {
                                     CoroutineScope(Dispatchers.IO).launch {
-
                                         mainViewModel.updateData(it)
-
                                         Intent(context, PlayerService::class.java).also { service ->
                                             context.startForegroundService(service)
                                         }
-
                                     }
                                 }
                                 .padding(14.dp)
                         ) {
                             Column {
                                 Text(text = quantitiesMusic.value!![it].nameMusic)
-                                Player(it, quantitiesMusic)
                                 Text(
                                     text = "Performer - Unknown",
                                     color = Color.Gray
