@@ -5,4 +5,5 @@ import com.example.domain.entity.PlayerEntityModel
 interface PlayerStatePres {
     suspend fun getData(): PlayerEntityModel
     suspend fun updateData(data: PlayerEntityModel)
+    fun addListener(listener: () -> Unit)
 }

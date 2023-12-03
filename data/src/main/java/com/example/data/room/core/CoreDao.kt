@@ -20,7 +20,5 @@ interface CoreDao {
     @Query("SELECT * FROM core_entity")
     suspend fun getAllCore(): List<CoreEntity>
 
-    @Query("SELECT * FROM core_entity")
-    fun allCore(): LiveData<List<CoreEntity>>
 
 }

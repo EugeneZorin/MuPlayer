@@ -36,8 +36,13 @@ class MainViewModel @Inject constructor(
     val getData: MutableLiveData<PlayerEntityModel> = _getData
 
 
-
-
+    init {
+        playerStatePres.addListener {
+            viewModelScope.launch {
+                _getData.value = playerStatePres.getData()
+            }
+        }
+    }
 
     private suspend fun getAllMusic() {
         _allMusic.value = useCaseCoreContract.getAllCore()

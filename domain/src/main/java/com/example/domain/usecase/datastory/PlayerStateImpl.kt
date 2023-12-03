@@ -16,4 +16,8 @@ class PlayerStateImpl (
     override suspend fun updateData(data: PlayerEntityModel) {
         playerStateDt.updateData(data)
     }
+
+    override fun addListener(listener: () -> Unit) {
+        playerStateDt.addListener(listener)
+    }
 }

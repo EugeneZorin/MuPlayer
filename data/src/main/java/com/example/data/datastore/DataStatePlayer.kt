@@ -22,6 +22,7 @@ class DataStatePlayer @Inject constructor(
         serializer = DataPlayerSerializer
     )
 
+    private val listeners = mutableListOf< () -> Unit >()
     private val playerData = context.playerDataStore
 
 
@@ -39,6 +40,13 @@ class DataStatePlayer @Inject constructor(
                 position = data.position
             )
         }
+        listeners.forEach{
+            it.invoke()
+        }
+    }
+
+    override fun addListener(listener: () -> Unit) {
+        listeners.add(listener)
     }
 
 }
