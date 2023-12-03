@@ -7,9 +7,11 @@ import android.app.PendingIntent
 import android.app.Service
 import android.content.Context
 import android.content.Intent
-import android.graphics.BitmapFactory
+import android.media.VolumeShaper.Operation.PLAY
 import android.os.Build
 import android.os.IBinder
+import android.telephony.PhoneNumberUtils.PAUSE
+import androidx.annotation.RequiresApi
 import androidx.core.app.NotificationCompat
 import androidx.media3.common.MediaItem
 import androidx.media3.exoplayer.ExoPlayer
@@ -20,7 +22,6 @@ import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import java.io.File
 import javax.inject.Inject
 
 @AndroidEntryPoint
@@ -38,10 +39,13 @@ class PlayerService : Service()  {
     private lateinit var mediaItem: MediaItem
     private lateinit var nameMusic: String
 
+    private var isPlaying: Boolean = true
+
     override fun onCreate() {
         super.onCreate()
         // Initializing the ExoPlayer
         player = ExoPlayer.Builder(this).build()
+
     }
 
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
@@ -52,9 +56,11 @@ class PlayerService : Service()  {
             when(intent?.action){
                 ACTION_NEXT -> {
                     musicSwitchContract.nextMusic()
+                    isPlaying = true
                 }
                 ACTION_BACK -> {
                     musicSwitchContract.backMusic()
+                    isPlaying = true
                 }
             }
 
@@ -67,21 +73,24 @@ class PlayerService : Service()  {
             player.prepare()
             player.play()
 
-            // Initializing the notification
-            val notification = notification()
-            startForeground(1, notification)
-        }
-
-        CoroutineScope(Dispatchers.Main).launch {
+            // pause and play
             when(intent?.action){
-                ACTION_PAUSE -> {
-                    player.pause()
-                }
-                ACTION_PLAY -> {
-                    player.play()
+                ACTION_PAUSE_PLAY -> {
+                    if (isPlaying) {
+                        isPlaying = false
+                        player.pause()
+                    } else {
+                        isPlaying = true
+                        player.play()
+                    }
                 }
             }
+
+            // Initializing the notification
+            val notification = notification()
+            startForeground(ONE, notification)
         }
+
 
         return START_STICKY
     }
@@ -99,38 +108,31 @@ class PlayerService : Service()  {
     private fun notification(): Notification {
 
         // Implementation of switching music tracks and setting pause or play
-         val playIntent = Intent(this, PlayerService::class.java).apply {
-            action = ACTION_PLAY
+        val pausePlayIntent = Intent(this, PlayerService::class.java).apply {
+            action = ACTION_PAUSE_PLAY
         }
 
-        val playPendingIntent = PendingIntent.getService(
-            this, 0, playIntent, PendingIntent.FLAG_UPDATE_CURRENT
-        )
-
-        val pauseIntent = Intent(this, PlayerService::class.java).apply {
-            action = ACTION_PAUSE
-        }
-
-        val pausePendingIntent = PendingIntent.getService(
-            this, 1, pauseIntent, PendingIntent.FLAG_UPDATE_CURRENT
+        val pausePlayPendingIntent = PendingIntent.getService(
+            this, ONE, pausePlayIntent, PendingIntent.FLAG_UPDATE_CURRENT
         )
 
         val nextIntent = Intent(this, PlayerService::class.java).apply {
             action = ACTION_NEXT
         }
         val nextPendingIntent = PendingIntent.getService(
-            this, 2, nextIntent, PendingIntent.FLAG_UPDATE_CURRENT
+            this, TWO, nextIntent, PendingIntent.FLAG_UPDATE_CURRENT
         )
 
         val backIntent = Intent(this, PlayerService::class.java).apply {
             action = ACTION_BACK
         }
         val backPendingIntent = PendingIntent.getService(
-            this, 3, backIntent, PendingIntent.FLAG_UPDATE_CURRENT
+            this, THREE, backIntent, PendingIntent.FLAG_UPDATE_CURRENT
         )
         // NotificationManager
         createNotificationChannel()
 
+        var iconResId = if (isPlaying) R.drawable.baseline_pause else R.drawable.baseline_play
 
         // Notification
         return NotificationCompat.Builder(this, ID)
@@ -141,11 +143,12 @@ class PlayerService : Service()  {
             .setVisibility(NotificationCompat.VISIBILITY_PUBLIC)
             .setSmallIcon(R.drawable.baseline_library_music_24)
             .addAction(R.drawable.baseline_skip_previous_24, NEXT, backPendingIntent)
-            .addAction(R.drawable.baseline_pause, SWITCH, pausePendingIntent)
+            .addAction(iconResId, SWITCH, pausePlayPendingIntent)
             .addAction(R.drawable.baseline_skip_next, BACK, nextPendingIntent)
             .setContentTitle(nameMusic)
             .setContentText("My Awesome Band")
             .build()
+
     }
 
     // NotificationManager
@@ -161,8 +164,7 @@ class PlayerService : Service()  {
     }
 
     companion object {
-        const val ACTION_PLAY = "ACTION_PLAY"
-        const val ACTION_PAUSE = "ACTION_PAUSE"
+        const val ACTION_PAUSE_PLAY = "ACTION_PAUSE_PLAY"
         const val ACTION_NEXT = "ACTION_NEXT"
         const val ACTION_BACK = "ACTION_BACK"
 
@@ -171,6 +173,10 @@ class PlayerService : Service()  {
         const val NEXT = "next"
         const val SWITCH = "switch"
         const val BACK = "back"
+
+        const val ONE = 1
+        const val TWO = 2
+        const val THREE = 3
     }
 
 
