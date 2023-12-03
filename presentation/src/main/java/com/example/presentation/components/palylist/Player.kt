@@ -1,5 +1,7 @@
 package com.example.presentation.components.palylist
 
+import android.content.Context
+import android.content.Intent
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -22,12 +24,14 @@ import androidx.navigation.NavController
 import com.example.domain.entity.CoreEntityModel
 import com.example.presentation.R
 import com.example.presentation.navigation.MainScreens
+import com.example.presentation.service.PlayerService
 
 @Composable
 fun Player(
     it: Int,
     quantitiesMusic: State<List<CoreEntityModel>?>,
     navController: NavController,
+    context: Context,
 ) {
 
     val position = it - 1
@@ -77,7 +81,9 @@ fun Player(
                         modifier = Modifier
                             .size(30.dp)
                             .clickable {
-
+                                Intent(context , PlayerService::class.java).also {
+                                    context.startService(it)
+                                }
                             }
                     )
                 }

@@ -39,9 +39,10 @@ object ShowAllMusicModule {
         useCaseCoreContract: CoreContractPres,
         playerStatePres: PlayerStatePres,
         searchAudioContract: SearchAudioContract,
-        firstRunPres: FirstRunPres
+        firstRunPres: FirstRunPres,
+        musicSwitchContract: MusicSwitchPres
     ): MainViewModel {
-        return MainViewModel(useCaseCoreContract, playerStatePres, searchAudioContract, firstRunPres)
+        return MainViewModel(useCaseCoreContract, playerStatePres, searchAudioContract, firstRunPres, musicSwitchContract)
     }
 
     @Provides

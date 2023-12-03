@@ -2,7 +2,6 @@ package com.example.presentation.screen
 
 import android.content.Intent
 import android.os.Build
-import android.util.Log
 import androidx.annotation.RequiresApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -17,7 +16,6 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.runtime.mutableStateOf
@@ -72,7 +70,7 @@ fun MainScreen(
             Column {
                if (position.value != null) {
                    Player(
-                       position.value?.position!!.toInt(), quantitiesMusic, navController
+                       position.value?.position!!.toInt(), quantitiesMusic, navController, context
                    )
                }
 

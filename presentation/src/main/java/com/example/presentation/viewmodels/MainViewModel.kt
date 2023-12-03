@@ -9,6 +9,7 @@ import androidx.lifecycle.viewModelScope
 import com.example.domain.entity.CoreEntityModel
 import com.example.domain.entity.PlayerEntityModel
 import com.example.domain.repository.preferences.FirstRunPres
+import com.example.domain.repository.smusic.MusicSwitchPres
 import com.example.domain.usecase.datastory.contract.PlayerStatePres
 import com.example.domain.usecase.room.contract.CoreContractPres
 import com.example.domain.usecase.search.SearchAudioContract
@@ -27,6 +28,7 @@ class MainViewModel @Inject constructor(
     private val playerStatePres: PlayerStatePres,
     private val searchAudioContract: SearchAudioContract,
     private val firstRunPres: FirstRunPres,
+    private val musicSwitchContract: MusicSwitchPres
 ) : ViewModel() {
 
     private val _allMusic = MutableLiveData<List<CoreEntityModel>>()
