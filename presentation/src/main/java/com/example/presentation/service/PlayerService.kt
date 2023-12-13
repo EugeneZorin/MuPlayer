@@ -10,6 +10,7 @@ import android.content.Context
 import android.content.Intent
 import android.os.Build
 import android.os.IBinder
+import android.util.Log
 import androidx.core.app.NotificationCompat
 import androidx.media3.common.MediaItem
 import androidx.media3.exoplayer.ExoPlayer
@@ -19,6 +20,7 @@ import com.example.presentation.R
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -36,6 +38,7 @@ class PlayerService : Service() {
     private lateinit var player: ExoPlayer
     private lateinit var mediaItem: MediaItem
     private lateinit var nameMusic: String
+    private var progress: Float = 0f
 
     private var isPlaying: Boolean = true
 
@@ -46,7 +49,6 @@ class PlayerService : Service() {
 
     }
 
-
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
 
         CoroutineScope(Dispatchers.Main).launch {
@@ -54,6 +56,21 @@ class PlayerService : Service() {
             updateMediaItem()
             handlePausePlayAction(intent?.action)
             startForeground(ONE, notification())
+        }
+
+        CoroutineScope(Dispatchers.Main).launch {
+            while (isPlaying) {
+                progress = player.currentPosition.toFloat() / player.duration.toFloat()
+                delay(16)
+                if (progress >= 0.1f){
+                    delay(100)
+                    musicSwitchContract.nextMusic()
+                    isPlaying = false
+                    Log.d("TEST"," $progress")
+
+                }
+            }
+
         }
 
         return START_STICKY
@@ -82,6 +99,7 @@ class PlayerService : Service() {
         player.setMediaItem(mediaItem)
         player.prepare()
         player.play()
+
     }
 
     private fun handlePausePlayAction(action: String?) {
@@ -99,6 +117,7 @@ class PlayerService : Service() {
     }
     
     override fun onTaskRemoved(rootIntent: Intent?) {
+        // Stopping the player and the service
         player.stop()
         stopSelf()
     }
@@ -131,6 +150,8 @@ class PlayerService : Service() {
 
         // Changes to the pause and play icons
         val iconResId = if (isPlaying) R.drawable.baseline_pause else R.drawable.baseline_play
+
+
 
         // Notification
         return NotificationCompat.Builder(this, ID)

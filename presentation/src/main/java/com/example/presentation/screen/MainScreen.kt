@@ -50,10 +50,6 @@ fun MainScreen(
     val position = mainViewModel.getData.observeAsState()
     val context = LocalContext.current
 
-
-
-
-
     Scaffold(
         topBar = {
             Column(
