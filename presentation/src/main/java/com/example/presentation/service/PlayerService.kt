@@ -13,6 +13,7 @@ import android.os.IBinder
 import android.util.Log
 import androidx.core.app.NotificationCompat
 import androidx.media3.common.MediaItem
+import androidx.media3.common.Player
 import androidx.media3.exoplayer.ExoPlayer
 import com.example.domain.repository.smusic.MusicSwitchPres
 import com.example.domain.usecase.datastory.contract.PlayerStatePres
@@ -56,22 +57,10 @@ class PlayerService : Service() {
             updateMediaItem()
             handlePausePlayAction(intent?.action)
             startForeground(ONE, notification())
+            setupNextMusic()
         }
 
-        CoroutineScope(Dispatchers.Main).launch {
-            while (isPlaying) {
-                progress = player.currentPosition.toFloat() / player.duration.toFloat()
-                delay(16)
-                if (progress >= 0.1f){
-                    delay(100)
-                    musicSwitchContract.nextMusic()
-                    isPlaying = false
-                    Log.d("TEST"," $progress")
 
-                }
-            }
-
-        }
 
         return START_STICKY
     }
@@ -115,7 +104,7 @@ class PlayerService : Service() {
             }
         }
     }
-    
+
     override fun onTaskRemoved(rootIntent: Intent?) {
         // Stopping the player and the service
         player.stop()
@@ -152,7 +141,6 @@ class PlayerService : Service() {
         val iconResId = if (isPlaying) R.drawable.baseline_pause else R.drawable.baseline_play
 
 
-
         // Notification
         return NotificationCompat.Builder(this, ID)
             .setColor(1000)
@@ -180,6 +168,27 @@ class PlayerService : Service() {
                 getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
             notificationManager.createNotificationChannel(channel)
         }
+    }
+
+    private fun setupNextMusic(){
+        player.addListener(object : Player.Listener{
+            override fun onPlaybackStateChanged(state: Int) {
+                when(state){
+                    Player.STATE_ENDED -> {
+                        CoroutineScope(Dispatchers.Main).launch {
+                            musicSwitchContract.nextMusic()
+                            updateMediaItem()
+                            player.play()
+                        }
+                    }
+                    /*Player.STATE_READY -> {
+                        CoroutineScope(Dispatchers.Main).launch{
+                            player.seekTo((player.currentPosition.toFloat() / player.duration.toFloat()).toLong())
+                        }
+                    }*/
+                }
+            }
+        })
     }
 
     companion object {
