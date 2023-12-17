@@ -9,7 +9,8 @@ class PlayerMapper: PlayerDataMapper<PlayerData> {
         return PlayerEntityModel(
             nameMusic = entity.nameMusic,
             idMusic = entity.idMusic,
-            position = entity.position
+            position = entity.position,
+            isPlaying = entity.isPlaying
         )
 
     }

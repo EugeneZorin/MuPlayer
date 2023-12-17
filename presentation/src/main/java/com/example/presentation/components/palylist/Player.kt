@@ -2,6 +2,7 @@ package com.example.presentation.components.palylist
 
 import android.content.Context
 import android.content.Intent
+import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -15,6 +16,8 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.State
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -36,6 +39,8 @@ fun Player(
 
     val position = it - 1
     val music = quantitiesMusic.value!!
+    val intent = Intent(context, PlayerService::class.java)
+
 
     Column(
         modifier = Modifier
@@ -43,8 +48,7 @@ fun Player(
             .fillMaxWidth()
             .clickable {
                 navController.navigate(MainScreens.PLAYER_STRIPE)
-            }
-        ,
+            },
     ) {
 
 
@@ -71,19 +75,31 @@ fun Player(
             ) {
 
 
+                Box {
+                    Icon(
+                        painter = painterResource(id = R.drawable.baseline_skip_previous_24),
+                        contentDescription = null,
+                        modifier = Modifier
+                            .size(30.dp)
+                            .clickable {
+                                intent.action = PlayerService.ACTION_BACK
+                                context.startService(intent)
+                            }
+                    )
+                }
+
                 Box(
                     modifier = Modifier
                         .padding(horizontal = 20.dp),
                 ) {
                     Icon(
-                        painter = painterResource(id = R.drawable.baseline_pause),
+                        painter = painterResource(id =  R.drawable.baseline_pause),
                         contentDescription = null,
                         modifier = Modifier
                             .size(30.dp)
                             .clickable {
-                                Intent(context , PlayerService::class.java).also {
-                                    context.startService(it)
-                                }
+                                intent.action = PlayerService.ACTION_PAUSE_PLAY
+                                context.startService(intent)
                             }
                     )
                 }
@@ -95,7 +111,8 @@ fun Player(
                         modifier = Modifier
                             .size(30.dp)
                             .clickable {
-
+                                intent.action = PlayerService.ACTION_NEXT
+                                context.startService(intent)
                             }
                     )
                 }
