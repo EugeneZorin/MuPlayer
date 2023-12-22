@@ -10,6 +10,7 @@ import androidx.datastore.preferences.preferencesDataStore
 import com.example.data.datastore.mappers.ExternalPlayerMapper
 import com.example.domain.entity.PlayerExternalModel
 import com.example.domain.repository.datastory.PlayerExternalDt
+import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.map
 import javax.inject.Inject
@@ -22,6 +23,7 @@ class ExternalPlayerStates @Inject constructor(
 
     private val Context.dataStore: DataStore<Preferences> by preferencesDataStore(EXTERNAL_PLAYER)
     private val playerData = context.dataStore
+
     override suspend fun saveData(externalPlayerData: PlayerExternalModel) {
         playerData.edit { data ->
             data[booleanPreferencesKey(PAUSE_STOP)] = externalPlayerData.pauseStop

@@ -141,6 +141,7 @@ object ShowAllMusicModule {
         return ExternalPlayerStates(context, externalPlayerMapper)
     }
 
+    @Singleton
     @Provides
     fun provideExternalPlayerImpl(
         playerExternalDt: PlayerExternalDt

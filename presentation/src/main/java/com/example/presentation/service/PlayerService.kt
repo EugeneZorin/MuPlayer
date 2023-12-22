@@ -15,7 +15,9 @@ import androidx.core.app.NotificationCompat
 import androidx.media3.common.MediaItem
 import androidx.media3.common.Player
 import androidx.media3.exoplayer.ExoPlayer
+import com.example.domain.entity.PlayerExternalModel
 import com.example.domain.repository.smusic.MusicSwitchPres
+import com.example.domain.usecase.datastory.contract.ExternalPlayerPres
 import com.example.domain.usecase.datastory.contract.PlayerStatePres
 import com.example.presentation.R
 import dagger.hilt.android.AndroidEntryPoint
@@ -35,6 +37,9 @@ class PlayerService : Service() {
     // Track changes on the next
     @Inject
     lateinit var musicSwitchContract: MusicSwitchPres
+
+    @Inject
+    lateinit var externalPlayerPres: ExternalPlayerPres
 
     private lateinit var player: ExoPlayer
     private lateinit var mediaItem: MediaItem
@@ -58,9 +63,6 @@ class PlayerService : Service() {
             startForeground(ONE, notification())
             setupNextMusic()
         }
-
-
-
         return START_STICKY
     }
 
@@ -100,6 +102,15 @@ class PlayerService : Service() {
                     isPlaying = true
                     player.play()
                 }
+
+                CoroutineScope(Dispatchers.IO).launch {
+                    externalPlayerPres.saveData(
+                        externalPlayerData = PlayerExternalModel(
+                            pauseStop = isPlaying
+                        )
+                    )
+                }
+
             }
         }
     }
