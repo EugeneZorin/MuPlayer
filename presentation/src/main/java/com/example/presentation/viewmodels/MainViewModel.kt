@@ -1,5 +1,6 @@
 package com.example.presentation.viewmodels
 
+import android.util.Log
 import androidx.compose.runtime.mutableStateListOf
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -7,6 +8,7 @@ import androidx.lifecycle.viewModelScope
 import com.example.domain.entity.CoreEntityModel
 import com.example.domain.entity.PlayerEntityModel
 import com.example.domain.repository.preferences.FirstRunPres
+import com.example.domain.usecase.datastory.contract.ExternalPlayerPres
 import com.example.domain.usecase.datastory.contract.PlayerStatePres
 import com.example.domain.usecase.room.contract.CoreContractPres
 import com.example.domain.usecase.search.SearchAudioContract
@@ -21,6 +23,7 @@ class MainViewModel @Inject constructor(
     private val playerStatePres: PlayerStatePres,
     private val searchAudioContract: SearchAudioContract,
     private val firstRunPres: FirstRunPres,
+    private val externalPlayerPres: ExternalPlayerPres
 ) : ViewModel() {
 
     private val _allMusic = MutableLiveData<List<CoreEntityModel>>()
@@ -28,6 +31,14 @@ class MainViewModel @Inject constructor(
 
     private var _getData = MutableLiveData<PlayerEntityModel>()
     val getData: MutableLiveData<PlayerEntityModel> = _getData
+
+    init {
+        viewModelScope.launch {
+            val test = externalPlayerPres.getData()
+            Log.d("SDFGASDGFE","$test")
+        }
+
+    }
 
 
     init {

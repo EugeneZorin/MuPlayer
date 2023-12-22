@@ -1,6 +1,5 @@
 package com.example.presentation.service
 
-import android.annotation.SuppressLint
 import android.app.Notification
 import android.app.NotificationChannel
 import android.app.NotificationManager
@@ -40,13 +39,8 @@ class PlayerService : Service() {
     private lateinit var player: ExoPlayer
     private lateinit var mediaItem: MediaItem
     private lateinit var nameMusic: String
-    private var progress: Long = 0
 
     private var isPlaying: Boolean = true
-    private var currentPositionMillis: Long = 0
-
-
-
 
     override fun onCreate() {
         super.onCreate()
@@ -65,7 +59,6 @@ class PlayerService : Service() {
             setupNextMusic()
         }
 
-        currentPositionMillis = player.currentPosition
 
 
         return START_STICKY
@@ -101,18 +94,9 @@ class PlayerService : Service() {
         when (action) {
             ACTION_PAUSE_PLAY -> {
                 if (isPlaying) {
-
                     isPlaying = false
                     player.pause()
-
-                    progress = currentPositionMillis
-
                 } else {
-
-                    if (progress > 0){
-                        player.seekTo(progress)
-                    }
-
                     isPlaying = true
                     player.play()
                 }
@@ -155,6 +139,7 @@ class PlayerService : Service() {
         // Changes to the pause and play icons
         val iconResId = if (isPlaying) R.drawable.baseline_pause else R.drawable.baseline_play
 
+
         // Notification
         return NotificationCompat.Builder(this, ID)
             .setColor(1000)
@@ -186,7 +171,6 @@ class PlayerService : Service() {
 
     private fun setupNextMusic(){
         player.addListener(object : Player.Listener{
-            @SuppressLint("SwitchIntDef")
             override fun onPlaybackStateChanged(state: Int) {
                 when(state){
                     Player.STATE_ENDED -> {
@@ -196,11 +180,15 @@ class PlayerService : Service() {
                             player.play()
                         }
                     }
+                    /*Player.STATE_READY -> {
+                        CoroutineScope(Dispatchers.Main).launch{
+                            player.seekTo((player.currentPosition.toFloat() / player.duration.toFloat()).toLong())
+                        }
+                    }*/
                 }
             }
         })
     }
-
 
     companion object {
 

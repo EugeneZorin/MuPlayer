@@ -1,4 +1,4 @@
-package com.example.data.datastore
+package com.example.data.datastore.player
 
 
 import kotlinx.serialization.Serializable

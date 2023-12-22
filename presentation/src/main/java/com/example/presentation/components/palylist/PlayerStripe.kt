@@ -8,13 +8,10 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.hilt.navigation.compose.hiltViewModel
-import com.example.presentation.viewmodels.ViewModelPlayer
 
 
 @Composable
-fun PlayerStripe(
-    viewModelPlayer: ViewModelPlayer = hiltViewModel(),
-) {
+fun PlayerStripe() {
 
 
     Column(modifier = Modifier.fillMaxSize()) {

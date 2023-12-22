@@ -1,6 +1,6 @@
 package com.example.data.datastore.mappers
 
-import com.example.data.datastore.PlayerData
+import com.example.data.datastore.player.PlayerData
 import com.example.domain.entity.PlayerEntityModel
 import com.example.domain.repository.mappers.PlayerDataMapper
 

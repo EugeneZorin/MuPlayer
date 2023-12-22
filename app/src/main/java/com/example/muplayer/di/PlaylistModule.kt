@@ -6,6 +6,7 @@ import com.example.data.room.core.CoreDatabase
 import com.example.data.room.core.CoreEntity
 import com.example.data.room.repository.CoreRepositoryImplDt
 import com.example.data.room.repository.mappers.CoreMapperImpl
+import com.example.domain.repository.datastory.PlayerExternalDt
 import com.example.domain.repository.mappers.CoreEntityMapper
 import dagger.Module
 import dagger.Provides
@@ -40,6 +41,8 @@ object PlaylistModule {
     fun provideCoreEntityMapper(): CoreEntityMapper<CoreEntity> {
         return CoreMapperImpl()
     }
+
+
 
 
 
