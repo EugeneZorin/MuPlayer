@@ -8,6 +8,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.domain.entity.CoreEntityModel
 import com.example.domain.entity.PlayerEntityModel
+import com.example.domain.entity.PlayerExternalModel
 import com.example.domain.repository.preferences.FirstRunPres
 import com.example.domain.usecase.datastory.contract.ExternalPlayerPres
 import com.example.domain.usecase.datastory.contract.PlayerStatePres
@@ -33,14 +34,14 @@ class MainViewModel @Inject constructor(
     private var _getData = MutableLiveData<PlayerEntityModel>()
     val getData: MutableLiveData<PlayerEntityModel> = _getData
 
-    private val test: MutableLiveData<Boolean> by lazy {
-        MutableLiveData<Boolean>()
-    }
+    private val _test = MutableLiveData<PlayerExternalModel>()
+    val test: MutableLiveData<PlayerExternalModel> = _test
 
     init {
-        viewModelScope.launch {
-            test.value = externalPlayerPres.getData().pauseStop
-            Log.d("SDFASFSAFD", "${test.value}")
+        externalPlayerPres.addListener {
+            viewModelScope.launch {
+                test.value = externalPlayerPres.getData()
+            }
         }
     }
 

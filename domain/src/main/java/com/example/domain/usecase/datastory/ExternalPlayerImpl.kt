@@ -20,4 +20,8 @@ class ExternalPlayerImpl(
         return playerExternalDt.getData()
     }
 
+    override fun addListener(listener: () -> Unit) {
+        playerExternalDt.addListener(listener)
+    }
+
 }

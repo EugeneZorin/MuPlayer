@@ -23,11 +23,15 @@ class ExternalPlayerStates @Inject constructor(
 
     private val Context.dataStore: DataStore<Preferences> by preferencesDataStore(EXTERNAL_PLAYER)
     private val playerData = context.dataStore
+    private val listeners = mutableListOf< () -> Unit >()
 
     override suspend fun saveData(externalPlayerData: PlayerExternalModel) {
         playerData.edit { data ->
             data[booleanPreferencesKey(PAUSE_STOP)] = externalPlayerData.pauseStop
             data[longPreferencesKey(POSITION)] = externalPlayerData.position
+        }
+        listeners.forEach{
+            it.invoke()
         }
     }
 
@@ -42,6 +46,10 @@ class ExternalPlayerStates @Inject constructor(
 
             )
         }.first()
+    }
+
+    override fun addListener(listener: () -> Unit) {
+        listeners.add(listener)
     }
 
 

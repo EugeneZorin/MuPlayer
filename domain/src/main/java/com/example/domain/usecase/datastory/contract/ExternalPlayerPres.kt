@@ -5,4 +5,5 @@ import com.example.domain.entity.PlayerExternalModel
 interface ExternalPlayerPres {
     suspend fun saveData(externalPlayerData: PlayerExternalModel)
     suspend fun getData(): PlayerExternalModel
+    fun addListener(listener: () -> Unit)
 }

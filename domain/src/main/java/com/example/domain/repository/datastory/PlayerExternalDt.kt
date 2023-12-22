@@ -6,4 +6,6 @@ interface PlayerExternalDt {
     suspend fun saveData(externalPlayerData: PlayerExternalModel)
     suspend fun getData(): PlayerExternalModel
 
+    fun addListener(listener: () -> Unit)
+
 }

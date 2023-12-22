@@ -48,6 +48,7 @@ fun MainScreen(
     var search by remember { mutableStateOf("") }
     val quantitiesMusic = mainViewModel.allMusic.observeAsState()
     val position = mainViewModel.getData.observeAsState()
+    val test = mainViewModel.test.observeAsState()
     val context = LocalContext.current
 
     Scaffold(
@@ -66,7 +67,7 @@ fun MainScreen(
             Column {
                if (position.value != null) {
                    Player(
-                       position.value?.position!!.toInt(), quantitiesMusic, navController, context
+                       position.value?.position!!.toInt(), quantitiesMusic, navController, context, test
                    )
                }
 
