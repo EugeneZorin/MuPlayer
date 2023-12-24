@@ -1,4 +1,4 @@
-package com.example.data.datastore.mappers
+package com.example.data.datastore.player.mapper
 
 import com.example.data.datastore.player.PlayerData
 import com.example.domain.entity.PlayerEntityModel

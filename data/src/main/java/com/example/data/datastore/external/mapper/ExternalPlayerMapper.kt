@@ -1,4 +1,4 @@
-package com.example.data.datastore.mappers
+package com.example.data.datastore.external.mapper
 
 import com.example.data.datastore.external.ExternalPlayerData
 import com.example.domain.entity.PlayerExternalModel

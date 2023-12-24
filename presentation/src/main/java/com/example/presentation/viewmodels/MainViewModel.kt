@@ -1,7 +1,5 @@
 package com.example.presentation.viewmodels
 
-import android.util.Log
-import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateListOf
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -39,7 +37,7 @@ class MainViewModel @Inject constructor(
 
     fun updateExternalData(state: Boolean){
         viewModelScope.launch {
-            externalPlayerPres.saveData(
+            externalPlayerPres.updatePauseStop(
                 externalPlayerData = PlayerExternalModel(
                     pauseStop = state
                 )

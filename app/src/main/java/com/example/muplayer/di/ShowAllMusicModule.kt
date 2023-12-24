@@ -2,9 +2,9 @@ package com.example.muplayer.di
 
 import android.content.Context
 import com.example.data.datastore.external.ExternalPlayerStates
-import com.example.data.datastore.mappers.ExternalPlayerMapper
+import com.example.data.datastore.external.mapper.ExternalPlayerMapper
 import com.example.data.datastore.player.DataStatePlayer
-import com.example.data.datastore.mappers.PlayerMapper
+import com.example.data.datastore.player.mapper.PlayerMapper
 import com.example.data.preferences.FirstRun
 import com.example.data.room.core.CoreDao
 import com.example.data.room.core.CoreEntity

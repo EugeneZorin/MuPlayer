@@ -5,12 +5,10 @@ import android.app.NotificationChannel
 import android.app.NotificationManager
 import android.app.PendingIntent
 import android.app.Service
-import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
 import android.os.Build
 import android.os.IBinder
-import android.util.Log
 import androidx.core.app.NotificationCompat
 import androidx.media3.common.MediaItem
 import androidx.media3.common.Player
@@ -23,7 +21,6 @@ import com.example.presentation.R
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -45,6 +42,7 @@ class PlayerService : Service() {
     private lateinit var mediaItem: MediaItem
     private lateinit var nameMusic: String
     private var timers: Long = 0
+    private var currentTimers: Long = 0
 
     private var isPlaying: Boolean = true
 
@@ -64,6 +62,8 @@ class PlayerService : Service() {
             startForeground(ONE, notification())
             setupNextMusic()
         }
+
+        currentTimers = player.currentPosition
         return START_STICKY
     }
 
@@ -87,7 +87,7 @@ class PlayerService : Service() {
         nameMusic = playerStatePres.getData().nameMusic
 
         // Initializing the ExoPlayer
-        timers = player.currentPosition
+
         player.setMediaItem(mediaItem)
         player.prepare()
         player.play()
@@ -99,30 +99,31 @@ class PlayerService : Service() {
             ACTION_PAUSE_PLAY -> {
                 if (isPlaying) {
                     isPlaying = false
-
+                    timers = currentTimers
                     CoroutineScope(Dispatchers.Main).launch {
-                        externalPlayerPres.saveData(
+                        externalPlayerPres.updatePosition(
                             externalPlayerData = PlayerExternalModel(
                                 position = timers
                             )
                         )
-                        Log.d("TEST", "${timers}")
                     }
-
                     player.pause()
-
 
                 } else {
                     isPlaying = true
                     CoroutineScope(Dispatchers.Main).launch {
-                        player.seekTo(externalPlayerPres.getData().position)
+                        if (timers > 0){
+                            player.seekTo(externalPlayerPres.getData().position)
+                        }
+
                         player.prepare()
                         player.play()
                     }
+
                 }
 
                 CoroutineScope(Dispatchers.IO).launch {
-                    externalPlayerPres.saveData(
+                    externalPlayerPres.updatePauseStop(
                         externalPlayerData = PlayerExternalModel(
                             pauseStop = isPlaying
                         )

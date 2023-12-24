@@ -3,10 +3,10 @@ package com.example.data.datastore.player
 import android.content.Context
 import androidx.datastore.core.DataStore
 import androidx.datastore.dataStore
-import com.example.data.datastore.mappers.PlayerMapper
-import com.example.data.entity.NameDatabase.STORY_DATABASE
+import com.example.data.entity.ConstantEntity.STORY_DATABASE
 import com.example.domain.entity.PlayerEntityModel
 import com.example.domain.repository.datastory.PlayerStateDt
+import com.example.domain.repository.mappers.PlayerDataMapper
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.map
 import javax.inject.Inject
@@ -14,7 +14,7 @@ import javax.inject.Inject
 
 class DataStatePlayer @Inject constructor(
     context: Context,
-    private val playerMapper: PlayerMapper
+    private val playerMapper: PlayerDataMapper<PlayerData>
 ): PlayerStateDt {
 
     private val Context.playerDataStore: DataStore<PlayerData> by dataStore(
