@@ -34,13 +34,23 @@ class MainViewModel @Inject constructor(
     private var _getData = MutableLiveData<PlayerEntityModel>()
     val getData: MutableLiveData<PlayerEntityModel> = _getData
 
-    private val _test = MutableLiveData<PlayerExternalModel>()
-    val test: MutableLiveData<PlayerExternalModel> = _test
+    private val _externalPlayer = MutableLiveData<PlayerExternalModel>()
+    val externalPlayer: MutableLiveData<PlayerExternalModel> = _externalPlayer
+
+    fun updateExternalData(state: Boolean){
+        viewModelScope.launch {
+            externalPlayerPres.saveData(
+                externalPlayerData = PlayerExternalModel(
+                    pauseStop = state
+                )
+            )
+        }
+    }
 
     init {
         externalPlayerPres.addListener {
             viewModelScope.launch {
-                test.value = externalPlayerPres.getData()
+                externalPlayer.value = externalPlayerPres.getData()
             }
         }
     }

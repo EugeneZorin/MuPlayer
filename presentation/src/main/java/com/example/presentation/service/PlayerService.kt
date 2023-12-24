@@ -44,6 +44,7 @@ class PlayerService : Service() {
     private lateinit var player: ExoPlayer
     private lateinit var mediaItem: MediaItem
     private lateinit var nameMusic: String
+    private var timers: Long = 0
 
     private var isPlaying: Boolean = true
 
@@ -51,8 +52,8 @@ class PlayerService : Service() {
         super.onCreate()
         // Initializing the ExoPlayer
         player = ExoPlayer.Builder(this).build()
-
     }
+
 
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
 
@@ -86,6 +87,7 @@ class PlayerService : Service() {
         nameMusic = playerStatePres.getData().nameMusic
 
         // Initializing the ExoPlayer
+        timers = player.currentPosition
         player.setMediaItem(mediaItem)
         player.prepare()
         player.play()
@@ -97,10 +99,26 @@ class PlayerService : Service() {
             ACTION_PAUSE_PLAY -> {
                 if (isPlaying) {
                     isPlaying = false
+
+                    CoroutineScope(Dispatchers.Main).launch {
+                        externalPlayerPres.saveData(
+                            externalPlayerData = PlayerExternalModel(
+                                position = timers
+                            )
+                        )
+                        Log.d("TEST", "${timers}")
+                    }
+
                     player.pause()
+
+
                 } else {
                     isPlaying = true
-                    player.play()
+                    CoroutineScope(Dispatchers.Main).launch {
+                        player.seekTo(externalPlayerPres.getData().position)
+                        player.prepare()
+                        player.play()
+                    }
                 }
 
                 CoroutineScope(Dispatchers.IO).launch {
@@ -191,11 +209,6 @@ class PlayerService : Service() {
                             player.play()
                         }
                     }
-                    /*Player.STATE_READY -> {
-                        CoroutineScope(Dispatchers.Main).launch{
-                            player.seekTo((player.currentPosition.toFloat() / player.duration.toFloat()).toLong())
-                        }
-                    }*/
                 }
             }
         })

@@ -15,6 +15,7 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.State
+import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -22,10 +23,10 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.example.domain.entity.CoreEntityModel
-import com.example.domain.entity.PlayerExternalModel
 import com.example.presentation.R
 import com.example.presentation.navigation.MainScreens
 import com.example.presentation.service.PlayerService
+import com.example.presentation.viewmodels.MainViewModel
 
 @Composable
 fun Player(
@@ -33,14 +34,29 @@ fun Player(
     quantitiesMusic: State<List<CoreEntityModel>?>,
     navController: NavController,
     context: Context,
-    test: State<PlayerExternalModel?>,
+    mainViewModel: MainViewModel,
 ) {
+
+    val externalPlayer = mainViewModel.externalPlayer.observeAsState()
+    val intent = Intent(context, PlayerService::class.java)
+    val iconResId = externalPlayer.value?.pauseStop ?: true
 
     val position = it - 1
     val music = quantitiesMusic.value!!
-    val intent = Intent(context, PlayerService::class.java)
-    val iconResId = test.value?.pauseStop ?: false
 
+    fun startPlayer(actions: Int){
+
+        mainViewModel.updateExternalData(true)
+
+        when (actions){
+            1 ->  intent.action = PlayerService.ACTION_BACK
+            2 ->  intent.action = PlayerService.ACTION_PAUSE_PLAY
+            3 ->  intent.action = PlayerService.ACTION_NEXT
+        }
+
+        context.startService(intent)
+
+    }
 
     Column(
         modifier = Modifier
@@ -62,7 +78,7 @@ fun Player(
             Column {
                 Text(text = music[position].nameMusic)
                 Text(
-                    text = "Performer - Unknown , ${test.value?.pauseStop}",
+                    text = "Performer - Unknown ",
                     color = Color.Gray
                 )
             }
@@ -82,8 +98,7 @@ fun Player(
                         modifier = Modifier
                             .size(30.dp)
                             .clickable {
-                                intent.action = PlayerService.ACTION_BACK
-                                context.startService(intent)
+                                startPlayer(1)
                             }
                     )
                 }
@@ -98,8 +113,7 @@ fun Player(
                         modifier = Modifier
                             .size(30.dp)
                             .clickable {
-                                intent.action = PlayerService.ACTION_PAUSE_PLAY
-                                context.startService(intent)
+                                startPlayer(2)
                             }
                     )
                 }
@@ -111,14 +125,15 @@ fun Player(
                         modifier = Modifier
                             .size(30.dp)
                             .clickable {
-                                intent.action = PlayerService.ACTION_NEXT
-                                context.startService(intent)
+                                startPlayer(3)
                             }
                     )
                 }
             }
         }
     }
+
+
 }
 
 

@@ -48,7 +48,6 @@ fun MainScreen(
     var search by remember { mutableStateOf("") }
     val quantitiesMusic = mainViewModel.allMusic.observeAsState()
     val position = mainViewModel.getData.observeAsState()
-    val test = mainViewModel.test.observeAsState()
     val context = LocalContext.current
 
     Scaffold(
@@ -67,7 +66,11 @@ fun MainScreen(
             Column {
                if (position.value != null) {
                    Player(
-                       position.value?.position!!.toInt(), quantitiesMusic, navController, context, test
+                       it = position.value?.position!!.toInt(),
+                       quantitiesMusic = quantitiesMusic,
+                       navController = navController,
+                       context = context,
+                       mainViewModel = mainViewModel
                    )
                }
 
@@ -114,6 +117,7 @@ fun MainScreen(
                                         Intent(context, PlayerService::class.java).also { service ->
                                             context.startForegroundService(service)
                                         }
+                                        mainViewModel.updateExternalData(true)
                                     }
                                 }
                                 .padding(14.dp)
