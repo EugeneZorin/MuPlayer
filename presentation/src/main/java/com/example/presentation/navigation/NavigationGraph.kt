@@ -7,11 +7,11 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-import com.example.presentation.components.palylist.PlayerStripe
+import com.example.presentation.screen.components.palylist.PlayerStripe
 import com.example.presentation.permissions.Permissions
 import com.example.presentation.permissions.RequestPermission
 import com.example.presentation.screen.MainScreen
-import com.example.presentation.screen.PlayerScreen
+import com.example.presentation.screen.dontworking.PlayerScreen
 import com.example.presentation.viewmodels.MainViewModel
 
 

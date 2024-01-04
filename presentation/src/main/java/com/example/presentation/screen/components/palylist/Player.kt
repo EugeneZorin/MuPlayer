@@ -1,4 +1,4 @@
-package com.example.presentation.components.palylist
+package com.example.presentation.screen.components.palylist
 
 import android.content.Context
 import android.content.Intent

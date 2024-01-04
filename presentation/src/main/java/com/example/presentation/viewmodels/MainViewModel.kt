@@ -1,5 +1,7 @@
 package com.example.presentation.viewmodels
 
+import android.app.Application
+import android.content.Intent
 import androidx.compose.runtime.mutableStateListOf
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -12,6 +14,7 @@ import com.example.domain.usecase.datastory.contract.ExternalPlayerPres
 import com.example.domain.usecase.datastory.contract.PlayerStatePres
 import com.example.domain.usecase.room.contract.CoreContractPres
 import com.example.domain.usecase.search.SearchAudioContract
+import com.example.presentation.service.PlayerService
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
@@ -34,6 +37,7 @@ class MainViewModel @Inject constructor(
 
     private val _externalPlayer = MutableLiveData<PlayerExternalModel>()
     val externalPlayer: MutableLiveData<PlayerExternalModel> = _externalPlayer
+
 
     fun updateExternalData(state: Boolean){
         viewModelScope.launch {
@@ -94,7 +98,6 @@ class MainViewModel @Inject constructor(
         if (firstRunPres.isFirstRun()) {
             searchAudioContract.searchFileContact()
         }
-
         firstRunPres.setFirstRun(false)
     }
 

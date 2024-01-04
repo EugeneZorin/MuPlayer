@@ -1,4 +1,4 @@
-package com.example.presentation.screen
+package com.example.presentation.screen.dontworking
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -19,7 +19,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
-import com.example.presentation.components.palylist.PlayerStripe
+import com.example.presentation.screen.components.palylist.PlayerStripe
 import com.example.presentation.navigation.panel.BottomPanel
 
 

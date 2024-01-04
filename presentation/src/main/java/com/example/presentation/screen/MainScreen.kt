@@ -2,9 +2,13 @@ package com.example.presentation.screen
 
 import android.content.Intent
 import android.os.Build
+import android.util.Log
 import androidx.annotation.RequiresApi
+import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.combinedClickable
+import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -25,11 +29,12 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
-import com.example.presentation.components.SearchView
-import com.example.presentation.components.palylist.Player
+import com.example.presentation.screen.components.SearchView
+import com.example.presentation.screen.components.palylist.Player
 import com.example.presentation.navigation.panel.BottomPanel
 import com.example.presentation.service.PlayerService
 import com.example.presentation.viewmodels.MainViewModel
@@ -37,6 +42,8 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
+
+@OptIn(ExperimentalFoundationApi::class)
 @RequiresApi(Build.VERSION_CODES.O)
 @Composable
 fun MainScreen(
@@ -64,15 +71,15 @@ fun MainScreen(
 
         bottomBar = {
             Column {
-               if (position.value != null) {
-                   Player(
-                       it = position.value?.position!!.toInt(),
-                       quantitiesMusic = quantitiesMusic,
-                       navController = navController,
-                       context = context,
-                       mainViewModel = mainViewModel
-                   )
-               }
+                if (position.value != null) {
+                    Player(
+                        it = position.value?.position!!.toInt(),
+                        quantitiesMusic = quantitiesMusic,
+                        navController = navController,
+                        context = context,
+                        mainViewModel = mainViewModel
+                    )
+                }
 
                 BottomPanel()
             }
@@ -105,25 +112,50 @@ fun MainScreen(
                     modifier = modifier
                         .padding(vertical = 5.dp, horizontal = 5.dp)
                 ) {
-                    items(quantitiesMusic.value!!.size) {
+                    items(quantitiesMusic.value!!.size) { items ->
                         Box(
                             modifier = modifier
                                 .clip(shape = RoundedCornerShape(10.dp))
                                 .background(Color(0xFFFBF7F7))
                                 .fillMaxWidth()
-                                .clickable() {
-                                    CoroutineScope(Dispatchers.IO).launch {
-                                        mainViewModel.updateData(it)
-                                        Intent(context, PlayerService::class.java).also { service ->
-                                            context.startForegroundService(service)
+                                .combinedClickable(
+                                    onClick = {
+                                        CoroutineScope(Dispatchers.IO).launch {
+                                            mainViewModel.updateData(items)
+                                            Intent(
+                                                context,
+                                                PlayerService::class.java
+                                            ).also { service ->
+                                                context.startForegroundService(service)
+                                            }
+                                            mainViewModel.updateExternalData(true)
                                         }
-                                        mainViewModel.updateExternalData(true)
+                                    },
+                                    onLongClick = {
+                                        Log.d("SADFasf","sdadasd")
                                     }
-                                }
+
+                                )
+
+
+                                /*.combinedClickable(
+                                    onClick = {
+                                        CoroutineScope(Dispatchers.IO).launch {
+                                            mainViewModel.updateData(it)
+                                            Intent(context, PlayerService::class.java).also { service ->
+                                                context.startForegroundService(service)
+                                            }
+                                            mainViewModel.updateExternalData(true)
+                                        }
+                                    },
+                                    onLongClick  = {
+
+                                    }
+                                )*/
                                 .padding(14.dp)
                         ) {
                             Column {
-                                Text(text = quantitiesMusic.value!![it].nameMusic)
+                                Text(text = quantitiesMusic.value!![items].nameMusic)
                                 Text(
                                     text = "Performer - Unknown",
                                     color = Color.Gray
@@ -133,11 +165,14 @@ fun MainScreen(
                     }
                 }
             } else {
-                Box(modifier = modifier
-                    .fillMaxSize()
+                Box(
+                    modifier = modifier
+                        .fillMaxSize()
                 ) {
-                    Box(modifier = modifier
-                        .align(Alignment.Center))
+                    Box(
+                        modifier = modifier
+                            .align(Alignment.Center)
+                    )
                     {
                         Text(text = "Music not found")
                     }
