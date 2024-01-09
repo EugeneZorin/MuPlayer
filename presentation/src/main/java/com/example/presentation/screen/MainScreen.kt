@@ -1,8 +1,11 @@
 package com.example.presentation.screen
 
+import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Build
 import android.util.Log
+import androidx.activity.OnBackPressedCallback
+import androidx.activity.compose.LocalOnBackPressedDispatcherOwner
 import androidx.annotation.RequiresApi
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
@@ -17,9 +20,11 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.Checkbox
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.runtime.mutableStateOf
@@ -27,6 +32,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.input.pointer.pointerInput
@@ -43,8 +49,9 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
 
+
+@SuppressLint("NewApi")
 @OptIn(ExperimentalFoundationApi::class)
-@RequiresApi(Build.VERSION_CODES.O)
 @Composable
 fun MainScreen(
     mainViewModel: MainViewModel,
@@ -53,39 +60,75 @@ fun MainScreen(
 ) {
 
     var search by remember { mutableStateOf("") }
+    var stats = remember { mutableStateOf(false) }
+    var checkedState by remember { mutableStateOf(true) }
+
     val quantitiesMusic = mainViewModel.allMusic.observeAsState()
+    val size = quantitiesMusic.value!!.size
     val position = mainViewModel.getData.observeAsState()
     val context = LocalContext.current
 
+    val backDispatcher = LocalOnBackPressedDispatcherOwner.current?.onBackPressedDispatcher
+
+    DisposableEffect(backDispatcher){
+        val callback = object : OnBackPressedCallback(true){
+            override fun handleOnBackPressed() {
+                stats.value = false
+            }
+        }
+
+        backDispatcher?.addCallback(callback)
+
+        onDispose {
+            callback.remove()
+        }
+    }
+
+
     Scaffold(
         topBar = {
-            Column(
-                modifier = modifier.fillMaxWidth(),
-                horizontalAlignment = Alignment.CenterHorizontally,
-            ) {
-                SearchView(search = search, onValueChange = { search = it })
+            when (stats.value){
+                false ->
+                    Column(
+                        modifier = modifier.fillMaxWidth(),
+                        horizontalAlignment = Alignment.CenterHorizontally,
+                    ) {
+                        SearchView(search = search, onValueChange = { search = it })
+                    }
+                true ->
+                    Text(text = "123")
             }
+            
         },
 
         containerColor = Color.White,
 
         bottomBar = {
             Column {
-                if (position.value != null) {
-                    Player(
-                        it = position.value?.position!!.toInt(),
-                        quantitiesMusic = quantitiesMusic,
-                        navController = navController,
-                        context = context,
-                        mainViewModel = mainViewModel
-                    )
-                }
+                when (stats.value){
+                    false ->
+                        if (position.value?.position?.toInt() != null) {
+                            Player(
+                                it = position.value?.position!!.toInt(),
+                                quantitiesMusic = quantitiesMusic,
+                                navController = navController,
+                                context = context,
+                                mainViewModel = mainViewModel
+                            )
+                        }
+                    true ->
+                        Text(text = "123")
 
+                }
+                
                 BottomPanel()
             }
+           
+            
+            
         }
 
-    ) { it ->
+    ) {
         Column(
             modifier = modifier
                 .fillMaxSize()
@@ -99,72 +142,61 @@ fun MainScreen(
                     .padding(vertical = 5.dp, horizontal = 5.dp)
             ) {
                 Text(
-                    text = "Works: ${quantitiesMusic.value?.size}",
+                    text = "Works: $size",
                     color = Color.Gray
                 )
 
             }
 
-
-            if (quantitiesMusic.value?.size != null) {
-                LazyColumn(
-                    verticalArrangement = Arrangement.spacedBy(5.dp),
-                    modifier = modifier
-                        .padding(vertical = 5.dp, horizontal = 5.dp)
-                ) {
-                    items(quantitiesMusic.value!!.size) { items ->
-                        Box(
-                            modifier = modifier
-                                .clip(shape = RoundedCornerShape(10.dp))
-                                .background(Color(0xFFFBF7F7))
-                                .fillMaxWidth()
-                                .combinedClickable(
-                                    onClick = {
-                                        CoroutineScope(Dispatchers.IO).launch {
-                                            mainViewModel.updateData(items)
-                                            Intent(
-                                                context,
-                                                PlayerService::class.java
-                                            ).also { service ->
-                                                context.startForegroundService(service)
-                                            }
-                                            mainViewModel.updateExternalData(true)
+            LazyColumn(
+                verticalArrangement = Arrangement.spacedBy(5.dp),
+                modifier = modifier.padding(vertical = 5.dp, horizontal = 5.dp)
+            ) {
+                items(size) { music ->
+                    if (stats.value) {
+                        Checkbox(
+                            checked = checkedState,
+                            onCheckedChange = {
+                                checkedState = it },
+                            )
+                    }
+                    Box(
+                        modifier = modifier
+                            .clip(shape = RoundedCornerShape(10.dp))
+                            .background(Color(0xFFFBF7F7))
+                            .fillMaxWidth()
+                            .combinedClickable(
+                                onClick = {
+                                    CoroutineScope(Dispatchers.IO).launch {
+                                        mainViewModel.updateData(music)
+                                        Intent(
+                                            context,
+                                            PlayerService::class.java
+                                        ).also { service ->
+                                            context.startForegroundService(service)
                                         }
-                                    },
-                                    onLongClick = {
-                                        Log.d("SADFasf","sdadasd")
+                                        mainViewModel.updateExternalData(true)
                                     }
+                                },
+                                onLongClick = {
+                                    stats.value = true
 
-                                )
-
-
-                                /*.combinedClickable(
-                                    onClick = {
-                                        CoroutineScope(Dispatchers.IO).launch {
-                                            mainViewModel.updateData(it)
-                                            Intent(context, PlayerService::class.java).also { service ->
-                                                context.startForegroundService(service)
-                                            }
-                                            mainViewModel.updateExternalData(true)
-                                        }
-                                    },
-                                    onLongClick  = {
-
-                                    }
-                                )*/
-                                .padding(14.dp)
-                        ) {
-                            Column {
-                                Text(text = quantitiesMusic.value!![items].nameMusic)
-                                Text(
-                                    text = "Performer - Unknown",
-                                    color = Color.Gray
-                                )
-                            }
+                                }
+                            )
+                            .padding(14.dp)
+                    ) {
+                        Column {
+                            Text(text = quantitiesMusic.value!![music].nameMusic)
+                            Text(
+                                text = "Performer - Unknown",
+                                color = Color.Gray
+                            )
                         }
                     }
                 }
-            } else {
+            }
+
+            if (quantitiesMusic.value?.isEmpty() == true) {
                 Box(
                     modifier = modifier
                         .fillMaxSize()
@@ -178,6 +210,8 @@ fun MainScreen(
                     }
                 }
             }
+
+
         }
     }
 }

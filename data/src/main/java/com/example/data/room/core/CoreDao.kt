@@ -5,6 +5,8 @@ import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
+import androidx.room.RawQuery
+import androidx.sqlite.db.SupportSQLiteQuery
 
 @Dao
 interface CoreDao {
@@ -20,5 +22,5 @@ interface CoreDao {
     @Query("SELECT * FROM core_entity")
     suspend fun getAllCore(): List<CoreEntity>
 
-
 }
+
