@@ -15,6 +15,7 @@ import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -27,8 +28,10 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
+import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberUpdatedState
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -49,7 +52,6 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
 
-
 @SuppressLint("NewApi")
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
@@ -60,18 +62,19 @@ fun MainScreen(
 ) {
 
     var search by remember { mutableStateOf("") }
-    var stats = remember { mutableStateOf(false) }
-    var checkedState by remember { mutableStateOf(true) }
-
+    val stats = remember { mutableStateOf(false) }
     val quantitiesMusic = mainViewModel.allMusic.observeAsState()
     val size = quantitiesMusic.value!!.size
     val position = mainViewModel.getData.observeAsState()
     val context = LocalContext.current
 
+
+
+
     val backDispatcher = LocalOnBackPressedDispatcherOwner.current?.onBackPressedDispatcher
 
-    DisposableEffect(backDispatcher){
-        val callback = object : OnBackPressedCallback(true){
+    DisposableEffect(backDispatcher) {
+        val callback = object : OnBackPressedCallback(true) {
             override fun handleOnBackPressed() {
                 stats.value = false
             }
@@ -87,7 +90,7 @@ fun MainScreen(
 
     Scaffold(
         topBar = {
-            when (stats.value){
+            when (stats.value) {
                 false ->
                     Column(
                         modifier = modifier.fillMaxWidth(),
@@ -95,17 +98,18 @@ fun MainScreen(
                     ) {
                         SearchView(search = search, onValueChange = { search = it })
                     }
+
                 true ->
-                    Text(text = "123")
+                    Text(text = "${mainViewModel.arrayChosenMusic.size}")
             }
-            
+
         },
 
         containerColor = Color.White,
 
         bottomBar = {
             Column {
-                when (stats.value){
+                when (stats.value) {
                     false ->
                         if (position.value?.position?.toInt() != null) {
                             Player(
@@ -116,16 +120,16 @@ fun MainScreen(
                                 mainViewModel = mainViewModel
                             )
                         }
+
                     true ->
                         Text(text = "123")
 
                 }
-                
+
                 BottomPanel()
             }
-           
-            
-            
+
+
         }
 
     ) {
@@ -153,13 +157,11 @@ fun MainScreen(
                 modifier = modifier.padding(vertical = 5.dp, horizontal = 5.dp)
             ) {
                 items(size) { music ->
-                    if (stats.value) {
-                        Checkbox(
-                            checked = checkedState,
-                            onCheckedChange = {
-                                checkedState = it },
-                            )
+
+                    var isCheckedMain by remember {
+                        mutableStateOf(mainViewModel.isChecked.value!!)
                     }
+
                     Box(
                         modifier = modifier
                             .clip(shape = RoundedCornerShape(10.dp))
@@ -167,30 +169,75 @@ fun MainScreen(
                             .fillMaxWidth()
                             .combinedClickable(
                                 onClick = {
-                                    CoroutineScope(Dispatchers.IO).launch {
-                                        mainViewModel.updateData(music)
-                                        Intent(
-                                            context,
-                                            PlayerService::class.java
-                                        ).also { service ->
-                                            context.startForegroundService(service)
+                                    if (!stats.value) {
+                                        CoroutineScope(Dispatchers.IO).launch {
+                                            mainViewModel.updateData(music)
+                                            Intent(
+                                                context,
+                                                PlayerService::class.java
+                                            ).also { service ->
+                                                context.startForegroundService(service)
+                                            }
+                                            mainViewModel.updateExternalData(true)
                                         }
-                                        mainViewModel.updateExternalData(true)
+                                    } else {
+                                        isCheckedMain = when (isCheckedMain) {
+                                            true -> false
+                                            false -> true
+
+                                            else -> {
+                                                TODO()
+                                            }
+                                        }
+                                        chooseMusic(
+                                            isChecked = isCheckedMain!!,
+                                            mainViewModel = mainViewModel,
+                                            music = music
+                                        )
                                     }
                                 },
                                 onLongClick = {
                                     stats.value = true
-
+                                    isCheckedMain = when (isCheckedMain) {
+                                        true -> false
+                                        false -> true
+                                    }
+                                    chooseMusic(
+                                        isChecked = isCheckedMain,
+                                        mainViewModel = mainViewModel,
+                                        music = music
+                                    )
                                 }
                             )
                             .padding(14.dp)
                     ) {
-                        Column {
-                            Text(text = quantitiesMusic.value!![music].nameMusic)
-                            Text(
-                                text = "Performer - Unknown",
-                                color = Color.Gray
-                            )
+
+                        Row(
+                            modifier = modifier.fillMaxWidth(),
+                            horizontalArrangement = Arrangement.SpaceBetween
+                        ) {
+                            Column {
+                                Text(text = quantitiesMusic.value!![music].nameMusic)
+                                Text(
+                                    text = "Performer - Unknown",
+                                    color = Color.Gray
+                                )
+                            }
+
+                            if (stats.value) {
+                                Checkbox(
+                                    checked = isCheckedMain,
+                                    onCheckedChange = { checkBox ->
+                                        isCheckedMain = checkBox
+                                        chooseMusic(
+                                            isChecked = isCheckedMain,
+                                            mainViewModel = mainViewModel,
+                                            music = music
+                                        )
+
+                                    },
+                                )
+                            }
                         }
                     }
                 }
@@ -217,3 +264,16 @@ fun MainScreen(
 }
 
 
+
+fun chooseMusic(
+    isChecked: Boolean,
+    music: Int,
+    mainViewModel: MainViewModel
+){
+    when (isChecked) {
+        true ->
+            mainViewModel.arrayChosenMusic.add(music)
+        false ->
+            mainViewModel.arrayChosenMusic.remove(music)
+    }
+}

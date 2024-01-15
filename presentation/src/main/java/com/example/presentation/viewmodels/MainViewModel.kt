@@ -2,7 +2,10 @@ package com.example.presentation.viewmodels
 
 import android.app.Application
 import android.content.Intent
+import androidx.compose.runtime.mutableIntStateOf
+import androidx.compose.runtime.mutableLongStateOf
 import androidx.compose.runtime.mutableStateListOf
+import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -38,6 +41,12 @@ class MainViewModel @Inject constructor(
 
     private val _externalPlayer = MutableLiveData<PlayerExternalModel>()
     val externalPlayer: MutableLiveData<PlayerExternalModel> = _externalPlayer
+
+    private val _isChecked = MutableLiveData(false)
+    var isChecked: MutableLiveData<Boolean> = _isChecked
+
+    private val _arrayChosenMusic = mutableStateListOf<Int>()
+    val arrayChosenMusic: MutableList<Int> = _arrayChosenMusic
 
 
     fun updateExternalData(state: Boolean){
