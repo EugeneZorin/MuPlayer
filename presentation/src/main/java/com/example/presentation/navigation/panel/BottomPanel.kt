@@ -1,19 +1,27 @@
 package com.example.presentation.navigation.panel
 
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxHeight
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.shape.CutCornerShape
+import androidx.compose.material.ripple.rememberRipple
 import androidx.compose.material3.BottomAppBar
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
+import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.res.painterResource
@@ -64,6 +72,49 @@ fun BottomPanel() {
 }
 
 @Composable
+fun MusicInteractionPanel(
+    modifier: Modifier = Modifier
+) {
+
+    BottomAppBar(
+        modifier = modifier
+            .fillMaxHeight(0.07f),
+        containerColor = Color(0xFFF2EDF7)
+    ) {
+        Row(
+            modifier = modifier
+                .fillMaxSize(1f),
+            horizontalArrangement = Arrangement.SpaceAround,
+            verticalAlignment = Alignment.CenterVertically
+
+
+        ) {
+            IconBottomPanel(
+                icon = painterResource(id = R.drawable.queue_music),
+                contentDescription = "Music",
+                text = "Music",
+                alignment = Alignment.Start
+            )
+            IconBottomPanel(
+                icon = painterResource(id = R.drawable.queue_music),
+                contentDescription = "Music",
+                text = "Music",
+                alignment = Alignment.Start
+            )
+            IconBottomPanel(
+                icon = painterResource(id = R.drawable.queue_music),
+                contentDescription = "Music",
+                text = "Music",
+                alignment = Alignment.Start
+            )
+
+        }
+    }
+
+
+}
+
+@Composable
 fun IconBottomPanel(
     icon: Painter,
     contentDescription: String,
@@ -71,12 +122,18 @@ fun IconBottomPanel(
     alignment: Alignment.Horizontal,
 ) {
     Column(
-        modifier = Modifier.clickable {
+        modifier = Modifier
+            .clickable(
+                enabled = false,
+                interactionSource = remember { MutableInteractionSource() },
+                indication = rememberRipple(bounded = true),
+            ) {
 
-        },
+            },
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Center
     ) {
+
         Icon(
             painter = icon,
             contentDescription = contentDescription,
