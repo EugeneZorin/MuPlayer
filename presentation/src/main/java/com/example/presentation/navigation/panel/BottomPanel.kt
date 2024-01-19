@@ -1,5 +1,6 @@
 package com.example.presentation.navigation.panel
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Arrangement
@@ -11,16 +12,23 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.CutCornerShape
 import androidx.compose.material.ripple.rememberRipple
+import androidx.compose.material3.AlertDialogDefaults.shape
 import androidx.compose.material3.BottomAppBar
+import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.draw.rotate
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.painter.Painter
@@ -51,21 +59,24 @@ fun BottomPanel() {
                 icon = painterResource(id = R.drawable.queue_music),
                 contentDescription = "Music",
                 text = "Music",
-                alignment = Alignment.Start
+                alignment = Alignment.Start,
+                color = 0xFFFBF7F7
             )
 
             IconBottomPanel(
                 icon = painterResource(id = R.drawable.playlist_music),
                 contentDescription = "Playlist",
                 text = "Playlist",
-                alignment = Alignment.CenterHorizontally
+                alignment = Alignment.CenterHorizontally,
+                color = 0xFFFBF7F7
             )
 
             IconBottomPanel(
                 icon = painterResource(id = R.drawable.setting_default),
                 contentDescription = "Setting",
                 text = "Setting",
-                alignment = Alignment.End
+                alignment = Alignment.End,
+                color = 0xFFFBF7F7
             )
         }
     }
@@ -93,19 +104,22 @@ fun MusicInteractionPanel(
                 icon = painterResource(id = R.drawable.queue_music),
                 contentDescription = "Music",
                 text = "Music",
-                alignment = Alignment.Start
+                alignment = Alignment.Start,
+                color = 0xFFF2EDF7
             )
             IconBottomPanel(
                 icon = painterResource(id = R.drawable.queue_music),
                 contentDescription = "Music",
                 text = "Music",
-                alignment = Alignment.Start
+                alignment = Alignment.Start,
+                color = 0xFFF2EDF7
             )
             IconBottomPanel(
                 icon = painterResource(id = R.drawable.queue_music),
                 contentDescription = "Music",
                 text = "Music",
-                alignment = Alignment.Start
+                alignment = Alignment.Start,
+                color = 0xFFF2EDF7
             )
 
         }
@@ -120,31 +134,37 @@ fun IconBottomPanel(
     contentDescription: String,
     text: String,
     alignment: Alignment.Horizontal,
+    color: Long
 ) {
-    Column(
-        modifier = Modifier
-            .clickable(
-                enabled = false,
-                interactionSource = remember { MutableInteractionSource() },
-                indication = rememberRipple(bounded = true),
-            ) {
+    Button(
+        onClick = {},
+        colors = ButtonDefaults.buttonColors(
+            containerColor = Color(color),
+            contentColor = Color.Red),
+        interactionSource = remember { MutableInteractionSource() },
 
-            },
-        horizontalAlignment = Alignment.CenterHorizontally,
-        verticalArrangement = Arrangement.Center
+
+
     ) {
+        Column(
+            modifier = Modifier,
+            horizontalAlignment = Alignment.CenterHorizontally,
+            verticalArrangement = Arrangement.Center
+        ) {
 
-        Icon(
-            painter = icon,
-            contentDescription = contentDescription,
-            modifier = Modifier.size(30.dp)
-        )
 
-        Text(
-            text = text,
-            modifier = Modifier.align(alignment)
-        )
+            Icon(
+                painter = icon,
+                contentDescription = contentDescription
+            )
+
+            Text(
+                text = text,
+                modifier = Modifier.align(alignment)
+            )
+        }
     }
+
 }
 
 

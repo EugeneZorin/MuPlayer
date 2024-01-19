@@ -39,7 +39,9 @@ fun SearchView(
         OutlinedTextField(
             value = search,
             onValueChange = onValueChange,
-            modifier = modifier.fillMaxWidth(0.9f).background(Color(0xFFE1EAF2)),
+            modifier = modifier
+                .fillMaxWidth(0.9f)
+                .background(Color(0xFFE1EAF2)),
             textStyle = TextStyle(fontSize = 20.sp),
             colors = TextFieldDefaults.outlinedTextFieldColors(
                 disabledTextColor = Color.Black,

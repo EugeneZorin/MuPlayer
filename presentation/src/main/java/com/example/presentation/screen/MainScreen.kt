@@ -34,6 +34,8 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.example.presentation.R
@@ -95,7 +97,19 @@ fun MainScreen(
                     }
 
                 true ->
-                    Text(text = "${mainViewModel.arrayChosenMusic.size}")
+                    Box(
+                        modifier = Modifier
+                            .background(Color(0xFFE1EAF2))
+                            .fillMaxWidth(1f)
+                            .fillMaxHeight(0.05f)
+                            .padding(10.dp)
+
+                    ){
+                        Text(
+                            text = "Songs selected: ${mainViewModel.arrayChosenMusic.size}",
+
+                        )
+                    }
             }
 
         },
