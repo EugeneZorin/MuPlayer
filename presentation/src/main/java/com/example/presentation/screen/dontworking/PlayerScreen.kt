@@ -37,7 +37,9 @@ fun PlayerScreen(
 
         bottomBar = {
             Column {
-                BottomPanel()
+                BottomPanel(
+                    navController = navController
+                )
             }
         },
 

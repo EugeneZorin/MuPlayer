@@ -9,16 +9,16 @@ import androidx.room.Query
 @Dao
 interface PlaylistDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insertAlbum(albumsEntity: PlaylistEntity)
+    suspend fun insertPlaylist(playlistEntity: PlaylistEntity)
 
-    @Query("DELETE FROM albums_entity WHERE id = :id")
+    @Query("DELETE FROM playlist_entity WHERE id = :id")
     suspend fun delete(id: String)
 
-    @Query("SELECT id, album_map FROM albums_entity WHERE id = :id")
-    @MapInfo(keyColumn = "id", valueColumn = "album_map")
+    @Query("SELECT id, playlists FROM playlist_entity WHERE id = :id")
+    @MapInfo(keyColumn = "id", valueColumn = "playlists")
     suspend fun searchSong(id: String): Map<String, String>?
 
-    @Query("SELECT * FROM albums_entity")
-    suspend fun getAllAlbums(): List<PlaylistEntity>
+    @Query("SELECT * FROM playlist_entity")
+    suspend fun getAllPlaylist(): List<PlaylistEntity>
 
 }

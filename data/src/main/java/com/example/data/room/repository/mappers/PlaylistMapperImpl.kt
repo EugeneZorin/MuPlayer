@@ -10,7 +10,7 @@ class PlaylistMapperImpl: PlaylistEntityMapper<PlaylistEntity> {
     override fun mapToDomain(entity: PlaylistEntity): PlaylistEntityModel {
         return PlaylistEntityModel(
             id = entity.id,
-            albumList = entity.albumList
+            playlist = entity.playList
         )
     }
 

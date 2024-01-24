@@ -46,6 +46,7 @@ import com.example.presentation.screen.components.SearchView
 import com.example.presentation.screen.components.palylist.Player
 import com.example.presentation.service.PlayerService
 import com.example.presentation.viewmodels.MainViewModel
+import com.example.presentation.viewmodels.ViewModelPlayList
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -56,6 +57,7 @@ import kotlinx.coroutines.launch
 @Composable
 fun MainScreen(
     mainViewModel: MainViewModel,
+    viewModelPlayList: ViewModelPlayList,
     navController: NavController,
     modifier: Modifier = Modifier,
 ) {
@@ -106,7 +108,7 @@ fun MainScreen(
 
                     ){
                         Text(
-                            text = "Songs selected: ${mainViewModel.arrayChosenMusic.size}",
+                            text = "Songs selected: ${viewModelPlayList.arrayChosenMusic.size}",
 
                         )
                     }
@@ -131,11 +133,15 @@ fun MainScreen(
                         }
 
                     true ->
-                        MusicInteractionPanel()
+                        MusicInteractionPanel(
+                            viewModelPlayList = viewModelPlayList
+                        )
 
                 }
 
-                BottomPanel()
+                BottomPanel(
+                    navController = navController
+                )
             }
 
 
@@ -168,7 +174,7 @@ fun MainScreen(
                 items(size) { music ->
 
                     var isCheckedMain by remember {
-                        mutableStateOf(mainViewModel.isChecked.value!!)
+                        mutableStateOf(viewModelPlayList.isChecked.value!!)
                     }
 
                     Box(
@@ -196,7 +202,7 @@ fun MainScreen(
                                         }
                                         chooseMusic(
                                             isChecked = isCheckedMain,
-                                            mainViewModel = mainViewModel,
+                                            viewModelPlayList = viewModelPlayList,
                                             music = music
                                         )
                                     }
@@ -209,7 +215,7 @@ fun MainScreen(
                                     }
                                     chooseMusic(
                                         isChecked = isCheckedMain,
-                                        mainViewModel = mainViewModel,
+                                        viewModelPlayList = viewModelPlayList,
                                         music = music
                                     )
                                 }
@@ -236,7 +242,7 @@ fun MainScreen(
                                         isCheckedMain = checkBox
                                         chooseMusic(
                                             isChecked = isCheckedMain,
-                                            mainViewModel = mainViewModel,
+                                            viewModelPlayList = viewModelPlayList,
                                             music = music
                                         )
 
@@ -272,13 +278,13 @@ fun MainScreen(
 fun chooseMusic(
     isChecked: Boolean,
     music: Int,
-    mainViewModel: MainViewModel
+    viewModelPlayList: ViewModelPlayList
 ) {
     when (isChecked) {
         true ->
-            mainViewModel.arrayChosenMusic.add(music)
+            viewModelPlayList.arrayChosenMusic[music.toString()] = "1"
 
         false ->
-            mainViewModel.arrayChosenMusic.remove(music)
+            viewModelPlayList.arrayChosenMusic.remove(music.toString())
     }
 }

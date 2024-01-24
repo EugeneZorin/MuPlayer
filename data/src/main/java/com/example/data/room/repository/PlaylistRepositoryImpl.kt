@@ -12,11 +12,11 @@ class PlaylistRepositoryImpl @Inject constructor(
     private val albumEntityModel: PlaylistEntityMapper<PlaylistEntity>
 ): PlaylistsContractDt {
 
-    override suspend fun insertAlbum(albumsEntity: PlaylistEntityModel) {
-        playlistDao.insertAlbum(
+    override suspend fun insertPlaylist(playlistEntity: PlaylistEntityModel) {
+        playlistDao.insertPlaylist(
             PlaylistEntity(
-                id = albumsEntity.id,
-                albumList = albumsEntity.albumList
+                id = playlistEntity.id,
+                playList = playlistEntity.playlist
             )
         )
     }
@@ -25,8 +25,8 @@ class PlaylistRepositoryImpl @Inject constructor(
         return playlistDao.searchSong(id)
     }
 
-    override suspend fun getAllAlbums(): List<PlaylistEntityModel> {
-        val getAllAlbum = playlistDao.getAllAlbums()
+    override suspend fun getAllPlaylist(): List<PlaylistEntityModel> {
+        val getAllAlbum = playlistDao.getAllPlaylist()
         return getAllAlbum.map {
             albumEntityModel.mapToDomain(it)
         }

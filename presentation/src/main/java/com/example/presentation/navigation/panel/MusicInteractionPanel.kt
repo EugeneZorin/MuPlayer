@@ -1,22 +1,11 @@
 package com.example.presentation.navigation.panel
 
-import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.shape.CircleShape
-import androidx.compose.foundation.shape.CutCornerShape
-import androidx.compose.material.ripple.rememberRipple
-import androidx.compose.material3.AlertDialogDefaults.shape
 import androidx.compose.material3.BottomAppBar
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
@@ -26,75 +15,69 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.alpha
-import androidx.compose.ui.draw.clip
-import androidx.compose.ui.draw.rotate
-import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.dp
-import androidx.lifecycle.viewmodel.compose.viewModel
-import androidx.navigation.NavController
 import com.example.presentation.R
 import com.example.presentation.viewmodels.ViewModelPlayList
 
-
-
 @Composable
-fun BottomPanel(
-    navController: NavController
+fun MusicInteractionPanel(
+    modifier: Modifier = Modifier,
+    viewModelPlayList: ViewModelPlayList
 ) {
 
     BottomAppBar(
-        modifier = Modifier.fillMaxHeight(0.09f),
-        containerColor = Color(0xFFFBF7F7),
-        contentColor = Color(0xFF797373),
+        modifier = modifier
+            .fillMaxHeight(0.07f),
+        containerColor = Color(0xFFF2EDF7)
     ) {
-
         Row(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(horizontal = 40.dp),
-            horizontalArrangement = Arrangement.SpaceBetween,
+            modifier = modifier
+                .fillMaxSize(1f),
+            horizontalArrangement = Arrangement.SpaceAround,
             verticalAlignment = Alignment.CenterVertically
+
+
         ) {
-            IconBottomPanel(
+            IconInteractionPanel(
                 icon = painterResource(id = R.drawable.queue_music),
-                contentDescription = "Music",
-                text = "Music",
+                contentDescription = "Delete",
+                text = "Delete",
                 alignment = Alignment.Start,
-                color = 0xFFFBF7F7,
+                color = 0xFFF2EDF7,
+                viewModelPlayList = viewModelPlayList
+            )
+            IconInteractionPanel(
+                icon = painterResource(id = R.drawable.queue_music),
+                contentDescription = "Create",
+                text = "Create",
+                alignment = Alignment.Start,
+                color = 0xFFF2EDF7,
+                viewModelPlayList = viewModelPlayList
+            )
+            IconInteractionPanel(
+                icon = painterResource(id = R.drawable.queue_music),
+                contentDescription = "Add",
+                text = "Add",
+                alignment = Alignment.Start,
+                color = 0xFFF2EDF7,
+                viewModelPlayList = viewModelPlayList
             )
 
-            IconBottomPanel(
-                icon = painterResource(id = R.drawable.playlist_music),
-                contentDescription = "Playlist",
-                text = "Playlist",
-                alignment = Alignment.CenterHorizontally,
-                color = 0xFFFBF7F7
-            )
-
-            IconBottomPanel(
-                icon = painterResource(id = R.drawable.setting_default),
-                contentDescription = "Setting",
-                text = "Setting",
-                alignment = Alignment.End,
-                color = 0xFFFBF7F7
-            )
         }
     }
+
 }
 
-
 @Composable
-fun IconBottomPanel(
+fun IconInteractionPanel(
     icon: Painter,
     contentDescription: String,
     text: String,
     alignment: Alignment.Horizontal,
     color: Long,
+    viewModelPlayList: ViewModelPlayList
 ) {
     Button(
         onClick = {
@@ -107,7 +90,7 @@ fun IconBottomPanel(
 
 
 
-    ) {
+        ) {
         Column(
             modifier = Modifier,
             horizontalAlignment = Alignment.CenterHorizontally,
@@ -128,6 +111,3 @@ fun IconBottomPanel(
     }
 
 }
-
-
-

@@ -15,14 +15,15 @@ import com.example.data.room.converter.PlaylistConverter
 )
 @TypeConverters(PlaylistConverter::class)
 abstract class PlaylistDatabase: RoomDatabase() {
-    abstract fun albumsDao(): PlaylistDao
+
+    abstract val playlistDao: PlaylistDao
 
     companion object{
         fun database(context: Context): PlaylistDatabase {
             return Room.databaseBuilder(
                 context,
                 PlaylistDatabase::class.java,
-                "albums_entity"
+                "playlist_entity"
             ).build()
         }
     }

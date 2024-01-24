@@ -13,6 +13,7 @@ import com.example.presentation.permissions.RequestPermission
 import com.example.presentation.screen.MainScreen
 import com.example.presentation.screen.dontworking.PlayerScreen
 import com.example.presentation.viewmodels.MainViewModel
+import com.example.presentation.viewmodels.ViewModelPlayList
 
 
 @RequiresApi(Build.VERSION_CODES.O)
@@ -21,6 +22,7 @@ fun NavigationGraph() {
 
     val navController = rememberNavController()
     val mainViewModel = hiltViewModel<MainViewModel>()
+    val viewModelPlayList = hiltViewModel<ViewModelPlayList>()
 
 
     NavHost(navController = navController, startDestination = MainScreens.PERMISSION_REQUEST) {
@@ -30,12 +32,14 @@ fun NavigationGraph() {
                 mainViewModel = mainViewModel,
                 requestPermission = Permissions.readExternalPermission,
                 navController = navController,
+
             )
         }
 
         composable(MainScreens.MAIN_SCREE) {
             MainScreen(
                 mainViewModel = mainViewModel,
+                viewModelPlayList = viewModelPlayList,
                 navController = navController,
             )
         }

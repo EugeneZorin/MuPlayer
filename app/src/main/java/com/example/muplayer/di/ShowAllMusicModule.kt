@@ -39,16 +39,7 @@ import javax.inject.Singleton
 @Module
 @InstallIn(SingletonComponent::class)
 object ShowAllMusicModule {
-    @Provides
-    fun provideViewModel(
-        useCaseCoreContract: CoreContractPres,
-        playerStatePres: PlayerStatePres,
-        searchAudioContract: SearchAudioContract,
-        firstRunPres: FirstRunPres,
-        externalPlayerPres: ExternalPlayerPres
-    ): MainViewModel {
-        return MainViewModel(useCaseCoreContract, playerStatePres, searchAudioContract, firstRunPres,externalPlayerPres)
-    }
+
 
     @Provides
     fun provideFirstRunImpl(
