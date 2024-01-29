@@ -1,12 +1,9 @@
 package com.example.data.room.core
 
-import androidx.lifecycle.LiveData
 import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
-import androidx.room.RawQuery
-import androidx.sqlite.db.SupportSQLiteQuery
 
 @Dao
 interface CoreDao {
@@ -18,6 +15,9 @@ interface CoreDao {
 
     @Query("SELECT * FROM core_entity WHERE name_music = :name")
     suspend fun searchSong(name: String): List<CoreEntity>
+
+    @Query("SELECT name_music, id_music FROM core_entity WHERE id = :id ")
+    suspend fun getMusic(id: Int): List<CoreEntity>
 
     @Query("SELECT * FROM core_entity")
     suspend fun getAllCore(): List<CoreEntity>

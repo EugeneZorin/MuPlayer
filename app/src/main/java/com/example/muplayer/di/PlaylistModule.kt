@@ -13,7 +13,12 @@ import com.example.data.room.repository.mappers.CoreMapperImpl
 import com.example.data.room.repository.mappers.PlaylistMapperImpl
 import com.example.domain.repository.mappers.CoreEntityMapper
 import com.example.domain.repository.mappers.PlaylistEntityMapper
+import com.example.domain.repository.room.CoreContractDt
 import com.example.domain.repository.room.PlaylistsContractDt
+import com.example.domain.usecase.datastory.contract.PlayerStatePres
+import com.example.domain.usecase.room.UseCaseCore
+import com.example.domain.usecase.room.UseCasePlaylist
+import com.example.domain.usecase.room.contract.CoreContractPres
 import com.example.domain.usecase.room.contract.PlaylistContractPres
 import com.example.presentation.viewmodels.ViewModelPlayList
 import dagger.Module
@@ -35,6 +40,13 @@ object PlaylistModule {
     }
 
     @Provides
+    fun provideUseCasePlaylistContract(
+        playlistsContract: PlaylistsContractDt
+    ): PlaylistContractPres {
+        return UseCasePlaylist(playlistsContract)
+    }
+
+    @Provides
     fun provideCoreDatabase(application: Application): PlaylistDatabase {
         return PlaylistDatabase.database(application)
     }
@@ -52,8 +64,9 @@ object PlaylistModule {
 
     @Provides
     fun provideViewModelPlayList(
-        playlistContractPres: PlaylistContractPres
+        playlistContractPres: PlaylistContractPres,
+        useCaseCoreContract: CoreContractPres,
     ): ViewModelPlayList {
-        return ViewModelPlayList(playlistContractPres)
+        return ViewModelPlayList(playlistContractPres, useCaseCoreContract)
     }
 }

@@ -19,6 +19,10 @@ class UseCaseCore(
         return coreContract.search(name)
     }
 
+    override suspend fun getMusic(id: Int): List<CoreEntityModel> {
+        return coreContract.getMusic(id)
+    }
+
     override suspend fun getAllCore(): List<CoreEntityModel> {
         return coreContract.getAllCore()
     }

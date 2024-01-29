@@ -6,13 +6,19 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.BottomAppBar
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -79,9 +85,17 @@ fun IconInteractionPanel(
     color: Long,
     viewModelPlayList: ViewModelPlayList
 ) {
+
+    var isDialogVisible by remember { mutableStateOf(false) }
+    var enteredText by remember { mutableStateOf("") }
+
     Button(
         onClick = {
-
+            when (text) {
+                "Create" -> {
+                    isDialogVisible = true
+                }
+            }
         },
         colors = ButtonDefaults.buttonColors(
             containerColor = Color(color),
@@ -108,6 +122,43 @@ fun IconInteractionPanel(
                 modifier = Modifier.align(alignment)
             )
         }
+    }
+
+    if (isDialogVisible) {
+        AlertDialog(
+            onDismissRequest = {
+                isDialogVisible = false
+            },
+            title = {
+                Text("Enter playlist name")
+            },
+            text = {
+                TextField(
+                    value = enteredText,
+                    onValueChange = {
+                        enteredText = it
+                    },
+                    label = { Text("Name") },
+                    modifier = Modifier.fillMaxWidth()
+                )
+            },
+            confirmButton = {
+                Button(onClick = {
+                    isDialogVisible = false
+                }) {
+                    Text("OK")
+
+                    viewModelPlayList.createPlaylist(namePlayList = enteredText)
+                }
+            },
+            dismissButton = {
+                Button(onClick = {
+                    isDialogVisible = false
+                }) {
+                    Text("Cancel")
+                }
+            }
+        )
     }
 
 }

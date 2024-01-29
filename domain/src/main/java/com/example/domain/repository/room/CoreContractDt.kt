@@ -6,5 +6,6 @@ interface CoreContractDt {
     suspend fun search(name: String): List<CoreEntityModel>
     suspend fun delete(id: Long)
     suspend fun insert(coreEntity: CoreEntityModel)
+    suspend fun getMusic(id: Int): List<CoreEntityModel>
     suspend fun getAllCore(): List<CoreEntityModel>
 }

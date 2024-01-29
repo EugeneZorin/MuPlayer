@@ -8,14 +8,14 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 
 @Composable
-fun AlbumScreen() {
+fun PlaylistScreen() {
 
     Box(
         modifier = Modifier.fillMaxSize()
     ) {
         Box(modifier = Modifier.align(Alignment.Center)) {
             Text(
-                text = "AlbumScreen",
+                text = "Playlist",
             )
         }
 

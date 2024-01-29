@@ -66,9 +66,9 @@ fun MainScreen(
     val stats = remember { mutableStateOf(false) }
     val quantitiesMusic = mainViewModel.allMusic.observeAsState()
     val size = quantitiesMusic.value!!.size
+
     val position = mainViewModel.getData.observeAsState()
     val context = LocalContext.current
-
 
     val backDispatcher = LocalOnBackPressedDispatcherOwner.current?.onBackPressedDispatcher
 
@@ -282,9 +282,9 @@ fun chooseMusic(
 ) {
     when (isChecked) {
         true ->
-            viewModelPlayList.arrayChosenMusic[music.toString()] = "1"
+            viewModelPlayList.arrayChosenMusic.add(music)
 
         false ->
-            viewModelPlayList.arrayChosenMusic.remove(music.toString())
+            viewModelPlayList.arrayChosenMusic.remove(music)
     }
 }

@@ -9,7 +9,6 @@ class UseCasePlaylist(
 ) : PlaylistContractPres {
 
 
-
     override suspend fun createPlaylistContract(playlistEntityModel: PlaylistEntityModel) {
         playlistsContract.insertPlaylist(playlistEntityModel)
     }
