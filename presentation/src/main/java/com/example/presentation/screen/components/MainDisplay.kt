@@ -1,9 +1,11 @@
-package com.example.presentation.screen
+package com.example.presentation.screen.components
 
-import android.annotation.SuppressLint
+import android.content.Context
 import android.content.Intent
+import android.os.Build
 import androidx.activity.OnBackPressedCallback
 import androidx.activity.compose.LocalOnBackPressedDispatcherOwner
+import androidx.annotation.RequiresApi
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.combinedClickable
@@ -17,14 +19,13 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material3.BottomAppBar
 import androidx.compose.material3.Checkbox
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
+import androidx.compose.runtime.State
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
@@ -32,19 +33,15 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.text.TextStyle
-import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
-import com.example.presentation.R
+import com.example.domain.entity.CoreEntityModel
+import com.example.domain.entity.PlayerEntityModel
 import com.example.presentation.navigation.panel.BottomPanel
-import com.example.presentation.navigation.panel.IconBottomPanel
 import com.example.presentation.navigation.panel.MusicInteractionPanel
-import com.example.presentation.screen.components.SearchView
 import com.example.presentation.screen.components.palylist.Player
 import com.example.presentation.service.PlayerService
+import com.example.presentation.theme.White
 import com.example.presentation.viewmodels.MainViewModel
 import com.example.presentation.viewmodels.ViewModelPlayList
 import kotlinx.coroutines.CoroutineScope
@@ -52,30 +49,45 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
 
-@SuppressLint("NewApi")
+@RequiresApi(Build.VERSION_CODES.O)
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
-fun MainScreen(
+fun MainDisplay(
+    modifier: Modifier = Modifier,
     mainViewModel: MainViewModel,
     viewModelPlayList: ViewModelPlayList,
     navController: NavController,
-    modifier: Modifier = Modifier,
-) {
+    context: Context,
+    quantitiesMusic: State<List<CoreEntityModel>?>,
+    selectedTrackNumber: State<PlayerEntityModel?>
+){
+    // To track what type of clicks are taking place
+    var stats by remember { mutableStateOf(false) }
 
+    // Search
     var search by remember { mutableStateOf("") }
-    val stats = remember { mutableStateOf(false) }
-    val quantitiesMusic = mainViewModel.allMusic.observeAsState()
+
+    // The number of music tracks in the received database
     val size = quantitiesMusic.value!!.size
 
-    val position = mainViewModel.getData.observeAsState()
-    val context = LocalContext.current
+    // Retrieves from the ViewModel the track number that was selected by the user for playback
+    val getTrackNumber = selectedTrackNumber.value?.position?.toInt()
 
+    val getValue = viewModelPlayList.isChecked.value!!
+
+    // Records how many tracks were selected by long pressing,
+    // it is necessary to display this value in the upper part of the application
+    val sizeChosenMusic = viewModelPlayList.arrayChosenMusic.size
+
+    // Getting the "back button click" event manager
     val backDispatcher = LocalOnBackPressedDispatcherOwner.current?.onBackPressedDispatcher
 
+    // Implementation of the "back button click" event
     DisposableEffect(backDispatcher) {
+
         val callback = object : OnBackPressedCallback(true) {
             override fun handleOnBackPressed() {
-                stats.value = false
+                stats = false
             }
         }
 
@@ -89,7 +101,7 @@ fun MainScreen(
 
     Scaffold(
         topBar = {
-            when (stats.value) {
+            when (stats) {
                 false ->
                     Column(
                         modifier = modifier.fillMaxWidth(),
@@ -101,16 +113,13 @@ fun MainScreen(
                 true ->
                     Box(
                         modifier = Modifier
-                            .background(Color(0xFFE1EAF2))
+                            .background(White)
                             .fillMaxWidth(1f)
                             .fillMaxHeight(0.05f)
                             .padding(10.dp)
 
-                    ){
-                        Text(
-                            text = "Songs selected: ${viewModelPlayList.arrayChosenMusic.size}",
-
-                        )
+                    ) {
+                        Text(text = "Songs selected: $sizeChosenMusic")
                     }
             }
 
@@ -120,11 +129,11 @@ fun MainScreen(
 
         bottomBar = {
             Column {
-                when (stats.value) {
+                when (stats) {
                     false ->
-                        if (position.value?.position?.toInt() != null) {
+                        if (getTrackNumber != null) {
                             Player(
-                                it = position.value?.position!!.toInt(),
+                                selectedTrackNumber = getTrackNumber,
                                 quantitiesMusic = quantitiesMusic,
                                 navController = navController,
                                 context = context,
@@ -173,9 +182,7 @@ fun MainScreen(
             ) {
                 items(size) { music ->
 
-                    var isCheckedMain by remember {
-                        mutableStateOf(viewModelPlayList.isChecked.value!!)
-                    }
+                    var isCheckedMain by remember { mutableStateOf(getValue) }
 
                     Box(
                         modifier = modifier
@@ -184,7 +191,7 @@ fun MainScreen(
                             .fillMaxWidth()
                             .combinedClickable(
                                 onClick = {
-                                    if (!stats.value) {
+                                    if (!stats) {
                                         CoroutineScope(Dispatchers.IO).launch {
                                             mainViewModel.updateData(music)
                                             Intent(
@@ -207,8 +214,9 @@ fun MainScreen(
                                         )
                                     }
                                 },
+
                                 onLongClick = {
-                                    stats.value = true
+                                    stats = true
                                     isCheckedMain = when (isCheckedMain) {
                                         true -> false
                                         false -> true
@@ -221,6 +229,7 @@ fun MainScreen(
                                 }
                             )
                             .padding(14.dp)
+
                     ) {
 
                         Row(
@@ -235,7 +244,7 @@ fun MainScreen(
                                 )
                             }
 
-                            if (stats.value) {
+                            if (stats) {
                                 Checkbox(
                                     checked = isCheckedMain,
                                     onCheckedChange = { checkBox ->
@@ -253,38 +262,6 @@ fun MainScreen(
                     }
                 }
             }
-
-            if (quantitiesMusic.value?.isEmpty() == true) {
-                Box(
-                    modifier = modifier
-                        .fillMaxSize()
-                ) {
-                    Box(
-                        modifier = modifier
-                            .align(Alignment.Center)
-                    )
-                    {
-                        Text(text = "Music not found")
-                    }
-                }
-            }
-
-
         }
-    }
-}
-
-
-fun chooseMusic(
-    isChecked: Boolean,
-    music: Int,
-    viewModelPlayList: ViewModelPlayList
-) {
-    when (isChecked) {
-        true ->
-            viewModelPlayList.arrayChosenMusic.add(music)
-
-        false ->
-            viewModelPlayList.arrayChosenMusic.remove(music)
     }
 }

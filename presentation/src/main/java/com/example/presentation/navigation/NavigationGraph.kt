@@ -10,7 +10,7 @@ import androidx.navigation.compose.rememberNavController
 import com.example.presentation.screen.components.palylist.PlayerStripe
 import com.example.presentation.permissions.Permissions
 import com.example.presentation.permissions.RequestPermission
-import com.example.presentation.screen.MainScreen
+import com.example.presentation.screen.components.MainScreen
 import com.example.presentation.screen.dontworking.PlayerScreen
 import com.example.presentation.viewmodels.MainViewModel
 import com.example.presentation.viewmodels.ViewModelPlayList

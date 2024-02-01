@@ -30,7 +30,7 @@ import com.example.presentation.viewmodels.MainViewModel
 
 @Composable
 fun Player(
-    it: Int,
+    selectedTrackNumber: Int,
     quantitiesMusic: State<List<CoreEntityModel>?>,
     navController: NavController,
     context: Context,
@@ -41,7 +41,7 @@ fun Player(
     val intent = Intent(context, PlayerService::class.java)
     val iconResId = externalPlayer.value?.pauseStop ?: true
 
-    val position = it - 1
+    val position = selectedTrackNumber - 1
     val music = quantitiesMusic.value!!
 
     fun startPlayer(actions: Int){

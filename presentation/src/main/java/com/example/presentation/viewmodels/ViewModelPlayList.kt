@@ -1,13 +1,10 @@
 package com.example.presentation.viewmodels
 
-import android.util.Log
 import androidx.compose.runtime.mutableStateListOf
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.domain.entity.CoreEntityModel
 import com.example.domain.entity.PlaylistEntityModel
-import com.example.domain.usecase.datastory.contract.PlayerStatePres
 import com.example.domain.usecase.room.contract.CoreContractPres
 import com.example.domain.usecase.room.contract.PlaylistContractPres
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -23,10 +20,6 @@ class ViewModelPlayList @Inject constructor(
     private val _isChecked = MutableLiveData(false)
     var isChecked: MutableLiveData<Boolean> = _isChecked
 
-    private val _allMusic = MutableLiveData<List<CoreEntityModel>>()
-    var allMusic: MutableLiveData<List<CoreEntityModel>> = _allMusic
-    /*private val _arrayChosenMusic = mutableMapOf<String, String>()
-    val arrayChosenMusic: MutableMap<String, String> = _arrayChosenMusic*/
 
     private val _arrayChosenMusic = mutableStateListOf<Int>()
     val arrayChosenMusic: MutableList<Int> = _arrayChosenMusic
