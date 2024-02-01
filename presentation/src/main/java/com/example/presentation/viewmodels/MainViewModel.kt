@@ -73,9 +73,9 @@ class MainViewModel @Inject constructor(
 
         playerStatePres.updateData(
             data = PlayerEntityModel(
-                nameMusic = allMusic.value!![it].nameMusic,
-                idMusic = allMusic.value!![it].idMusic,
-                position = allMusic.value!![it].id!!
+                nameMusic = _allMusic.value!![it].nameMusic,
+                idMusic = _allMusic.value!![it].idMusic,
+                position = _allMusic.value!![it].id!!
             )
         )
 

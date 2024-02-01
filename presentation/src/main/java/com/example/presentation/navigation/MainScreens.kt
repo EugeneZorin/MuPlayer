@@ -7,4 +7,6 @@ object MainScreens {
     const val  MAIN_SCREE = "main_screen"
     const val  PLAYER_SCREEN = "player_screen"
     const val  PLAYER_STRIPE = "player_stripe"
+
+    const val  PLAYLIST_SCREEN = "playlist_screen"
 }
