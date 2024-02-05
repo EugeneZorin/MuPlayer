@@ -11,7 +11,7 @@ import com.example.data.room.converter.PlaylistConverter
     entities = [
         PlaylistEntity::class
     ],
-    version = 2
+    version = 1
 )
 @TypeConverters(PlaylistConverter::class)
 abstract class PlaylistDatabase: RoomDatabase() {

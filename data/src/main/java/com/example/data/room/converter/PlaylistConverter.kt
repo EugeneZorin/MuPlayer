@@ -7,13 +7,13 @@ import com.google.gson.reflect.TypeToken
 class PlaylistConverter {
 
     @TypeConverter
-    fun fromString(value: String): Map<String, String> {
-        val mapType = object : TypeToken<Map<String, String>>(){}.type
+    fun fromString(value: String): Map<String, List<String>> {
+        val mapType = object : TypeToken<Map<String, List<String>>>(){}.type
         return Gson().fromJson(value, mapType)
     }
 
     @TypeConverter
-    fun toString(map: Map<String, String>): String {
+    fun toString(map: Map<String, List<String>>): String {
         return Gson().toJson(map)
     }
 }

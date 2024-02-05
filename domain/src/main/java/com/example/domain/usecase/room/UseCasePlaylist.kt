@@ -17,7 +17,7 @@ class UseCasePlaylist(
         playlistsContract.delete(id)
     }
 
-    override suspend fun searchSong(id: String): Map<String, String>? {
+    override suspend fun searchSong(id: String): Map<String, List<String>>? {
         return playlistsContract.searchSong(id)
     }
 

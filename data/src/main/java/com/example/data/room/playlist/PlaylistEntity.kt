@@ -9,5 +9,5 @@ data class PlaylistEntity(
 
     @PrimaryKey() val id: String,
 
-    @ColumnInfo(name = "playlists") val playList: Map<String, String>?,
+    @ColumnInfo(name = "playlists") val playList: Map<String, List<String>>?,
 )

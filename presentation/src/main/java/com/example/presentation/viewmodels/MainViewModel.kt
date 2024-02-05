@@ -70,30 +70,17 @@ class MainViewModel @Inject constructor(
     }
 
 
-    suspend fun updateData(it: Int, authenticator: String) = withContext(
+    suspend fun updateData(index: Int) = withContext(
         viewModelScope.coroutineContext
     ) {
 
-        when (authenticator) {
-           /* main_screen ->
-                playerStatePres.updateData(
-                    data = PlayerEntityModel(
-                        nameMusic = _allMusicMain.value!![it].nameMusic,
-                        idMusic = _allMusicMain.value!![it].idMusic,
-                        position = _allMusicMain.value!![it].id!!
-                    )
-                )
-            player_screen ->
-                playerStatePres.updateData(
-                    data = PlayerEntityModel(
-                        nameMusic = _allMusicPlaylist.value!![it].id,
-                        idMusic = _allMusicPlaylist.value!![it].playlist[it],
-                    )
-                )*/
-
-        }
-
-
+        playerStatePres.updateData(
+            data = PlayerEntityModel(
+                nameMusic = _allMusicMain.value!![index].nameMusic,
+                idMusic = _allMusicMain.value!![index].idMusic,
+                position = _allMusicMain.value!![index].id!!
+            )
+        )
         _getData.value = playerStatePres.getData()
 
     }

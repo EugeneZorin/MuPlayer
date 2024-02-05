@@ -16,7 +16,7 @@ interface PlaylistDao {
 
     @Query("SELECT id, playlists FROM playlist_entity WHERE id = :id")
     @MapInfo(keyColumn = "id", valueColumn = "playlists")
-    suspend fun searchSong(id: String): Map<String, String>?
+    suspend fun searchSong(id: String): Map<String, List<String>>?
 
     @Query("SELECT * FROM playlist_entity")
     suspend fun getAllPlaylist(): List<PlaylistEntity>

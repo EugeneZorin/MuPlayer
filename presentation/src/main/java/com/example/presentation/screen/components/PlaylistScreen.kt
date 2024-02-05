@@ -136,12 +136,7 @@ fun PlaylistScreen(
                                 onClick = {
                                     if (!stats) {
                                         CoroutineScope(Dispatchers.Main).launch {
-                                            Log.e("asfdveqrqwef","${viewModelPlayList.getDataPlaylist(namePlaylist.value[music])}")
-                                            val test = viewModelPlayList.getDataPlaylist(namePlaylist.value[music])
-                                            test?.forEach{
-                                                it.value
-                                                it.key
-                                            }
+
 
                                         }
 

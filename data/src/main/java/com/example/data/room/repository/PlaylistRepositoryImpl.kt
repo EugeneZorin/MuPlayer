@@ -2,10 +2,9 @@ package com.example.data.room.repository
 
 import com.example.data.room.playlist.PlaylistDao
 import com.example.data.room.playlist.PlaylistEntity
-import com.example.domain.entity.CoreEntityModel
 import com.example.domain.entity.PlaylistEntityModel
-import com.example.domain.repository.room.PlaylistsContractDt
 import com.example.domain.repository.mappers.PlaylistEntityMapper
+import com.example.domain.repository.room.PlaylistsContractDt
 import javax.inject.Inject
 
 class PlaylistRepositoryImpl @Inject constructor(
@@ -22,7 +21,7 @@ class PlaylistRepositoryImpl @Inject constructor(
         )
     }
 
-    override suspend fun searchSong(id: String): Map<String, String>? {
+    override suspend fun searchSong(id: String): Map<String, List<String>>? {
         return playlistDao.searchSong(id)
     }
 

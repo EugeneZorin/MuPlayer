@@ -42,14 +42,16 @@ class ViewModelPlayList @Inject constructor(
         }
     }
 
-    private suspend fun transformSelectedElements(): Map<String, String> {
+    private suspend fun transformSelectedElements(): Map<String, List<String>> {
 
-        val musicMaps: MutableMap<String, String> = mutableMapOf()
+        val musicMaps: MutableMap<String, List<String>> = mutableMapOf()
+        var number = 0
 
         _arrayChosenMusic.forEach {
 
             useCaseCoreContract.getMusic(it).forEach { music ->
-                musicMaps[music.nameMusic] = music.idMusic
+                musicMaps[number.toString()] = listOf(music.nameMusic, music.idMusic)
+                number++
             }
 
         }
@@ -62,7 +64,7 @@ class ViewModelPlayList @Inject constructor(
             .getAllPlaylist().map { it.id }
     }
 
-    suspend fun getDataPlaylist(id: String): Map<String, String>?{
+    suspend fun getDataPlaylist(id: String): Map<String, List<String>>?{
         return playlistContractPres.searchSong(id)!!
     }
 
