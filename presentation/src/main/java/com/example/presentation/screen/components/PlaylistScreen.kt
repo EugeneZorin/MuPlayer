@@ -19,7 +19,6 @@ import androidx.compose.material3.Checkbox
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
@@ -37,7 +36,6 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
 @SuppressLint("MutableCollectionMutableState")
@@ -52,7 +50,7 @@ fun PlaylistScreen(
     val namePlaylist = viewModelPlayList.getNamePlaylist.observeAsState(emptyList())
 
     LaunchedEffect(Unit) {
-        viewModelPlayList.getDataPlaylists()
+        viewModelPlayList.getIdPlaylists()
     }
 
     // Search
@@ -137,6 +135,15 @@ fun PlaylistScreen(
                             .combinedClickable(
                                 onClick = {
                                     if (!stats) {
+                                        CoroutineScope(Dispatchers.Main).launch {
+                                            Log.e("asfdveqrqwef","${viewModelPlayList.getDataPlaylist(namePlaylist.value[music])}")
+                                            val test = viewModelPlayList.getDataPlaylist(namePlaylist.value[music])
+                                            test?.forEach{
+                                                it.value
+                                                it.key
+                                            }
+
+                                        }
 
                                     } else {
                                         isCheckedMain = when (isCheckedMain) {

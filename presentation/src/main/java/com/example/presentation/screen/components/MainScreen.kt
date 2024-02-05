@@ -7,6 +7,7 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -31,6 +32,10 @@ fun MainScreen(
 
     // Checks if there are tracks in the application database
     val checkQuantitiesMusic = quantitiesMusic.value?.isEmpty()
+
+    LaunchedEffect(Unit) {
+        mainViewModel.getAllMusic()
+    }
 
     MainDisplay(
         mainViewModel = mainViewModel,

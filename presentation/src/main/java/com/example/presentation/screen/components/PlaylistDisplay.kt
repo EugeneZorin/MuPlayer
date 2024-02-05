@@ -1,12 +1,7 @@
+/*
 package com.example.presentation.screen.components
 
-import android.content.Context
 import android.content.Intent
-import android.os.Build
-import androidx.activity.OnBackPressedCallback
-import androidx.activity.compose.LocalOnBackPressedDispatcherOwner
-import androidx.annotation.RequiresApi
-import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.combinedClickable
 import androidx.compose.foundation.layout.Arrangement
@@ -23,9 +18,6 @@ import androidx.compose.material3.Checkbox
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.DisposableEffect
-import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.State
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -35,9 +27,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
-import androidx.navigation.NavController
-import com.example.domain.entity.CoreEntityModel
-import com.example.domain.entity.PlayerEntityModel
 import com.example.presentation.navigation.panel.BottomPanel
 import com.example.presentation.navigation.panel.MusicInteractionPanel
 import com.example.presentation.screen.components.palylist.Player
@@ -49,19 +38,11 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
-
-@RequiresApi(Build.VERSION_CODES.O)
-@OptIn(ExperimentalFoundationApi::class)
 @Composable
-fun MainDisplay(
+fun PlaylistDisplay(
     modifier: Modifier = Modifier,
-    mainViewModel: MainViewModel,
     viewModelPlayList: ViewModelPlayList,
-    navController: NavController,
-    context: Context,
-    quantitiesMusic: State<List<CoreEntityModel>?>,
-    selectedTrackNumber: State<PlayerEntityModel?>
-){
+) {
 
     // To track what type of clicks are taking place
     var stats by remember { mutableStateOf(false) }
@@ -69,36 +50,9 @@ fun MainDisplay(
     // Search
     var search by remember { mutableStateOf("") }
 
-    // The number of music tracks in the received database
-    val size = quantitiesMusic.value!!.size
-
-    // Retrieves from the ViewModel the track number that was selected by the user for playback
-    val getTrackNumber = selectedTrackNumber.value?.position?.toInt()
-
-    val getValue = viewModelPlayList.isChecked.value!!
-
     // Records how many tracks were selected by long pressing,
     // it is necessary to display this value in the upper part of the application
     val sizeChosenMusic = viewModelPlayList.arrayChosenMusic.size
-
-    // Getting the "back button click" event manager
-    val backDispatcher = LocalOnBackPressedDispatcherOwner.current?.onBackPressedDispatcher
-
-    // Implementation of the "back button click" event
-    DisposableEffect(backDispatcher) {
-
-        val callback = object : OnBackPressedCallback(true) {
-            override fun handleOnBackPressed() {
-                stats = false
-            }
-        }
-
-        backDispatcher?.addCallback(callback)
-
-        onDispose {
-            callback.remove()
-        }
-    }
 
     Scaffold(
         topBar = {
@@ -265,4 +219,4 @@ fun MainDisplay(
             }
         }
     }
-}
+}*/

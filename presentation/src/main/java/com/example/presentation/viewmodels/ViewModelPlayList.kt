@@ -1,11 +1,9 @@
 package com.example.presentation.viewmodels
 
-import android.util.Log
 import androidx.compose.runtime.mutableStateListOf
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.domain.entity.CoreEntityModel
 import com.example.domain.entity.PlaylistEntityModel
 import com.example.domain.usecase.room.contract.CoreContractPres
 import com.example.domain.usecase.room.contract.PlaylistContractPres
@@ -28,8 +26,8 @@ class ViewModelPlayList @Inject constructor(
     private var _getNamePlaylist = MutableLiveData<List<String>>()
     val getNamePlaylist: MutableLiveData<List<String>> = _getNamePlaylist
 
-    private var _getPlaylist = mapOf<String, String>()
-    val getPlaylist: Map<String, String> = _getPlaylist
+    /*private var _getPlaylist = mapOf<String, String>()
+    var getPlaylist: Map<String, String> = _getPlaylist*/
 
 
 
@@ -59,9 +57,13 @@ class ViewModelPlayList @Inject constructor(
         return musicMaps
     }
 
-     suspend fun getDataPlaylists() {
+     suspend fun getIdPlaylists() {
         _getNamePlaylist.value = playlistContractPres
             .getAllPlaylist().map { it.id }
+    }
+
+    suspend fun getDataPlaylist(id: String): Map<String, String>?{
+        return playlistContractPres.searchSong(id)!!
     }
 
 
