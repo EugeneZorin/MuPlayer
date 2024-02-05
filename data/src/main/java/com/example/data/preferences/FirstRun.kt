@@ -1,7 +1,6 @@
 package com.example.data.preferences
 
 import android.content.Context
-import android.content.SharedPreferences
 import com.example.domain.repository.preferences.FirstRinDt
 import javax.inject.Inject
 

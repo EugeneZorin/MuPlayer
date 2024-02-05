@@ -19,6 +19,7 @@ import androidx.compose.material3.Checkbox
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
@@ -34,7 +35,10 @@ import com.example.presentation.viewmodels.ViewModelPlayList
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 
 @SuppressLint("MutableCollectionMutableState")
 @OptIn(ExperimentalFoundationApi::class)
@@ -45,10 +49,11 @@ fun PlaylistScreen(
     navController: NavController,
 ) {
 
-    val namePlaylist = viewModelPlayList.getNamePlaylist.observeAsState()
+    val namePlaylist = viewModelPlayList.getNamePlaylist.observeAsState(emptyList())
 
-
-
+    LaunchedEffect(Unit) {
+        viewModelPlayList.getDataPlaylists()
+    }
 
     // Search
     var search by remember { mutableStateOf("") }
@@ -59,9 +64,6 @@ fun PlaylistScreen(
     val getValue = viewModelPlayList.isChecked.value!!
 
     val sizePlaylist = namePlaylist.value!!.size
-
-
-
 
     Scaffold(
         topBar = {

@@ -63,9 +63,6 @@ class MainViewModel @Inject constructor(
         }
     }
 
-    private suspend fun getAllMusic() {
-        _allMusic.value = useCaseCoreContract.getAllCore()
-    }
 
     suspend fun updateData(it: Int) = withContext(
         viewModelScope.coroutineContext
@@ -84,11 +81,15 @@ class MainViewModel @Inject constructor(
     }
 
 
-    init {
+    suspend fun getAllMusic() {
+        _allMusic.value = useCaseCoreContract.getAllCore()
+    }
+
+   /* init {
         viewModelScope.launch {
             getAllMusic()
         }
-    }
+    }*/
 
     // Check first run
     suspend fun firstRun() {

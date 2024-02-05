@@ -24,6 +24,7 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.State
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -61,6 +62,11 @@ fun MainDisplay(
     quantitiesMusic: State<List<CoreEntityModel>?>,
     selectedTrackNumber: State<PlayerEntityModel?>
 ){
+
+    LaunchedEffect(Unit) {
+        mainViewModel.getAllMusic()
+    }
+
     // To track what type of clicks are taking place
     var stats by remember { mutableStateOf(false) }
 
@@ -97,6 +103,8 @@ fun MainDisplay(
             callback.remove()
         }
     }
+
+
 
 
     Scaffold(

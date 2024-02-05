@@ -145,10 +145,9 @@ fun IconInteractionPanel(
             confirmButton = {
                 Button(onClick = {
                     isDialogVisible = false
+                    viewModelPlayList.createPlaylist(namePlayList = enteredText)
                 }) {
                     Text("OK")
-
-                    viewModelPlayList.createPlaylist(namePlayList = enteredText)
                 }
             },
             dismissButton = {

@@ -59,14 +59,10 @@ class ViewModelPlayList @Inject constructor(
         return musicMaps
     }
 
-    private suspend fun getDataPlaylists() {
+     suspend fun getDataPlaylists() {
         _getNamePlaylist.value = playlistContractPres
             .getAllPlaylist().map { it.id }
     }
 
-    init {
-        viewModelScope.launch {
-            getDataPlaylists()
-        }
-    }
+
 }

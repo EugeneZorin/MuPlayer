@@ -50,7 +50,7 @@ fun BottomPanel(
                 alignment = Alignment.Start,
                 color = 0xFFFBF7F7,
                 navController = navController,
-                navigateGraph = MainScreens.PLAYLIST_SCREEN
+                navigateGraph = MainScreens.MAIN_SCREE
             )
 
             IconBottomPanel(

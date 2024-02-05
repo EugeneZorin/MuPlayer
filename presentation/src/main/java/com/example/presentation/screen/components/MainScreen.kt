@@ -1,6 +1,7 @@
 package com.example.presentation.screen.components
 
 import android.annotation.SuppressLint
+import android.util.Log
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
@@ -25,7 +26,7 @@ fun MainScreen(
 ) {
 
     val context = LocalContext.current
-    val quantitiesMusic = mainViewModel.allMusic.observeAsState()
+    val quantitiesMusic = mainViewModel.allMusic.observeAsState(emptyList())
     val selectedTrackNumber = mainViewModel.getData.observeAsState()
 
     // Checks if there are tracks in the application database
