@@ -194,7 +194,7 @@ fun MainDisplay(
                                 onClick = {
                                     if (!stats) {
                                         CoroutineScope(Dispatchers.IO).launch {
-                                            mainViewModel.updateData(music)
+                                            mainViewModel.updateData(music, "0")
                                             Intent(
                                                 context,
                                                 PlayerService::class.java

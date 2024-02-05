@@ -27,12 +27,20 @@ object PlayerModule {
     @Provides
     fun provideViewModel(
         useCaseCoreContract: CoreContractPres,
+        playlistContractPres: PlaylistContractPres,
         playerStatePres: PlayerStatePres,
         searchAudioContract: SearchAudioContract,
         firstRunPres: FirstRunPres,
         externalPlayerPres: ExternalPlayerPres
     ): MainViewModel {
-        return MainViewModel(useCaseCoreContract, playerStatePres, searchAudioContract, firstRunPres,externalPlayerPres)
+        return MainViewModel(
+            useCaseCoreContract,
+            playlistContractPres,
+            playerStatePres,
+            searchAudioContract,
+            firstRunPres,
+            externalPlayerPres
+        )
     }
 
     @Provides
@@ -44,7 +52,7 @@ object PlayerModule {
     }
 
     @Provides
-    fun provideCoreDatabase( application: Application): CoreDatabase {
+    fun provideCoreDatabase(application: Application): CoreDatabase {
         return CoreDatabase.database(application)
     }
 
